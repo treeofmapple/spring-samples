@@ -1,0 +1,42 @@
+/* Styles for paymentError.html */
+body {
+    font-family: 'Verdana', sans-serif;
+    background-color: #f9eaea;
+    color: #dc3545;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #dc3545;
+    font-weight: bold;
+}
+
+p {
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+.container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 2px solid #dc3545;
+    text-align: center;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+a.btn {
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    background-color: #dc3545;
+    color: #fff;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+a.btn:hover {
+    background-color: #c82333;
+}

@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: console, database, service, actuators, oauth2, mail, debug
+  application:
+    name: auth
+
+server:
+  port: ${SERVER_PORT:8000}
+  address: ${SERVER_ADDRESS:localhost}

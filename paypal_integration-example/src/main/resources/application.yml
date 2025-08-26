@@ -1,0 +1,9 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: paypal-integration
+paypal:
+  client-id: ${CLIENT_ID}
+  client-secret: ${CLIENT_SECRET}
+  mode: sandbox

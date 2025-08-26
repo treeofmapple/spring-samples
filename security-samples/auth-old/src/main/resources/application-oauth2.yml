@@ -1,0 +1,17 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${OAUTH_CLIENT}
+            client-secret: ${OAUTH_SECRET}
+            scope:
+              - email
+              - profile
+              - https://www.googleapis.com/auth/user.birthday.read
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://www.googleapis.com/oauth2/v4/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo

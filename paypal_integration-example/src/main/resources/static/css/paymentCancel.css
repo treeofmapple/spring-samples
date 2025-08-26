@@ -1,0 +1,36 @@
+/* Styles for paymentCancel.html */
+body {
+    font-family: 'Georgia', serif;
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #c82333;
+}
+
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border: 2px solid #f5c6cb;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+a.btn {
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    background-color: #c82333;
+    color: #fff;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+a.btn:hover {
+    background-color: #a71d2a;
+}

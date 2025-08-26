@@ -1,0 +1,36 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  banner:
+    location: classpath:banner/banner.txt
+  main:
+    banner-mode: console
+
+  kafka:
+    consumer:
+      bootstrap-servers: ${bootstrap-server:localhost:9092}
+      group-id: masterpiece
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      #value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+  
+  application:
+    name: consumer
+
+server:
+  port: 8001
+
+logging:
+  level:
+    root: info
+    org:
+      springframework: warn
+      boot: error
+      data:
+        redis: debug
+  pattern:
+    console: '%n %d{HH:mm:ss} | %highlight(%-5level) | %cyan(%logger{30}) | %msg'

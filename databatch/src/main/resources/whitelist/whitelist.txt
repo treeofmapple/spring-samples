@@ -1,0 +1,3 @@
+/v1/employee/**
+/v1/insert
+/actuator/**

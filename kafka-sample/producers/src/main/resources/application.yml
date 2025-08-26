@@ -1,0 +1,32 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  banner:
+    location: classpath:banner/banner.txt
+  main:
+    banner-mode: console
+
+  kafka:
+    producer:
+      bootstrap-servers: ${bootstrap-server:localhost:9092}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  
+  application:
+    name: producer
+
+server:
+  port: 8002
+
+logging:
+  level:
+    root: info
+    org:
+      springframework: warn
+      boot: error
+      data:
+        redis: debug
+  pattern:
+    console: '%n %d{HH:mm:ss} | %highlight(%-5level) | %cyan(%logger{30}) | %msg'

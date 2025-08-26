@@ -1,0 +1,16 @@
+package com.tom.auth.monolithic.user.dto.admin;
+
+import java.util.List;
+
+public record PageAdminLoginHistoryResponse(
+		
+		List<AdminLoginHistoryResponse> content,
+		int page,
+		int size,
+		long totalPages,
+		long totalElements
+		
+		
+		) {
+
+}

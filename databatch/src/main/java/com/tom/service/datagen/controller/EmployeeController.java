@@ -16,7 +16,6 @@ import com.tom.service.datagen.common.GenerateData;
 import com.tom.service.datagen.dto.RandomRequest;
 import com.tom.service.datagen.service.EmployeeService;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
-@Tag(name = "GenerateEmployeeData", description = "Batch of employee Data")
+// @Tag(name = "GenerateEmployeeData", description = "Batch of employee Data")
 public class EmployeeController {
 
 	private final EmployeeService service;

@@ -103,9 +103,12 @@
 **/.cache
 **/*.tsbuildinfo
 **/cargo.lock
+**/package-lock.json
 *.lock
 **/.class
 *.class
 **/pom.properties
 **/maven-wrapper.properties
-**/package-lock.json
+
+**bin
+**/bin

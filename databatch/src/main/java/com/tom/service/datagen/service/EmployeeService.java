@@ -4,115 +4,86 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.tom.service.datagen.common.ConnectionUtil;
-import com.tom.service.datagen.common.GenerateData;
+import com.tom.service.datagen.common.ConnectionUtils;
 import com.tom.service.datagen.common.Operations;
-import com.tom.service.datagen.common.ServiceLogger;
-import com.tom.service.datagen.exception.ClientDisconnectedException;
+import com.tom.service.datagen.common.SecurityUtils;
 import com.tom.service.datagen.exception.InternalException;
 import com.tom.service.datagen.model.Employee;
+import com.tom.service.datagen.service.interfaces.BatchCallback;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import reactor.core.publisher.Flux;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
 
+	private static final String CSV_HEADER = String.join(",", "ID", "First Name", "Last Name", "Email", "Phone", "Age",
+			"Gender", "Department", "Job Title", "Salary", "Experience", "Address", "Hire Date", "Termination Date");
+	
 	private final Map<String, byte[]> csvStorage = new ConcurrentHashMap<>();
 
-	@Value("${application.datagen.batchSize:10000}")
-	private int batchSize;
-
-	private final ConnectionUtil connection;
 	private final Operations operations;
-	private final GenerateData data;
-	private String lastStoredId;
+	private final EmployeeUtils employeeUtils;
+	private final ConnectionUtils connectionUtils;
+	private final SecurityUtils securityUtils;
 
-	public Flux<String> generateEmployeeDataWithProgress(int quantity) {
-		return Flux.create(sink -> {
-			AtomicInteger progress = new AtomicInteger(0);
-
-			Flux.range(0, (int) Math.ceil((double) quantity / batchSize)).flatMap(i -> {
-				List<Employee> batch = new ArrayList<>(batchSize);
-				for (int j = 0; j < batchSize && (i * batchSize + j) < quantity; j++) {
-					batch.add(data.generateSingleEmployee());
-				}
-				return Flux.just(batch);
-			}).doOnNext(batch -> {
-				byte[] csvData = operations.convertToCSV(batch);
-				String batchId = operations.generateRandomUUID();
-				csvStorage.put(batchId, csvData);
-				progress.addAndGet(batch.size());
-				sink.next("Progress: " + progress.get() + "/" + quantity);
-			}).doOnComplete(() -> {
-				sink.complete();
-				ServiceLogger.info("Completed data generation.");
-			}).subscribe();
-		});
-	}
-
-	public byte[] generateEmployeeData(int quantity, HttpServletRequest request) {
-		ServiceLogger.info("Started to generate: {} employees", quantity);
-
+	public byte[] generateEmployeeData(int quantity) {
+		log.info("Started to generate: {} employees", quantity);
 		try {
-			if (connection.isClientConnected(request)) {
-				throw new ClientDisconnectedException("Client disconnected during data generation");
-			}
-
+			
+			connectionUtils.isClientConnected(securityUtils.getRequest());
+			
 			clearPreviousData();
 
 			List<Employee> allEmployees = generateEmployees(quantity, (batch, batchNum, totalBatches) -> {
-				ServiceLogger.info("Batch {} of {} saved (Size: {})", batchNum, totalBatches, batch.size());
+				log.info("Batch {} of {} saved (Size: {})", batchNum, totalBatches, batch.size());
 			});
 
-			byte[] csvData = operations.convertToCSV(allEmployees);
-			lastStoredId = operations.generateRandomUUID();
-			csvStorage.put(lastStoredId, csvData);
+			byte[] csvData = operations.convertToCSV(allEmployees, CSV_HEADER);
 
-			ServiceLogger.info("Finished generating {} employees", quantity);
+			log.info("Finished generating {} employees", quantity);
 			return csvData;
 		} catch (Exception e) {
-			ServiceLogger.error("Error generating employee data", e);
-			throw new InternalException("System internal Error", e);
+			log.error("Error generating employee data", e);
+			throw new InternalException("System internal Error");
 		}
 	}
 
 	public byte[] retrieveCsvFromTempStorage(String fileId) {
-		ServiceLogger.info("Attempting to download data for fileId: {}", fileId);
+		log.info("Attempting to download data for fileId: {}", fileId);
 		byte[] csvData = csvStorage.get(fileId);
 		if (csvData != null) {
-			ServiceLogger.info("Successful data retrieval for fileId: {}", fileId);
+			log.info("Successful data retrieval for fileId: {}", fileId);
 		} else {
-			ServiceLogger.warn("Data not found or expired for fileId: {}", fileId);
+			log.warn("Data not found or expired for fileId: {}", fileId);
 		}
 		return csvData;
 	}
 
 	public byte[] deleteCsvFromTempStorage(String fileId) {
-		ServiceLogger.info("Deleting Data from Storage");
+		log.info("Deleting Data from Storage");
 		byte[] removedData = csvStorage.remove(fileId);
 		if (removedData != null) {
-			ServiceLogger.info("Successful data deletion from Storage");
+			log.info("Successful data deletion from Storage");
 		} else {
-			ServiceLogger.warn("No data found for deletion with fileId: {}", fileId);
+			log.warn("No data found for deletion with fileId: {}", fileId);
 		}
 		return removedData;
 	}
 
 	private void clearPreviousData() {
 		if (!csvStorage.isEmpty()) {
-			csvStorage.remove(lastStoredId);
+			csvStorage.clear();
 		}
 	}
 
 	private List<Employee> generateEmployees(int quantity, BatchCallback callback) {
+		final int batchSize = employeeUtils.getBatchSize();
 		int totalBatches = (int) Math.ceil((double) quantity / batchSize);
 		List<Employee> allEmployees = new ArrayList<>();
 
@@ -120,7 +91,7 @@ public class EmployeeService {
 			List<Employee> batch = new ArrayList<>(batchSize);
 
 			for (int j = 0; j < batchSize && (i * batchSize + j) < quantity; j++) {
-				Employee emp = data.generateSingleEmployee();
+				Employee emp = employeeUtils.generateSingleEmployee();
 				batch.add(emp);
 			}
 			if (!batch.isEmpty()) {
@@ -130,17 +101,12 @@ public class EmployeeService {
 			callback.onBatchComplete(batch, i + 1, totalBatches);
 			allEmployees.addAll(batch);
 
-			byte[] csvData = operations.convertToCSV(batch);
+			byte[] csvData = operations.convertToCSV(batch, CSV_HEADER);
 			String batchId = operations.generateRandomUUID();
 			csvStorage.put(batchId, csvData);
 		}
 
 		return allEmployees;
-	}
-
-	@FunctionalInterface
-	private interface BatchCallback {
-		void onBatchComplete(List<Employee> batch, int batchNum, int totalBatches);
 	}
 
 }

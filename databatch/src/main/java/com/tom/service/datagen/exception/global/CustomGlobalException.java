@@ -1,14 +1,19 @@
 package com.tom.service.datagen.exception.global;
 
+import org.springframework.http.HttpStatus;
+
 @SuppressWarnings("serial")
 public abstract class CustomGlobalException extends RuntimeException {
 
-	public CustomGlobalException(String msg) {
-		super(msg);
+	private final HttpStatus status;
+
+	protected CustomGlobalException(String message, HttpStatus status) {
+		super(message);
+		this.status = status;
 	}
 
-	public CustomGlobalException(String msg, Throwable cause) {
-		super(msg, cause);
+	public HttpStatus getStatus() {
+		return status;
 	}
 
 }

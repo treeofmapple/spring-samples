@@ -1,5 +1,7 @@
 package com.tom.service.datagen.exception;
 
+import org.springframework.http.HttpStatus;
+
 import com.tom.service.datagen.exception.global.CustomGlobalException;
 
 import lombok.EqualsAndHashCode;
@@ -7,12 +9,7 @@ import lombok.EqualsAndHashCode;
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)
 public class InternalException extends CustomGlobalException {
-	
-	public InternalException(String msg) {
-		super(msg);
-	}
-
-	public InternalException(String msg, Throwable cause) {
-		super(msg, cause);
+	public InternalException(String message) {
+		super(message, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

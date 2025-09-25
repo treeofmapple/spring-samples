@@ -1,0 +1,9 @@
+services:
+  data-generator:
+    build: .
+    container_name: data-generator
+    restart: unless-stopped
+    ports:
+      - "${SERVER_PORT}:8000"
+    env_file:
+      - .env

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tom.service.datagen.common.ConnectionUtils;
-import com.tom.service.datagen.dto.RandomRequest;
+import com.tom.service.datagen.dto.EmployeeRequest;
 import com.tom.service.datagen.service.EmployeeService;
 import com.tom.service.datagen.service.EmployeeUtils;
 
@@ -58,7 +58,7 @@ public class EmployeeController {
 	}
 
 	@PostMapping(value = "/insert", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> insertAtributes(@RequestBody @Valid RandomRequest request) {
+	public ResponseEntity<String> insertAtributes(@RequestBody @Valid EmployeeRequest request) {
 		utils.setVariables(request);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Inserted Values");
 	}

@@ -1,12 +1,13 @@
 package com.tom.service.datagen.common;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Field;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tom.service.datagen.model.Employee;
+import com.tom.service.datagen.exception.InternalException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -25,10 +26,6 @@ import lombok.extern.log4j.Log4j2;
 public class Operations {
 
 	private final ObjectMapper objectMapper;
-	
-	public String generateRandomUUID() {
-		return UUID.randomUUID().toString();
-	}
 
 	public void logProgress(int current, int total) {
 		int barSize = 20;
@@ -37,42 +34,26 @@ public class Operations {
 		log.info("Batch Progress: {} {}/{}", bar, current, total);
 	}
 
-	public byte[] convertToCSV(List<Employee> employees, String CSV_HEADER) {
+	public <T> byte[] convertToCSV(List<T> data, String header, Function<T, String> rowMapper) {
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-				PrintWriter writer = new PrintWriter(out, true, StandardCharsets.UTF_8)) {
+				BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8))) {
 
-			writer.println(CSV_HEADER);
+			writer.write(header);
+			writer.newLine();
 
-			for (Employee emp : employees) {
-				writer.println(buildCsvRow(emp));
+			if (data != null) {
+				for (T item : data) {
+					writer.write(rowMapper.apply(item));
+					writer.newLine();
+				}
 			}
 
 			writer.flush();
 			return out.toByteArray();
-		} catch (Exception e) {
-			log.error("Error generating CSV", e);
-			return new byte[0];
+		} catch (IOException e) {
+			log.error("Error generating CSV byte array", e);
+			throw new InternalException("Error converting data to CSV");
 		}
-	}
-
-	private String buildCsvRow(Employee emp) {
-		StringBuilder row = new StringBuilder();
-
-		Field[] fields = Employee.class.getDeclaredFields();
-		for (Field field : fields) {
-			field.setAccessible(true);
-			try {
-				Object value = field.get(emp);
-				row.append(value).append(",");
-			} catch (IllegalAccessException e) {
-				log.error("Error accessing field: " + field.getName(), e);
-				row.append(",");
-			}
-		}
-		if (row.length() > 0) {
-			row.setLength(row.length() - 1);
-		}
-		return row.toString();
 	}
 
 	public byte[] bytesToJson(Object generic) {
@@ -97,5 +78,22 @@ public class Operations {
 			throw new IllegalStateException("Failed to create zip archive for user data.", e);
 		}
 	}
-	
+
+	public byte[] resourceToBytes(Map<String, byte[]> files) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try (ZipOutputStream zos = new ZipOutputStream(baos)) {
+			for (Map.Entry<String, byte[]> fileEntry : files.entrySet()) {
+				ZipEntry entry = new ZipEntry(fileEntry.getKey());
+				zos.putNextEntry(entry);
+				zos.write(fileEntry.getValue());
+				zos.closeEntry();
+				log.info("Added {} to ZIP.", fileEntry.getKey());
+			}
+		} catch (IOException e) {
+			log.error("Failed to create zip archive.", e);
+			throw new InternalException("Failed to create zip archive for user data.");
+		}
+		return baos.toByteArray();
+	}
+
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tom.service.datagen.common.ConnectionUtils;
-import com.tom.service.datagen.dto.RandomRequest;
+import com.tom.service.datagen.dto.SchoolRequest;
 import com.tom.service.datagen.service.SchoolService;
 import com.tom.service.datagen.service.SchoolUtils;
 
@@ -40,12 +40,12 @@ public class SchoolController {
 	
 	@PostMapping(value = "/{quantity}")
 	public ResponseEntity<byte[]> generateSchoolData(@PathVariable Integer quantity) {
-		byte[] csvData = service.generateSchoolData();
-		return connectionUtils.buildCsvResponse(csvData, "school.csv");
+		byte[] zipData = service.generateSchoolData(quantity);
+		return connectionUtils.buildZipResponse(zipData, "school_data.zip");
 	}
 	
 	@PostMapping(value = "/insert", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> insertAtributes(@RequestBody @Valid RandomRequest request) {
+	public ResponseEntity<String> insertAtributes(@RequestBody @Valid SchoolRequest request) {
 		utils.setVariables(request);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Inserted Values");
 	}

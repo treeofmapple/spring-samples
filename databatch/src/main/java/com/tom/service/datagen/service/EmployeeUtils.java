@@ -8,32 +8,37 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.stereotype.Component;
 
 import com.tom.service.datagen.common.GenerateData;
-import com.tom.service.datagen.dto.RandomRequest;
+import com.tom.service.datagen.common.IdGenerator;
+import com.tom.service.datagen.dto.EmployeeRequest;
 import com.tom.service.datagen.model.Employee;
 import com.tom.service.datagen.model.enums.Gender;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Component
+@RequiredArgsConstructor
 public class EmployeeUtils extends GenerateData {
 
 	private final Set<String> usedEmails = ConcurrentHashMap.newKeySet();
 	private final Set<String> usedPhoneNumbers = ConcurrentHashMap.newKeySet();
 
+	private final IdGenerator idGenerator;
+
 	private int gender, age, experience, salary;
 
 	public Employee generateSingleEmployee() {
 		Employee emp = new Employee();
-		emp.setId(atomicCounter.incrementAndGet());
+		emp.setId(idGenerator.nextId());
 		boolean isMale = ThreadLocalRandom.current().nextInt(100) < gender;
 		emp.setGender(isMale ? Gender.MALE : Gender.FEMALE);
 
 		do {
-			emp.setFirstName(isMale ? faker.get().name().maleFirstName() : faker.get().name().femaleFirstName());
-
+			emp.setFirstName(isMale ? generateRandomMaleName() : generateRandomFemaleName());
 			emp.setEmail(faker.get().internet().safeEmailAddress());
 			emp.setPhoneNumber(faker.get().phoneNumber().cellPhone());
+			
 		} while (usedEmails.contains(emp.getEmail()) || usedPhoneNumbers.contains(emp.getPhoneNumber()));
 
 		usedEmails.add(emp.getEmail());
@@ -59,7 +64,7 @@ public class EmployeeUtils extends GenerateData {
 		return emp;
 	}
 
-	public void setVariables(RandomRequest request) {
+	public void setVariables(EmployeeRequest request) {
 		log.info("Inserting values of variables || Gender: {}, Age: {}, Experience: {}, Salary: {}", request.gender(),
 				request.age(), request.experience(), request.salary());
 		gender = request.gender();

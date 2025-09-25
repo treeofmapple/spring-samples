@@ -1,7 +1,5 @@
 package com.tom.service.datagen.model.school;
 
-import java.math.BigDecimal;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,13 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Avaliacoes {
+public class Turma {
 
 	private Long id;
-	private Long id_turma;
-	private Short unidade;
-	private Short ordem;
-	private BigDecimal peso;
-	private String descricao;
-
+	private Long id_disciplina;
+	private Short ano;
+	private Short semestre;
+	
 }

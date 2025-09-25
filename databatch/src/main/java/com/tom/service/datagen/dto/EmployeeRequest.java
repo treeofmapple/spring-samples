@@ -3,7 +3,7 @@ package com.tom.service.datagen.dto;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
-public record RandomRequest(
+public record EmployeeRequest(
 
         @Min(value = 1, message = "Gender must be at least 1")
         @Max(value = 100, message = "Gender cannot exceed 100")

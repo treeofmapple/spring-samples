@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Turmas {
+public class Aluno {
 
 	private Long id;
-	private Long id_disciplina;
-	private Short ano;
-	private Short semestre;
+	private String matricula;
+	private String nome;
 	
 }

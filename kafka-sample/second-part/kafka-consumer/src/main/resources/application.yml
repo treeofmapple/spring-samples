@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: console, ${PROFILE:dev}
+  application:
+      name: Kafka-Reciever
+
+server:
+  port: ${SERVER_PORT:8000}
+  forward-headers-strategy: framework

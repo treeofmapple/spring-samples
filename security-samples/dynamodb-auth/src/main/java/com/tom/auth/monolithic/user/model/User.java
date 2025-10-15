@@ -35,6 +35,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(exclude = {"tokens"})
 @Table(name = "users", indexes = {
+		@Index(name = "idx_user_username", columnList = "username"),
 		@Index(name = "idx_user_email", columnList = "email"),
 })
 public class User extends Auditable implements UserDetails {

@@ -1,0 +1,132 @@
+{"properties": [
+  {
+    "name": "application.page.size",
+    "type": "java.lang.String",
+    "description": "A description for 'application.page.size'"
+  },
+  {
+    "name": "application.cors.allowed-origins",
+    "type": "java.lang.String",
+    "description": "A description for 'application.cors.allowed-origins'"
+  },
+  {
+    "name": "application.cors.time",
+    "type": "java.lang.String",
+    "description": "A description for 'application.cors.time'"
+  },
+  {
+    "name": "application.rate.limit",
+    "type": "java.lang.String",
+    "description": "A description for 'application.rate.limit'"
+  },
+  {
+    "name": "application.rate.refil.time",
+    "type": "java.lang.String",
+    "description": "A description for 'application.rate.refil.time'"
+  },
+  {
+    "name": "application.security.secret-key",
+    "type": "java.lang.String",
+    "description": "A description for 'application.security.secret-key'"
+  },
+  {
+    "name": "application.security.expiration",
+    "type": "java.lang.String",
+    "description": "A description for 'application.security.expiration'"
+  },
+  {
+    "name": "application.security.refresh-token",
+    "type": "java.lang.String",
+    "description": "A description for 'application.security.refresh-token'"
+  },
+  {
+    "name": "application.security.whitelist",
+    "type": "java.lang.String",
+    "description": "A description for 'application.security.whitelist'"
+  },
+  {
+    "name": "application.security.cookie-name",
+    "type": "java.lang.String",
+    "description": "A description for 'application.security.cookie-name'"
+  },
+  {
+    "name": "settings.security.generated.user",
+    "type": "java.lang.String",
+    "description": "A description for 'settings.security.generated.user'"
+  },
+  {
+    "name": "settings.security.generated.password",
+    "type": "java.lang.String",
+    "description": "A description for 'settings.security.generated.password'"
+  },
+  {
+    "name": "settings.security.generated.email",
+    "type": "java.lang.String",
+    "description": "A description for 'settings.security.generated.email'"
+  },
+  {
+    "name": "application.security.login.attempts",
+    "type": "java.lang.String",
+    "description": "A description for 'application.security.login.attempts'"
+  },
+  {
+    "name": "application.front.csrf",
+    "type": "java.lang.String",
+    "description": "A description for 'application.front.csrf'"
+  },
+  {
+    "name": "application.login.max.attempts",
+    "type": "java.lang.String",
+    "description": "A description for 'application.login.max.attempts'"
+  },
+  {
+    "name": "application.login.user.creation",
+    "type": "java.lang.String",
+    "description": "A description for 'application.login.user.creation'"
+  },
+  {
+    "name": "application.employee.max-retries",
+    "type": "java.lang.String",
+    "description": "A description for 'application.employee.max-retries'"
+  },
+  {
+    "name": "application.employee.code.length",
+    "type": "java.lang.String",
+    "description": "A description for 'application.employee.code.length'"
+  },
+  {
+    "name": "jaeger.tracing.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'jaeger.tracing.enabled'"
+  },
+  {
+    "name": "jaeger.tracing.url",
+    "type": "java.lang.String",
+    "description": "A description for 'jaeger.tracing.url'"
+  },
+  {
+    "name": "jaeger.tracing.ratio",
+    "type": "java.lang.String",
+    "description": "A description for 'jaeger.tracing.ratio'"
+  },
+  {
+    "name": "jaeger.tracing.batch",
+    "type": "java.lang.String",
+    "description": "A description for 'jaeger.tracing.batch'"
+  },
+  {
+    "name": "application.endpoints.allowed",
+    "type": "java.lang.String",
+    "description": "A description for 'application.endpoints.allowed'"
+  },
+  {
+    "name": "application.endpoints.authentic[ated",
+    "type": "java.lang.String",
+    "description": "A description for 'application.endpoints.authentic[ated'"
+  },
+  {
+    "name": "application.endpoints.authenticated",
+    "type": "java.lang.String",
+    "description": "A description for 'application.endpoints.authenticated'"
+  }
+]}

@@ -1,0 +1,55 @@
+spring:
+  cache:
+    cache-names: 
+      - "rate-limit-bucket"
+    caffeine:
+      spec: "maximumSize=10000,expireAfterAccess=30m,recordStats"
+
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA-SERVICE-1}
+      group-id: ${CONSUMER-ID}
+      auto-offset-reset: earliest
+      topic:
+        name: ${KAFKA-TOPIC}
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_DATABASE:example}
+
+    # ?ssl=false&sslmode=disable
+    # ?ssl=true&sslmode=required
+
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      max-lifetime: 1800000 # 30 minutes (in ms)
+      idle-timeout: 600000 # 10 minutes (should be less than maxLifetime)
+      connection-timeout: 30000 # 30 seconds
+      minimum-idle: 5
+      maximum-pool-size: 20
+      pool-name: "ProdDBPool"
+  jpa:
+    open-in-view: false 
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    locations: classpath:db/migration
+    enabled: true
+    clean-disabled: true 
+    validate-on-migrate: true
+    # Always on first run should be false
+    baseline-on-migrate: ${FLYWAY_BASELINE-MIGRATION:false} 
+    baseline-version: ${FLYWAY_VERSION:1}
+      
+application:
+  page:
+    size: ${PAGE_SIZE:10}
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS}
+    time: ${CORS_TIME:3600}
+  rate:
+    limit: ${RATE_LIMIT:20}
+    refil:
+      time: ${REFIL_TIME:30s}
+      

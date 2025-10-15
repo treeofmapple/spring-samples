@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: console, actuator, ${PROFILE:test}
+  application:
+    name: aws-lambda-sample
+
+server:
+  port: ${SERVER_PORT:8000}
+  forward-headers-strategy: framework

@@ -1,8 +1,0 @@
-spring:
-  profiles:
-    active: console
-  application:
-    name: example
-
-server:
-  port: ${SERVER_PORT:8000}

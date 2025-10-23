@@ -37,7 +37,6 @@ public class WebSecurityConfig {
 	private final LogoutHandler logoutHandler;
 	private final AuthEntryPointJwt unauthorizedHandler;
 	private final JwtAuthenticationFilter filter;
-	private final RateLimitFilter rateLimit;
 	private final CookiesUtils cookiesUtils;
 
 	@Bean
@@ -59,7 +58,6 @@ public class WebSecurityConfig {
 						.requestMatchers("/v1/auth/logout").hasAnyRole("USER", "ADMIN")
 						.requestMatchers("/v1/auth/**", "/error").permitAll()
 						.anyRequest().authenticated())
-				.addFilterAfter(rateLimit, UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
 				.logout(logout -> logout.logoutUrl("/v1/auth/logout").addLogoutHandler(logoutHandler)
 						.logoutUrl("/v1/auth/logout").addLogoutHandler(logoutHandler)

@@ -1,9 +1,0 @@
-spring:
-  profiles:
-    active: console, database, ${PROFILE:dev}
-  application:
-      name: security
-
-server:
-  port: ${SERVER_PORT:8000}
-  forward-headers-strategy: framework

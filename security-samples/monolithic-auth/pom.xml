@@ -6,8 +6,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version>
-        <relativePath /> <!-- lookup parent from repository -->
+        <version>3.5.6</version>
+        <relativePath />
     </parent>
     <groupId>com.tom.auth</groupId>
     <artifactId>monolithic</artifactId>
@@ -36,8 +36,6 @@
         <java.version>21</java.version>
         <jjwt-token>0.12.6</jjwt-token>
         <mapstruct.version>1.6.2</mapstruct.version>
-        <bucket4j.version>8.10.1</bucket4j.version>
-        <datafaker.version>2.4.2</datafaker.version>
     </properties>
     <dependencies>
         <dependency>
@@ -59,12 +57,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-
-        <!-- Caching Strategy -->
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
         </dependency>
 
         <!-- JJWT Token -->
@@ -102,36 +94,8 @@
             <version>${mapstruct.version}</version>
         </dependency>
 
-        <!-- Data Generator-->
-        <dependency>
-            <groupId>net.datafaker</groupId>
-            <artifactId>datafaker</artifactId>
-            <version>${datafaker.version}</version>
-        </dependency>
-
-        <!-- Rate Limiting -->
-        <dependency>
-            <groupId>com.bucket4j</groupId>
-            <artifactId>bucket4j-core</artifactId>
-            <version>${bucket4j.version}</version>
-        </dependency>
-
-        <!-- Flyway Postgresql -->
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-database-postgresql</artifactId>
-        </dependency>
-
         <!-- Databases -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        <!-- Postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -146,11 +110,14 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        
+        <!-- Spring Starting Tests -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

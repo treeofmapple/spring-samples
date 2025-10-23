@@ -1,15 +1,4 @@
 spring:
-  cache:
-    cache-names: 
-      - "rate-limit-bucket"
-      - "login-attempt"
-      - "register-attempt"
-    caffeine:
-      spec: 
-        rate-limit-bucket: "maximumSize=10000,expireAfterAccess=30m"
-        login-attempt: "expireAfterWrite=8m"
-        register-attempt: "expireAfterWrite=1d"
-
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_DATABASE:example}
 
@@ -30,14 +19,6 @@ spring:
     open-in-view: false 
     hibernate:
       ddl-auto: validate
-  flyway:
-    locations: classpath:db/migration
-    enabled: true
-    clean-disabled: true 
-    validate-on-migrate: true
-    # Always on first run should be false
-    baseline-on-migrate: ${FLYWAY_BASELINE-MIGRATION:false} 
-    baseline-version: ${FLYWAY_VERSION:1}
 
 # 'm' for minutes, 'h' for hours, 'd' for days
 application:

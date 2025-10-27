@@ -1,0 +1,6 @@
+dynamodb:
+  endpoint: ${DYNAMODB_ENDPOINT}
+  region: ${DYNAMODB_REGION}
+  key:
+    access: ${DYNAMODB_ACCESS}
+    secret: ${DYNAMODB_SECRET}

@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, ${PROFILE:test}
+  application:
+    name: rabbitmq-consumer
+
+server:
+  port: ${CONSUMER_PORT:8000}

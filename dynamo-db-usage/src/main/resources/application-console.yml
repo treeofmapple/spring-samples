@@ -1,0 +1,9 @@
+logging:
+  level:
+    root: info
+    org:
+      springframework: warn
+      boot: error
+  pattern:
+    console: '%n %d{HH:mm:ss} | %highlight(%-5level) | %cyan(%logger{30}) | %msg'
+

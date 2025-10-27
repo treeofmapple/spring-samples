@@ -1,0 +1,114 @@
+{
+  "properties": [
+    {
+      "name": "application.datasource.ds1.url",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds1.url'"
+    },
+    {
+      "name": "application.datasource.ds1.username",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds1.username'"
+    },
+    {
+      "name": "application.datasource.ds1.password",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds1.password'"
+    },
+    {
+      "name": "application.datasource.ds1.pool-name",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds1.pool-name'"
+    },
+    {
+      "name": "application.datasource.ds1.minimum-idle",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds1.minimum-idle'"
+    },
+    {
+      "name": "application.datasource.ds1.maximum-pool-size",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds1.maximum-pool-size'"
+    },
+    {
+      "name": "application.datasource.ds1.max-lifetime",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds1.max-lifetime'"
+    },
+    {
+      "name": "application.datasource.ds1.idle-timeout",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds1.idle-timeout'"
+    },
+    {
+      "name": "application.datasource.ds1.connection-timeout",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds1.connection-timeout'"
+    },
+    {
+      "name": "application.datasource.ds2.url",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds2.url'"
+    },
+    {
+      "name": "application.datasource.ds2.username",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds2.username'"
+    },
+    {
+      "name": "application.datasource.ds2.password",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds2.password'"
+    },
+    {
+      "name": "application.datasource.ds2.pool-name",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds2.pool-name'"
+    },
+    {
+      "name": "application.datasource.ds2.minimum-idle",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds2.minimum-idle'"
+    },
+    {
+      "name": "application.datasource.ds2.maximum-pool-size",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds2.maximum-pool-size'"
+    },
+    {
+      "name": "application.datasource.ds2.max-lifetime",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds2.max-lifetime'"
+    },
+    {
+      "name": "application.datasource.ds2.idle-timeout",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds2.idle-timeout'"
+    },
+    {
+      "name": "application.datasource.ds2.connection-timeout",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.ds2.connection-timeout'"
+    },
+    {
+      "name": "application.datasource.flyway.ds1.location",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.flyway.ds1.location'"
+    },
+    {
+      "name": "application.datasource.flyway.ds1.schema",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.flyway.ds1.schema'"
+    },
+    {
+      "name": "application.datasource.flyway.ds2.location",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.flyway.ds2.location'"
+    },
+    {
+      "name": "application.datasource.flyway.ds2.schema",
+      "type": "java.lang.String",
+      "description": "A description for 'application.datasource.flyway.ds2.schema'"
+    }
+  ]
+}

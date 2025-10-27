@@ -6,15 +6,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.6</version>
+        <version>3.5.7</version>
         <relativePath />
     </parent>
-    <groupId>com.tom.auth</groupId>
-    <artifactId>monolithic</artifactId>
+    <groupId>com.tom.tools.rabbitmq</groupId>
+    <artifactId>producer</artifactId>
     <version>v0.1</version>
-    <name>Monolithic</name>
-    <description>Monolithic auth system</description>
-
+    <name>rabbitmq-producer</name>
+    <description>rabbitmq-producer</description>
     <licenses>
         <license>
             <name>BSD 2-Clause License</name>
@@ -28,91 +27,31 @@
             <name>Samuel</name>
             <url>https://github.com/treeofmapple</url>
             <organization>Comical Ferret</organization>
-            <organizationUrl>https://github.com/Pato-Incomum</organizationUrl>
         </developer>
     </developers>
 
     <properties>
         <java.version>21</java.version>
-        <jjwt-token>0.12.6</jjwt-token>
-        <mapstruct.version>1.6.2</mapstruct.version>
     </properties>
     <dependencies>
-        
-        <!-- Spring Starters-->
-        <!-- Spring Data -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        
+
+        <!-- Spring Starters -->
         <!-- Spring Validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-        
-        <!-- Sping Security -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
 
-        <!-- Spring HTTP -->
+        <!-- HTTPS -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- JJWT Token -->
+        <!-- Spring boot Rabbitmq -->
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>${jjwt-token}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>${jjwt-token}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-            <version>${jjwt-token}</version>
-        </dependency>
-
-        <!-- Password Hasher -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-crypto</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk18on</artifactId>
-            <version>1.78</version>
-        </dependency>
-
-        <!-- MapStruct -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
-        </dependency>
-
-        <!-- Databases -->
-        <!-- Postgresql -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- Development -->
-        <dependency>
-            <groupId>org.apiguardian</groupId>
-            <artifactId>apiguardian-api</artifactId>
-            <version>1.1.2</version>
-            <scope>provided</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
         <!-- Lombok -->
@@ -122,10 +61,17 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Spring Starting Tests -->
+        <!-- Spring Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Spring Rabbitmq Test -->
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -197,6 +143,5 @@
         </plugins>
 
     </build>
-
 
 </project>

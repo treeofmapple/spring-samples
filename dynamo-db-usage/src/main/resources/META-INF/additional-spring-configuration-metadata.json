@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "dynamodb.region",
+    "type": "java.lang.String",
+    "description": "A description for 'dynamodb.region'"
+  },
+  {
+    "name": "dynamodb.key.access",
+    "type": "java.lang.String",
+    "description": "A description for 'dynamodb.key.access'"
+  },
+  {
+    "name": "dynamodb.key.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'dynamodb.key.secret'"
+  },
+  {
+    "name": "dynamodb.endpoint",
+    "type": "java.lang.String",
+    "description": "A description for 'dynamodb.endpoint'"
+  },
+  {
+    "name": "testcontainers.reuse.enable",
+    "type": "java.lang.String",
+    "description": "A description for 'testcontainers.reuse.enable'"
+  }
+]}

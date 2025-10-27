@@ -1,0 +1,52 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_running"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  consumer:
+    build:
+      context: ../rabbitmq-consumer
+      dockerfile: ../compose/Dockerfile
+    container_name: rabbit-consumer
+    restart: unless-stopped
+    volumes:
+      - maven_cache:/root/.m2
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "${CONSUMER_PORT:-8000}:8000"
+    env_file:
+      - .env
+
+  producer:
+    build:
+      context: ../rabbitmq-producer
+      dockerfile: ../compose/Dockerfile
+    container_name: rabbit-producer
+    restart: unless-stopped
+    volumes:
+      - maven_cache:/root/.m2
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "${PRODUCER_PORT:-8001}:8000"
+    env_file:
+      - .env
+
+volumes:
+  maven_cache:
+    driver: local

@@ -20,13 +20,13 @@ public class ApplicationAuditAware implements AuditorAware<UUID> {
 				|| authentication instanceof AnonymousAuthenticationToken) {
 			return Optional.empty();
         }
-        
+
         Object principal = authentication.getPrincipal();
         if (principal instanceof User) {
             User userPrincipal = (User) principal;
             return Optional.ofNullable(userPrincipal.getId());
         }
-        
+
 		return Optional.empty();
 	}
 

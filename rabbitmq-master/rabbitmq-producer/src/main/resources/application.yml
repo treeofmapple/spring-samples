@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, ${PROFILE:test}
+  application:
+    name: rabbitmq-producer
+
+server:
+  port: ${PRODUCER_PORT:8001}

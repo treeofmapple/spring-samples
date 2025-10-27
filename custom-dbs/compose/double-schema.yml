@@ -1,0 +1,36 @@
+services:
+  doubleschema:
+    build:
+      context: ../double-schema-db
+      dockerfile: ../compose/Dockerfile
+    container_name: double-schema
+    restart: unless-stopped
+    volumes:
+      - maven_cache:/root/.m2
+    depends_on:
+      - postgres
+    ports:
+      - "${SERVER_PORT}:8080"
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:16.3-alpine
+    container_name: postgresql-double-schema
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
+    driver: local
+  maven_cache:
+    driver: local

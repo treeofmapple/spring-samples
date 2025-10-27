@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, ${PROFILE:test}
+  application:
+    name: double-sql-schema
+
+server:
+  port: ${SERVER_PORT:8000}

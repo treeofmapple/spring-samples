@@ -1,0 +1,5 @@
+dynamodb:
+  region: us-east-1
+  key:
+    access: fakeAccess
+    secret: fakeSecret

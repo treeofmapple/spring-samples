@@ -1,0 +1,45 @@
+spring:
+  flyway:
+    enabled: false
+  jpa:
+    show-sql: true
+
+application:
+  datasource:
+    ds1:
+      url: jdbc:mysql://${MYSQL_HOST}:3306/${MYSQL_DATABASE:authorsdb}?createDatabaseIfNotExist=true
+      username: ${MYSQL_USER}
+      password: ${MYSQL_PASSWORD}
+      connection-timeout: 50000
+      idle-timeout: 300000
+      max-lifetime: 900000
+      maximum-pool-size: 5
+      minimum-idle: 5
+      pool-name: MySqlPoolConnection
+
+    ds2:
+      url: jdbc:postgresql://${POSTGRES_HOST}:5432/${POSTGRES_DATABASE:postgres}?currentSchema=booksdb
+      username: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+      connection-timeout: 50000
+      idle-timeout: 300000
+      max-lifetime: 900000
+      maximum-pool-size: 6
+      minimum-idle: 6
+      pool-name: PostgreSqlConnectionPool
+
+  flyway:
+    ds1:
+      schema: books
+      location: db/migration/mysql
+
+    ds2:
+      schema: booksdb
+      location: classpath:db/migration/postgresql
+
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: TRACE
+        HikariConfig: DEBUG

@@ -1,0 +1,55 @@
+services:
+  doubledatabases:
+    build:
+      context: ../double-databases
+      dockerfile: ../compose/Dockerfile
+    container_name: double-databases
+    restart: unless-stopped
+    volumes:
+      - maven_cache:/root/.m2
+    depends_on:
+      - mysql
+      - postgres
+    ports:
+      - "${SERVER_PORT}:8080"
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:16.3-alpine
+    container_name: postgres-double-databases
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_EXTERNAL_PORT}:5432"
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-double-databases
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  postgres_data:
+    driver: local
+  mysql_data:
+    driver: local
+  maven_cache:
+    driver: local

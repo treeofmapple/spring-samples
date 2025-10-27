@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, ${PROFILE:test}
+  application:
+    name: email-sender
+
+server:
+  port: ${SERVER_PORT:8080}

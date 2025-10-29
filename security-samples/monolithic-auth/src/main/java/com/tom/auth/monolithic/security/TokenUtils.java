@@ -1,4 +1,4 @@
-package com.tom.auth.monolithic.user.service.utils;
+package com.tom.auth.monolithic.security;
 
 import org.springframework.stereotype.Component;
 

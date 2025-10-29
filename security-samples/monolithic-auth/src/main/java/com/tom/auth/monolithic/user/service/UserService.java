@@ -17,8 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tom.auth.monolithic.common.ResourceUtils;
 import com.tom.auth.monolithic.exception.NotFoundException;
 import com.tom.auth.monolithic.security.SecurityUtils;
-import com.tom.auth.monolithic.user.dto.admin.PageLoginHistoryResponse;
+import com.tom.auth.monolithic.security.TokenUtils;
 import com.tom.auth.monolithic.user.dto.user.DeleteAccountRequest;
+import com.tom.auth.monolithic.user.dto.user.PageLoginHistoryResponse;
 import com.tom.auth.monolithic.user.dto.user.PageUserResponse;
 import com.tom.auth.monolithic.user.dto.user.PasswordUpdateRequest;
 import com.tom.auth.monolithic.user.dto.user.UpdateAccountRequest;
@@ -31,7 +32,6 @@ import com.tom.auth.monolithic.user.model.User;
 import com.tom.auth.monolithic.user.repository.LoginHistoryRepository;
 import com.tom.auth.monolithic.user.repository.UserRepository;
 import com.tom.auth.monolithic.user.repository.UserSpecification;
-import com.tom.auth.monolithic.user.service.utils.TokenUtils;
 import com.tom.auth.monolithic.user.service.utils.UserUtils;
 
 import lombok.RequiredArgsConstructor;

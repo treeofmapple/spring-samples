@@ -6,7 +6,6 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 
 import com.tom.auth.monolithic.user.model.User;
-import com.tom.auth.monolithic.user.service.utils.TokenUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

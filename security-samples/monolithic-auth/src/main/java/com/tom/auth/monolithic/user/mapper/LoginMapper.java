@@ -8,9 +8,9 @@ import org.mapstruct.ReportingPolicy;
 import org.springframework.data.domain.Page;
 
 import com.tom.auth.monolithic.user.dto.admin.AdminLoginHistoryResponse;
-import com.tom.auth.monolithic.user.dto.admin.LoginHistoryResponse;
 import com.tom.auth.monolithic.user.dto.admin.PageAdminLoginHistoryResponse;
-import com.tom.auth.monolithic.user.dto.admin.PageLoginHistoryResponse;
+import com.tom.auth.monolithic.user.dto.user.LoginHistoryResponse;
+import com.tom.auth.monolithic.user.dto.user.PageLoginHistoryResponse;
 import com.tom.auth.monolithic.user.model.LoginHistory;
 
 

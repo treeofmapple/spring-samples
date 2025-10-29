@@ -1,4 +1,4 @@
-package com.tom.auth.monolithic.user.dto.admin;
+package com.tom.auth.monolithic.user.dto.user;
 
 import java.time.ZonedDateTime;
 

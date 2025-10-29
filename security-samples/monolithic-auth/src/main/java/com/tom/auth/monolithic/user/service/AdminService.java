@@ -19,14 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.tom.auth.monolithic.security.SecurityUtils;
+import com.tom.auth.monolithic.security.TokenUtils;
 import com.tom.auth.monolithic.user.dto.admin.AdminPasswordUpdateRequest;
 import com.tom.auth.monolithic.user.dto.admin.DeleteListResponse;
 import com.tom.auth.monolithic.user.dto.admin.DeleteUsersRequest;
 import com.tom.auth.monolithic.user.dto.admin.PageAdminLoginHistoryResponse;
 import com.tom.auth.monolithic.user.dto.admin.PageAdminUserResponse;
-import com.tom.auth.monolithic.user.dto.admin.PageLoginHistoryResponse;
 import com.tom.auth.monolithic.user.dto.admin.UserAdminResponse;
 import com.tom.auth.monolithic.user.dto.authentication.PasswordAuthenticationRequest;
+import com.tom.auth.monolithic.user.dto.user.PageLoginHistoryResponse;
 import com.tom.auth.monolithic.user.dto.user.PasswordUpdateRequest;
 import com.tom.auth.monolithic.user.dto.user.UpdateAccountRequest;
 import com.tom.auth.monolithic.user.mapper.AdminMapper;
@@ -38,7 +39,6 @@ import com.tom.auth.monolithic.user.model.enums.Role;
 import com.tom.auth.monolithic.user.repository.LoginHistoryRepository;
 import com.tom.auth.monolithic.user.repository.UserRepository;
 import com.tom.auth.monolithic.user.repository.UserSpecification;
-import com.tom.auth.monolithic.user.service.utils.TokenUtils;
 import com.tom.auth.monolithic.user.service.utils.UserUtils;
 
 import lombok.RequiredArgsConstructor;

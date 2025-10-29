@@ -15,6 +15,7 @@ import com.tom.auth.monolithic.security.CookiesUtils;
 import com.tom.auth.monolithic.security.JwtService;
 import com.tom.auth.monolithic.security.LoginAttemptService;
 import com.tom.auth.monolithic.security.SecurityUtils;
+import com.tom.auth.monolithic.security.TokenUtils;
 import com.tom.auth.monolithic.user.dto.authentication.AuthenticationRequest;
 import com.tom.auth.monolithic.user.dto.authentication.AuthenticationResponse;
 import com.tom.auth.monolithic.user.dto.user.RegisterRequest;
@@ -24,7 +25,6 @@ import com.tom.auth.monolithic.user.model.enums.Role;
 import com.tom.auth.monolithic.user.repository.TokenRepository;
 import com.tom.auth.monolithic.user.repository.UserRepository;
 import com.tom.auth.monolithic.user.service.utils.LoginHistoryUtils;
-import com.tom.auth.monolithic.user.service.utils.TokenUtils;
 import com.tom.auth.monolithic.user.service.utils.UserUtils;
 
 import jakarta.servlet.http.HttpServletRequest;

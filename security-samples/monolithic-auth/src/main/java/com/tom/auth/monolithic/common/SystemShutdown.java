@@ -7,6 +7,4 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class SystemShutdown {
-
-	
 }

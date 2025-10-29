@@ -19,7 +19,7 @@ import lombok.extern.log4j.Log4j2;
 public class ResourceUtils {
 
 	private final ObjectMapper objectMapper;
-	
+
 	public byte[] bytesToJson(Object generic) {
 		try {
 			return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(generic);
@@ -28,7 +28,7 @@ public class ResourceUtils {
 			throw new IllegalStateException("Failed to process user data for export.", e);
 		}
 	}
-	
+
 	public byte[] resourceToBytes(byte[] data, String filename) {
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ZipOutputStream zos = new ZipOutputStream(baos)) {

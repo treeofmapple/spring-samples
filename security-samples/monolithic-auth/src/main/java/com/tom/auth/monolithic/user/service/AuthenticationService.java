@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tom.auth.monolithic.exception.InvalidTokenException;
+import com.tom.auth.monolithic.security.CookiesUtils;
 import com.tom.auth.monolithic.security.JwtService;
 import com.tom.auth.monolithic.security.LoginAttemptService;
 import com.tom.auth.monolithic.security.SecurityUtils;
@@ -22,7 +23,6 @@ import com.tom.auth.monolithic.user.model.User;
 import com.tom.auth.monolithic.user.model.enums.Role;
 import com.tom.auth.monolithic.user.repository.TokenRepository;
 import com.tom.auth.monolithic.user.repository.UserRepository;
-import com.tom.auth.monolithic.user.service.utils.CookiesUtils;
 import com.tom.auth.monolithic.user.service.utils.LoginHistoryUtils;
 import com.tom.auth.monolithic.user.service.utils.TokenUtils;
 import com.tom.auth.monolithic.user.service.utils.UserUtils;
@@ -48,14 +48,13 @@ public class AuthenticationService {
 	private final UserRepository userRepository;
 	private final TokenRepository tokenRepository;
 	private final UserMapper userMapper;
+	private final JwtService jwtService;
+	private final LoginAttemptService loginTryService;
 	private final UserUtils userUtils;
 	private final TokenUtils tokenUtils;
 	private final CookiesUtils cookiesUtils;
 	private final SecurityUtils securityUtils;
 	private final LoginHistoryUtils loginUtils;
-	private final JwtService jwtService;
-	private final LoginAttemptService loginTryService;
-	
 	
 	@Transactional
 	public AuthenticationResponse register(RegisterRequest request, HttpServletResponse response) {

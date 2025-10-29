@@ -6,12 +6,12 @@ import org.springframework.boot.SpringApplicationRunListener;
 import com.tom.auth.monolithic.common.CustomBanner;
 
 public class BannerConfig implements SpringApplicationRunListener {
-    
-    @SuppressWarnings("unused")
+
+	@SuppressWarnings("unused")
 	private final SpringApplication application;
-    
-    public BannerConfig(SpringApplication application, String[] args) {
-        this.application = application;
-        application.setBanner(new CustomBanner());
-    }
+
+	public BannerConfig(SpringApplication application, String[] args) {
+		this.application = application;
+		application.setBanner(new CustomBanner());
+	}
 }

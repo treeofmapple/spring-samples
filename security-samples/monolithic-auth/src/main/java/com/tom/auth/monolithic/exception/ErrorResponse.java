@@ -1,4 +1,4 @@
-package com.tom.auth.monolithic.exception.global;
+package com.tom.auth.monolithic.exception;
 
 import java.util.Map;
 

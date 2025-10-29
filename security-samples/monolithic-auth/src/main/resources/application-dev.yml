@@ -40,10 +40,6 @@ application:
   cors:
     allowed-origins: ${ALLOWED_ORIGINS}
     time: ${CORS_TIME:3600}
-  rate:
-    limit: ${RATE_LIMIT:20}
-    refil:
-      time: ${REFIL_TIME:30s}
   front:
     csrf: ${CSRF_ENABLED:false}
   login:
@@ -51,6 +47,10 @@ application:
       attempts: ${LOGIN_ATTEMPTS:5}
     user:
       creation: ${CREATION_LIMIT:3}
+  rate:
+    limit: ${RATE_LIMIT:20}
+    refil:
+      time: ${REFIL_TIME:30s}
 
 settings:
   security:

@@ -1,9 +1,10 @@
-package com.tom.auth.monolithic.user.service.utils;
+package com.tom.auth.monolithic.security;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,12 @@ import lombok.RequiredArgsConstructor;
 public class CookiesUtils {
 
 	private final TokenRepository repository;
+	
+    @Value("${application.cookie.same-site:Lax}")
+    private String sameSiteMode;
+
+    @Value("${application.cookie.secure:true}")
+    private boolean secure;
 	
 	public void checkIfUserIsAlreadyAuthenticated(String userInfo, HttpServletRequest request, String refreshTokenName) {
 	    getCookieValue(request, refreshTokenName).ifPresent(token -> {
@@ -45,10 +52,10 @@ public class CookiesUtils {
 	public void addCookie(HttpServletResponse response, String name, String value, Duration duration) {
 		ResponseCookie cookie = ResponseCookie.from(name, value)
                 .httpOnly(true)    // Prevents access from JavaScript (XSS protection)
-                .secure(true)      // Only sent over HTTPS
+                .secure(secure)      // Only sent over HTTPS
                 .path("/")         // Available to the entire site
                 .maxAge(duration) 
-                .sameSite("Lax")   // OR Strict
+                .sameSite(sameSiteMode)   // OR Strict
 				.build();
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
@@ -67,6 +74,8 @@ public class CookiesUtils {
 	public void clearCookie(HttpServletResponse response, String name) {
 	    ResponseCookie cookie = ResponseCookie.from(name, "")
 	    		.httpOnly(true)
+	    		.secure(secure)
+	    		.sameSite(sameSiteMode)
 	    		.path("/")
 	            .maxAge(0)
 	            .build();

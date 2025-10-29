@@ -14,20 +14,12 @@ public class ApplicationAuditAware implements AuditorAware<UUID> {
 
 	@Override
 	public Optional<UUID> getCurrentAuditor() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()
-				|| authentication instanceof AnonymousAuthenticationToken) {
-			return Optional.empty();
-        }
-
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof User) {
-            User userPrincipal = (User) principal;
-            return Optional.ofNullable(userPrincipal.getId());
-        }
-
-		return Optional.empty();
+		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+                .filter(auth -> auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken))
+                .map(Authentication::getPrincipal)
+                .filter(User.class::isInstance)
+                .map(User.class::cast)
+                .map(User::getId);
 	}
 
 }

@@ -1,18 +1,20 @@
 package com.tom.auth.monolithic.exception;
 
-import java.time.DateTimeException;
+import org.springframework.http.HttpStatus;
+
+import com.tom.auth.monolithic.exception.global.GlobalDateTimeException;
 
 import lombok.EqualsAndHashCode;
 
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)
-public class InvalidDateException extends DateTimeException {
-	
-	public InvalidDateException(String msg) {
-		super(msg);
+public class InvalidDateException extends GlobalDateTimeException {
+
+	public InvalidDateException(String message) {
+		super(message, HttpStatus.EXPECTATION_FAILED);
 	}
-	
-	public InvalidDateException(String msg, Throwable cause) {
-		super(msg, cause);
+
+	public InvalidDateException(String message, Throwable cause) {
+		super(message, cause, HttpStatus.EXPECTATION_FAILED);
 	}
 }

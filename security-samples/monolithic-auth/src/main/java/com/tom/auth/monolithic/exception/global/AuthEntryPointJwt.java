@@ -1,6 +1,7 @@
 package com.tom.auth.monolithic.exception.global;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -32,14 +33,14 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        var errorResponse = new ErrorResponse(
-                HttpServletResponse.SC_UNAUTHORIZED,
-                "Unauthorized",
-                authException.getMessage(),
-                request.getServletPath()
-        );
-
-        objectMapper.writeValue(response.getOutputStream(), errorResponse);
+		Map<String, String> errors = Map.of(
+	            "status", String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+	            "error", "Unauthorized",
+	            "message", authException.getMessage(),
+	            "path", request.getServletPath()
+	        );
+		
+        objectMapper.writeValue(response.getOutputStream(), new ErrorResponse(errors));
 	}
 	
 }

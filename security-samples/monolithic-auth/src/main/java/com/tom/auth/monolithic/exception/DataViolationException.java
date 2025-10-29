@@ -4,16 +4,14 @@ import org.springframework.http.HttpStatus;
 
 import com.tom.auth.monolithic.exception.global.GlobalRuntimeException;
 
-import lombok.EqualsAndHashCode;
-
 @SuppressWarnings("serial")
-@EqualsAndHashCode(callSuper = true)
-public class ActiveSessionException extends GlobalRuntimeException {
-	public ActiveSessionException(String message) {
+public class DataViolationException extends GlobalRuntimeException {
+
+	public DataViolationException(String message) {
 		super(message, HttpStatus.CONFLICT);
 	}
 
-	public ActiveSessionException(String message, Throwable cause) {
+	public DataViolationException(String message, Throwable cause) {
 		super(message, cause, HttpStatus.CONFLICT);
 	}
 }

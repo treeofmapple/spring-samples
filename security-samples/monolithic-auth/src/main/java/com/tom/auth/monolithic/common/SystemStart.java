@@ -17,39 +17,38 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class SystemStart implements CommandLineRunner {
 
-	@Value("${settings.security.generated.user}")
+	@Value("${settings.security.generated.user:useradmin}")
 	private String username;
-	
-	@Value("${settings.security.generated.email}")
+
+	@Value("${settings.security.generated.email:useradmin@mail.com}")
 	private String email;
-	
-	@Value("${settings.security.generated.password}")
+
+	@Value("${settings.security.generated.password:useradmin123}")
 	private String password;
-	
-	private final PasswordEncoder passwordEncoder;
+
 	private final UserRepository repository;
-	
+	private final PasswordEncoder passwordEncoder;
+
 	@Override
 	public void run(String... args) throws Exception {
 		generateAdminUser();
 	}
-	
+
 	public void generateAdminUser() {
-		if(!repository.existsByUsername(username)) {
+		if (!repository.existsByUsername(username)) {
 			User user = new User();
-			
+
 			user.setUsername(username);
 			user.setEmail(email);
 			user.setPassword(passwordEncoder.encode(password));
 			user.setRole(Role.ADMIN);
-            user.setVersion(0L);
-			
+			user.setVersion(0L);
+
 			repository.save(user);
 			log.info(">>>> Default ADMIN user created successfully: {}", user);
-        } else {
-            log.info(">>>> Default ADMIN user '{}' already exists. Skipping creation.", username);
-        }
+		} else {
+			log.info(">>>> Default ADMIN user '{}' already exists. Skipping creation.", username);
+		}
 	}
-	
-	
+
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tom.auth.monolithic.security.CookiesUtils;
 import com.tom.auth.monolithic.user.dto.admin.PageLoginHistoryResponse;
 import com.tom.auth.monolithic.user.dto.user.DeleteAccountRequest;
 import com.tom.auth.monolithic.user.dto.user.PageUserResponse;
@@ -25,7 +26,6 @@ import com.tom.auth.monolithic.user.dto.user.PasswordUpdateRequest;
 import com.tom.auth.monolithic.user.dto.user.UpdateAccountRequest;
 import com.tom.auth.monolithic.user.dto.user.UserResponse;
 import com.tom.auth.monolithic.user.service.UserService;
-import com.tom.auth.monolithic.user.service.utils.CookiesUtils;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.Min;

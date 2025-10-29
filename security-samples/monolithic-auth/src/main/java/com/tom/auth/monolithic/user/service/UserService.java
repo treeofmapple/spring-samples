@@ -143,6 +143,7 @@ public class UserService {
 	
 	
 	// Token auth
+	// Tweak there to remove the user access 
 	@Transactional
 	public void deleteMyAccount(DeleteAccountRequest request) {
 		var user = securityUtils.getAuthenticatedUserOrThrow();

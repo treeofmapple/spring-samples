@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 public class SystemUtils {
 
 	public String getLocalMachineIp() throws Exception {
-		return InetAddress.getLocalHost().getHostAddress();	
+		return InetAddress.getLocalHost().getHostAddress();
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public String getMachinePublicIp() throws IOException, Exception {
 		URL url = new URL("https://api.ipify.org");
@@ -32,7 +32,7 @@ public class SystemUtils {
 	}
 
 	protected void getBannerPathResource(PrintStream out) {
-		ClassPathResource resource = new ClassPathResource("banner/banner.txt");
+		ClassPathResource resource = new ClassPathResource("banner.txt");
 		try (BufferedReader reader = new BufferedReader(
 				new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
 			String line;
@@ -43,5 +43,5 @@ public class SystemUtils {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

@@ -6,7 +6,6 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 
 import com.tom.auth.monolithic.user.model.User;
-import com.tom.auth.monolithic.user.service.utils.CookiesUtils;
 import com.tom.auth.monolithic.user.service.utils.TokenUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class LogoutService implements LogoutHandler {
+public class LogoutUtils implements LogoutHandler {
 
 	@Value("${application.security.cookie-name}")
 	private String refreshTokenCookieName;

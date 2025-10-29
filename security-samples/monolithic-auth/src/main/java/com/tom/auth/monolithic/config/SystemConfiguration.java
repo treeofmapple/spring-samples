@@ -11,7 +11,7 @@ public class SystemConfiguration {
 
 	@Bean
 	ForwardedHeaderFilter forwardedHeaderFilter() {
-	    return new ForwardedHeaderFilter();
+		return new ForwardedHeaderFilter();
 	}
 
 }

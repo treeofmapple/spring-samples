@@ -15,8 +15,9 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.tom.auth.monolithic.exception.global.AuthEntryPointJwt;
+import com.tom.auth.monolithic.security.CookiesUtils;
 import com.tom.auth.monolithic.security.JwtAuthenticationFilter;
-import com.tom.auth.monolithic.user.service.utils.CookiesUtils;
+import com.tom.auth.monolithic.security.RateLimitFilter;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -32,11 +33,12 @@ public class WebSecurityConfig {
 
 	@Value("${application.security.cookie-name}")
 	private String refreshTokenCookieName;
-	
+
 	private final CorsConfigurationSource corsConfigurationSource;
 	private final LogoutHandler logoutHandler;
 	private final AuthEntryPointJwt unauthorizedHandler;
-	private final JwtAuthenticationFilter filter;
+	private final RateLimitFilter rateLimit;
+	private final JwtAuthenticationFilter jwtFilter;
 	private final CookiesUtils cookiesUtils;
 
 	@Bean
@@ -48,28 +50,46 @@ public class WebSecurityConfig {
 			http.csrf(AbstractHttpConfigurer::disable);
 		}
 
-		http.headers(headers -> headers.contentSecurityPolicy(csp -> csp.policyDirectives("script-src 'self'"))
-				.frameOptions(frame -> frame.sameOrigin()))
-				.cors(cors -> cors.configurationSource(corsConfigurationSource))
-				.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(
-						auth -> auth
-						.requestMatchers("/v1/auth/logout").hasAnyRole("USER", "ADMIN")
-						.requestMatchers("/v1/auth/**", "/error").permitAll()
-						.anyRequest().authenticated())
-				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
-				.logout(logout -> logout.logoutUrl("/v1/auth/logout").addLogoutHandler(logoutHandler)
-						.logoutUrl("/v1/auth/logout").addLogoutHandler(logoutHandler)
-						.logoutSuccessHandler((request, response, authentication) -> {
-							
-							cookiesUtils.clearCookie(response, refreshTokenCookieName);
-							
-							response.setContentType("application/json");
-							response.setCharacterEncoding("UTF-8");
-							response.setStatus(HttpServletResponse.SC_OK);
-							response.getWriter().write("{\"message\": \"You have been logged out successfully.\"}");
-						}));
+		http
+		
+        .headers(headers -> headers
+                .contentSecurityPolicy(csp -> csp.policyDirectives(
+                        "default-src 'self'; " +
+                        "script-src 'self'; " +
+                        "object-src 'none'; " +
+                        "frame-ancestors 'self';"
+                ))
+                .frameOptions(frame -> frame.sameOrigin())
+            // .referrerPolicy(referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER))
+                .httpStrictTransportSecurity(hsts -> hsts.includeSubDomains(true).preload(true))
+            )
+            .cors(cors -> cors.configurationSource(corsConfigurationSource));
+		
+        http
+            .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+		http
+			.addFilterAfter(rateLimit, UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        
+		http.authorizeHttpRequests(auth -> auth
+				.requestMatchers("/v1/auth/**", "/error").permitAll()
+				.requestMatchers("/v1/auth/logout").hasAnyRole("USER", "ADMIN")
+				.anyRequest().authenticated());
+		
+		http.logout(logout -> logout
+				.logoutUrl("/v1/auth/logout")
+				.addLogoutHandler(logoutHandler)
+				.logoutSuccessHandler((request, response, authentication) -> {
+
+					cookiesUtils.clearCookie(response, refreshTokenCookieName);
+
+					response.setContentType("application/json");
+					response.setCharacterEncoding("UTF-8");
+					response.setStatus(HttpServletResponse.SC_OK);
+					response.getWriter().write("{\"message\": \"You have been logged out successfully.\"}");
+				}));
 
 		return http.build();
 	}

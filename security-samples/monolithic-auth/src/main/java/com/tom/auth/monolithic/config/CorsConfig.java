@@ -12,27 +12,39 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class CorsConfig {
 
-    @Value("${application.cors.allowed-origins}")
-    private String[] allowedOrigins;
-	
-	@Value("${application.cors.time:3600}")
+	@Value("${application.cors.allowed-origins}")
+	private String[] allowedOrigins;
+
+	@Value("${application.cors.max-age:3600}")
 	private Long corsTime;
-	
+
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
-	    CorsConfiguration config = new CorsConfiguration();
-	    
-	    config.setAllowedOriginPatterns(Arrays.asList(allowedOrigins));
-        
-	    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
-	    config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
-	    config.setAllowCredentials(true);
-	    config.setMaxAge(corsTime);
+		CorsConfiguration config = new CorsConfiguration();
 
-	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**", config);
-	    return source;
+		config.setAllowedOriginPatterns(Arrays.asList(allowedOrigins));
+		config.setAllowCredentials(true);
+		config.setMaxAge(corsTime);
+
+		
+		config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        config.setAllowedHeaders(Arrays.asList(
+                "Authorization",
+                "Content-Type",
+                "Accept",
+                "Origin",
+                "X-Requested-With"
+        ));
+
+        config.setExposedHeaders(Arrays.asList(
+                "Authorization",
+                "Content-Type",
+                "Location"
+        ));
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", config);
+		return source;
 	}
-	
+
 }

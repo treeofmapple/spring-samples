@@ -18,8 +18,9 @@ public class AuthApplication {
 	
 	// Mail Authentication
 	
-	/* instead of deleting the user from the database, 
-	 *	revoke its access to the system 
+	/* 
+	 * instead of deleting the user from the database, 
+	 * revoke its access to the system 
 	 */ 
 	
 }

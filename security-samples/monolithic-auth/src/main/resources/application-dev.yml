@@ -38,7 +38,7 @@ application:
   page:
     size: ${PAGE_SIZE:10}
   cors:
-    allowed-origins: ${ALLOWED_ORIGINS}
+    allowed-origins: ${ALLOWED_ORIGINS:*}
     time: ${CORS_TIME:3600}
   front:
     csrf: ${CSRF_ENABLED:false}
@@ -55,8 +55,8 @@ application:
 settings:
   security:
     generated:
-      user: ${ADMIN_USER}
-      email: ${ADMIN_EMAIL}
-      password: ${ADMIN_PASSWORD}
+      user: ${ADMIN_USER:useradmin}
+      email: ${ADMIN_EMAIL:useradmin@mail.com}
+      password: ${ADMIN_PASSWORD:useradmin123}
 
 

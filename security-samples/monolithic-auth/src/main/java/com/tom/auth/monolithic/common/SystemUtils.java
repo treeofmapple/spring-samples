@@ -32,7 +32,7 @@ public class SystemUtils {
 	}
 
 	protected void getBannerPathResource(PrintStream out) {
-		ClassPathResource resource = new ClassPathResource("banner.txt");
+		ClassPathResource resource = new ClassPathResource("banners.txt");
 		try (BufferedReader reader = new BufferedReader(
 				new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
 			String line;

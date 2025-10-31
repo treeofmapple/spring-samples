@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tom.auth.monolithic.exception.DataViolationException;
 import com.tom.auth.monolithic.exception.InvalidTokenException;
 import com.tom.auth.monolithic.security.CookiesUtils;
 import com.tom.auth.monolithic.security.JwtService;
@@ -71,7 +72,20 @@ public class AuthenticationService {
 
 		var user = userMapper.build(request);
 		user.setPassword(passwordEncoder.encode(request.password()));
-		user.setRole(Role.USER);
+		String requestedRole = request.role().toUpperCase();
+
+		Role role;
+		try {
+			role = Role.valueOf(requestedRole);
+		} catch (IllegalArgumentException e) {
+			throw new DataViolationException("Invalid user role: " + request.role());
+		}
+
+		if (role == Role.ADMIN) {
+			throw new IllegalArgumentException("You cannot register as ADMIN");
+		}
+		
+		user.setRole(role);
         user.setAccountNonLocked(true);
 		user.setEnabled(true);
 		var savedUser = userRepository.save(user);

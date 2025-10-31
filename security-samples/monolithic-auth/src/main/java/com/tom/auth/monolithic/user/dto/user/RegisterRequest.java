@@ -20,6 +20,9 @@ public record RegisterRequest(
 		@Min(value = 13, message = "You must be at least 13 years old")
 		Integer age,
 		
+		@NotBlank(message = "User Role Can't be blank")
+		String role,
+		
 	    @NotBlank(message = "Password must not be blank")
 	    @Size(min = 8, message = "Password must be at least 8 characters")
 		String password,

@@ -4,12 +4,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
+import com.tom.auth.monolithic.common.CustomBanner;
+
 @EnableCaching
 @SpringBootApplication
 public class AuthApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AuthApplication.class, args);
+		SpringApplication app = new SpringApplication(AuthApplication.class);
+		app.setBanner(new CustomBanner());
+		app.run(args);
 	}
 
 	// future update

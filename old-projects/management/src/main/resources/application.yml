@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: prod, console
+  application:
+    name: management
+
+server:
+  port: ${SERVER_PORT:8000}

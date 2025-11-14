@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: console, database, ${PROFILE:dev}
+    active: console, database, ${PROFILE:test}
   application:
       name: security
 

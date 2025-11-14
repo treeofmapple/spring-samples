@@ -8,12 +8,3 @@ logging:
         redis: debug
   pattern:
     console: '%n %d{HH:mm:ss} | %highlight(%-5level) | %cyan(%logger{30}) | %msg'
-
-spring:
-  output:
-    ansi:
-      enabled: always
-  aop:
-    auto: true
-  main:
-    banner-mode: console

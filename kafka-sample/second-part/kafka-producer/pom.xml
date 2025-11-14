@@ -7,13 +7,13 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.7</version>
-        <relativePath /> <!-- lookup parent from repository -->
+        <relativePath />
     </parent>
     <groupId>com.tom.kafka</groupId>
-    <artifactId>consumer</artifactId>
+    <artifactId>producer</artifactId>
     <version>v0.1</version>
-    <name>Kafka-Consumer</name>
-    <description>Kafka Consumer</description>
+    <name>Kafka-Producer</name>
+    <description>kafka Producer</description>
 
     <licenses>
         <license>
@@ -35,10 +35,11 @@
     <properties>
         <java.version>21</java.version>
         <mapstruct.version>1.6.2</mapstruct.version>
+        <datafaker.version>2.4.2</datafaker.version>
     </properties>
     <dependencies>
 
-        <!-- Spring JPA -->
+        <!-- Spring JPA-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -69,10 +70,11 @@
             <version>${mapstruct.version}</version>
         </dependency>
 
-        <!-- Deserialization -->
+        <!-- Data Generator-->
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
+            <groupId>net.datafaker</groupId>
+            <artifactId>datafaker</artifactId>
+            <version>${datafaker.version}</version>
         </dependency>
 
         <!-- Databases -->
@@ -170,7 +172,6 @@
                 </executions>
             </plugin>
         </plugins>
-
     </build>
 
 </project>

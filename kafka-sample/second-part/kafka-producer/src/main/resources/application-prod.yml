@@ -1,13 +1,13 @@
 spring:
   kafka:
     bootstrap-servers: ${KAFKA_SERVICE}
-    consumer:
-      group-id: ${CONSUMER_ID}
-      auto-offset-reset: earliest
+    producer:
+      client-id: ${PRODUCER_ID}
       topic:
         name: ${KAFKA_TOPIC}
-
-  datasource:
+      partitions: ${KAFKA_PARTITIONS}
+      replicas: ${KAFKA_REPLICAS}
+  datasource: 
     url: jdbc:h2:mem:testdb;
     driver-class-name: org.h2.Driver
     username: sa
@@ -16,4 +16,4 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: create-drop
-    show-sql: false 
+    show-sql: false

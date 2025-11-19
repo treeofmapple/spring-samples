@@ -1,9 +1,8 @@
 package com.tom.kafka.producer.produce;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.tom.kafka.producer.book.Book;
@@ -11,6 +10,9 @@ import com.tom.kafka.producer.logic.GenerateData;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import reactor.core.Disposable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Log4j2
 @Service
@@ -20,35 +22,35 @@ public class BookStreamProducer {
 	@Value("${spring.kafka.producer.topic.name}")
 	private String topicName;
 
-	private final AtomicBoolean running = new AtomicBoolean(false);
-	private final ThreadPoolTaskExecutor executor;
 	private final BookProducer producer;
 	private final GenerateData genData;
+	
+    private Disposable subscription;
 
-	public void startStreaming(int speed) {
-		if (running.compareAndSet(false, true)) {
-			executor.submit(() -> sendLoop(speed));
-			log.info("Sending Book Data");
-		} else {
-			log.warn("Stopped Sending Book Data");
-		}
-	}
+    public void startStreaming(int speed) {
+        if (subscription != null && !subscription.isDisposed()) {
+            log.warn("Stream already running");
+            return;
+        }
+        
+        subscription = Flux.interval(Duration.ofMillis(speed))
+                .flatMap(tick -> Mono.fromRunnable(() -> {
+                    Book book = genData.processGenerateAnBook();
+                    producer.sendBook(book);
+                    log.info("Sent book: {}", book.getTitle());
+                }))
+                .subscribe();
 
-	public void stopStreaming() {
-		running.set(false);
-		log.warn("Stopped Sending Book Data");
-	}
+        log.info("Reactive book streaming started with speed {} ms", speed);
+        
+    }
 
-	private void sendLoop(int speed) {
-		while (running.get()) {
-			Book book = genData.processGenerateAnBook();
-			producer.sendBook(book);
-			try {
-				Thread.sleep(speed > 0 ? speed : 100);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-			}
-		}
-	}
-
+    public void stopStreaming() {
+        if (subscription != null) {
+            subscription.dispose();
+            subscription = null;
+            log.warn("Reactive book streaming stopped");
+        }
+    }
+    
 }

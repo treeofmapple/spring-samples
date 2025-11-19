@@ -2,7 +2,7 @@ spring:
   profiles:
     active: console, ${PROFILE:test}
   application:
-      name: Kafka-Consumer
+      name: kafka-consumer
 
 server:
   port: ${CONSUMER_PORT:8000}

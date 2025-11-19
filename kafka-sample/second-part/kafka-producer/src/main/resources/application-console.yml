@@ -2,6 +2,8 @@ logging:
   level:
     root: info
     org:
+      apache:
+        kafka: error
       springframework: warn
       boot: error
       data:

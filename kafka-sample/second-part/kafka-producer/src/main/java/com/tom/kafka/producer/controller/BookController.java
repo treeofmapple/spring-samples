@@ -37,15 +37,15 @@ public class BookController {
 	}
 
 	@PostMapping(value = "/stream/start")
-	public ResponseEntity<Void> startDataStreaming(@RequestParam(required = false, defaultValue = "100") int speed) {
+	public ResponseEntity<String> startDataStreaming(@RequestParam(required = false, defaultValue = "100") int speed) {
 		bookStream.startStreaming(speed);
-		return ResponseEntity.status(HttpStatus.OK).build();
+		return ResponseEntity.status(HttpStatus.OK).body("Data Stream");
 	}
 
 	@PostMapping(value = "/stream/stop")
-	public ResponseEntity<Void> stopDataStreaming() {
+	public ResponseEntity<String> stopDataStreaming() {
 		bookStream.stopStreaming();
-		return ResponseEntity.status(HttpStatus.OK).build();
+		return ResponseEntity.status(HttpStatus.OK).body("Stopped");
 	}
 
 }

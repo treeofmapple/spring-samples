@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, config, ${PROFILE:test}
+  application:
+    name: realtime-dashboard
+
+server:
+  port: ${REAL_DASHBOARD_PORT:8000} 

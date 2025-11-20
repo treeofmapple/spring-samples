@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: console, ${PROFILE:test}
+  application:
+    name: full-stack-service
+
+server:
+  port: ${SERVER_PORT:8000}
+  forward-headers-strategy: framework

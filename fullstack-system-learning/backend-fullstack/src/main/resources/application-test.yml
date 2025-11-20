@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  flyway:
+    locations: classpath:db/migration
+    enabled: true
+    clean-disabled: false
+    validate-on-migrate: false
+    baseline-on-migrate: false
+    baseline-version: false
+    placeholders:
+      employeeCodeSize: 10
+                  
+application:
+  page:
+    size: 8
+  cors:
+    allowed-origins: "*"
+    time: 3600
+  employee:
+    max-retries: 10
+    code:
+      length: 10
+        

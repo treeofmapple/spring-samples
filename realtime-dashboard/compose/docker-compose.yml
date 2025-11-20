@@ -1,0 +1,36 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "${RABBIT_PORT}:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_running"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
+
+  realtime-dashboard:
+    build:
+      context: ..
+      dockerfile: compose/Dockerfile
+    container_name: realtime-dashboard
+    restart: unless-stopped
+    volumes:
+      - maven_cache:/root/.m2
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "${REAL_DASHBOARD_PORT}:${REAL_DASHBOARD_PORT}"
+    env_file:
+      - .env
+
+volumes:
+  maven_cache:
+    driver: local

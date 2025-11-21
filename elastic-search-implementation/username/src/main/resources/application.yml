@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, config, ${PROFILE:test}
+  application:
+    name: username
+
+server:
+  port: ${USER_PORT:8000}

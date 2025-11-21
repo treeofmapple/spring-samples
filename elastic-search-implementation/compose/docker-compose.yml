@@ -1,0 +1,121 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "${DB_EXTERNAL_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - http.host=0.0.0.0
+    ports:
+      - "9200:9200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200 >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  elastic-search:
+    build:
+      context: ../elastic-search
+      dockerfile: ../compose/Dockerfile
+    container_name: elastic-service
+    volumes:
+      - maven_cache:/root/.m2
+    depends_on:
+      postgres:
+        condition: service_started
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "${ELASTIC_PORT}:${ELASTIC_PORT}"
+    env_file:
+      - .env
+
+  grades:
+    build:
+      context: ../grades
+      dockerfile: ../compose/Dockerfile
+    container_name: grades-service
+    volumes:
+      - maven_cache:/root/.m2
+    depends_on:
+      postgres:
+        condition: service_started
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "${GRADES_PORT}:${GRADES_PORT}"
+    env_file:
+      - .env
+
+  library:
+    build:
+      context: ../library
+      dockerfile: ../compose/Dockerfile
+    container_name: library-service
+    volumes:
+      - maven_cache:/root/.m2
+    depends_on:
+      postgres:
+        condition: service_started
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "${LIBRARY_PORT}:${LIBRARY_PORT}"
+    env_file:
+      - .env
+
+  username:
+    build:
+      context: ../username
+      dockerfile: ../compose/Dockerfile
+    container_name: username-service
+    volumes:
+      - maven_cache:/root/.m2
+    depends_on:
+      postgres:
+        condition: service_started
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "${USER_PORT}:${USER_PORT}"
+    env_file:
+      - .env
+
+  vehicle:
+    build:
+      context: ../vehicle
+      dockerfile: ../compose/Dockerfile
+    container_name: vehicle-service
+    volumes:
+      - maven_cache:/root/.m2
+    depends_on:
+      postgres:
+        condition: service_started
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "${VEHICLE_PORT}:${VEHICLE_PORT}"
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
+  maven_cache:

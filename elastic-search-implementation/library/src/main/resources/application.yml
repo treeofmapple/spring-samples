@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, config, ${PROFILE:test}
+  application:
+    name: library
+
+server:
+  port: ${LIBRARY_PORT:8000}

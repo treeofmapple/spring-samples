@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, config, ${PROFILE:test}
+  application:
+    name: grades
+
+server:
+  port: ${ELASTIC_PORT:8000}

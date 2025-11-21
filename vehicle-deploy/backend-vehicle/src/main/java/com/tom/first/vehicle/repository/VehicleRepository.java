@@ -1,0 +1,20 @@
+package com.tom.first.vehicle.repository;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
+
+import com.tom.first.vehicle.model.Vehicle;
+
+@Repository
+public interface VehicleRepository extends JpaRepository<Vehicle, Long>, JpaSpecificationExecutor<Vehicle> {
+
+	Optional<Vehicle> findByPlate(String plate);
+
+	boolean existsByPlate(String plate);
+
+	boolean existsByPlateAndIdNot(String plate, long id);
+	
+}

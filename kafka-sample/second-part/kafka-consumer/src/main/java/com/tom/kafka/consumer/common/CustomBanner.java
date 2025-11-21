@@ -1,10 +1,15 @@
 package com.tom.kafka.consumer.common;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 
 public class CustomBanner implements Banner {
 
@@ -16,7 +21,7 @@ public class CustomBanner implements Banner {
 	
 	@Override
 	public void printBanner(Environment environment, Class<?> sourceClass, PrintStream out) {
-		utils.getBannerPathResource(out);
+		getBannerPathResource(out);
 		try {
 			Package springPackage = SpringBootVersion.class.getPackage();
 			String version = (springPackage != null) ? springPackage.getImplementationVersion() : "unknown";
@@ -41,5 +46,18 @@ public class CustomBanner implements Banner {
             out.println("Failed to print custom banner: " + e.getMessage());
         }
     }
+	
+	private void getBannerPathResource(PrintStream out) {
+		ClassPathResource resource = new ClassPathResource("banners.txt");
+		try (BufferedReader reader = new BufferedReader(
+				new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				out.println(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

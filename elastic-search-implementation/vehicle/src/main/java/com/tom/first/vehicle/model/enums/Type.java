@@ -3,7 +3,7 @@ package com.tom.first.vehicle.model.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum Type {
-	CARRO, MOTO;
+	CAR, MOTORCYCLE;
 
 	@JsonCreator
 	public static Type fromString(String value) {

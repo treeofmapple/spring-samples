@@ -2,6 +2,7 @@ package com.tom.first.library.processes;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -11,9 +12,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tom.first.library.dto.BookOutboxBuilder;
 import com.tom.first.library.mapper.BookMapper;
+import com.tom.first.library.model.BookDocument;
 import com.tom.first.library.model.enums.EventType;
 import com.tom.first.library.processes.events.BookCreatedEvent;
 import com.tom.first.library.processes.events.BookDeletedEvent;
+import com.tom.first.library.processes.events.BookListCreatedEvent;
 import com.tom.first.library.repository.BookOutboxRepository;
 import com.tom.first.library.repository.BookSearchRepository;
 
@@ -34,8 +37,16 @@ public class BookIndexer {
 	@EventListener
 	public void handleVehicleCreated(BookCreatedEvent event) {
 		var doc = mapper.build(event.book());
-		saveOutboxEvent(EventType.CREATED, event);
+		saveOutboxEvent(EventType.CREATED, doc);
 		searchRepository.save(doc);
+	}
+	
+	@Async
+	@EventListener
+	public void handleMultipleVehicleCreated(BookListCreatedEvent event) {
+		List<BookDocument> doc = mapper.build(event.books());
+		saveOutboxEvent(EventType.CREATED, event);
+		searchRepository.saveAll(doc);
 	}
 
 	@Async

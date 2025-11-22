@@ -1,5 +1,7 @@
 package com.tom.first.library.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -24,6 +26,8 @@ public interface BookMapper {
 	
 	@Mapping(target = "id", ignore = true)
 	BookDocument build(Book book);
+	
+	List<BookDocument> build(List<Book> books);
 	
 	BookOutbox build(BookOutboxBuilder outboxBuild);
 	

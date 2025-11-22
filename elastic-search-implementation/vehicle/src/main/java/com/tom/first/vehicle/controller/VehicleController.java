@@ -27,27 +27,15 @@ public class VehicleController {
 	private final VehicleService service;
 
 	@GetMapping(params = "id")
-	public ResponseEntity<VehicleResponse> findVehicleById(@RequestParam long query) {
+	public ResponseEntity<VehicleResponse> findVehicleById(@RequestParam("id") long query) {
 		var response = service.findById(query);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
 	@GetMapping(params = "plate")
-	public ResponseEntity<VehicleResponse> findVehicleByPlate(@RequestParam String plate) {
-		var response = service.findByPlate(plate);
+	public ResponseEntity<VehicleResponse> findVehicleByPlate(@RequestParam("plate") String query) {
+		var response = service.findByPlate(query);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
-	}
-
-	@PostMapping(value = "/data/start")
-	public ResponseEntity<Void> startDataStreaming(@RequestParam(required = false, defaultValue = "200") int speed) {
-		service.startStreaming(speed);
-		return ResponseEntity.status(HttpStatus.OK).build();
-	}
-
-	@PostMapping(value = "/data/stop")
-	public ResponseEntity<Void> stopDataStreaming() {
-		service.stopStreaming();
-		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@PostMapping
@@ -56,8 +44,10 @@ public class VehicleController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
 	}
 
-	@DeleteMapping(value = "/{plate:.+}")
-	public ResponseEntity<Void> deleteVehicle(@PathVariable String plate) {
+	@DeleteMapping(value = "/{plate}")
+	public ResponseEntity<Void> deleteVehicle(
+			// @Pattern(regexp = "[A-Z]{3}-\\d{4}", message = "Invalid plate format")
+			@PathVariable String plate) {
 		service.deleteVehicleByPlate(plate);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}

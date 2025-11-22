@@ -40,12 +40,16 @@ public class ElasticSearchSchedules {
 
 		case EventType.CREATED -> {
 			var doc = objectMapper.readValue(event.getPayload(), VehicleDocument.class);
-			searchRepository.save(doc);
+			if (!searchRepository.existsById(doc.getId())) {
+				searchRepository.save(doc);
+			}
 		}
 
 		case EventType.DELETED -> {
 			String plate = objectMapper.readValue(event.getPayload(), String.class);
-			searchRepository.deleteByPlate(plate);
+			if (searchRepository.existsByPlate(plate)) {
+				searchRepository.deleteByPlate(plate);
+			}
 		}
 		}
 	}

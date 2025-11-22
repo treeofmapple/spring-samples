@@ -3,11 +3,8 @@ package com.tom.first.simple.dto;
 public record EvaluationResponse(
 		
 		String subject, 
-		
 		String description, 
-		
-		double grade, 
-		
+		Double grade, 
 		String username) {
 
 }

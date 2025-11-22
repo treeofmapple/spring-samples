@@ -27,3 +27,7 @@ spring:
     connection-timeout: 5000
     socket-timeout: 30000 
     socket-keep-alive: true
+
+webflux:
+  thread:
+    limit: ${WEBFLUX_SPEED:4}

@@ -35,7 +35,7 @@ public class UsernameIndexer {
 	@EventListener
 	public void handleVehicleCreated(UserCreatedEvent event) {
 		var doc = mapper.build(event.username());
-		saveOutboxEvent(EventType.CREATED, event);
+		saveOutboxEvent(EventType.CREATED, doc);
 		searchRepository.save(doc);
 	}
 

@@ -1,17 +1,14 @@
 package com.tom.first.simple.service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tom.first.simple.dto.EvaluationRequest;
 import com.tom.first.simple.dto.EvaluationResponse;
-import com.tom.first.simple.logic.GenerateData;
 import com.tom.first.simple.mapper.EvaluationMapper;
 import com.tom.first.simple.model.Evaluation;
 import com.tom.first.simple.processes.events.EvaluationCreatedEvent;
@@ -26,13 +23,10 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class EvaluationService {
 
-	private final AtomicBoolean running = new AtomicBoolean(false);
-	private final ThreadPoolTaskExecutor executor;
 	private final ApplicationEventPublisher eventPublisher;
 	private final EvaluationRepository repository;
 	private final EvaluationMapper mapper;
 	private final UserService service;
-	private final GenerateData dataGeneration;
 
 	@Transactional(readOnly = true)
 	public EvaluationResponse findById(long query) {
@@ -54,32 +48,6 @@ public class EvaluationService {
 			throw new RuntimeException(String.format("No evaluation found for grade: %.2f", grade));
 		}
 		return evaluations.stream().map(mapper::toResponse).collect(Collectors.toList());
-	}
-
-	public void startStreaming(int speed) {
-		if (running.compareAndSet(false, true)) {
-			executor.submit(() -> sendLoop(speed));
-			log.info("Sending Evaluation Data");
-		} else {
-			log.warn("Stopped Sending Evaluation Data");
-		}
-	}
-
-	public void stopStreaming() {
-		running.set(false);
-		log.warn("Stopped Sending Evaluation Data");
-	}
-
-	private void sendLoop(int speed) {
-		while (running.get()) {
-			var evaluation = dataGeneration.processGenerateAnEvaluation();
-			eventPublisher.publishEvent(evaluation);
-			try {
-				Thread.sleep(speed > 0 ? speed : 100);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-			}
-		}
 	}
 
 	@Transactional

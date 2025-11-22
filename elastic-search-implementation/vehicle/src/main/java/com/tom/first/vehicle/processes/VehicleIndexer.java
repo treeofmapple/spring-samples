@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tom.first.vehicle.dto.VehicleOutboxBuild;
 import com.tom.first.vehicle.mapper.VehicleMapper;
+import com.tom.first.vehicle.model.VehicleOutbox;
 import com.tom.first.vehicle.model.enums.EventType;
 import com.tom.first.vehicle.processes.events.VehicleCreatedEvent;
 import com.tom.first.vehicle.processes.events.VehicleDeletedEvent;
@@ -34,22 +35,31 @@ public class VehicleIndexer {
 	@EventListener
 	public void handleVehicleCreated(VehicleCreatedEvent event) {
 		var doc = mapper.build(event.vehicle());
-		saveOutboxEvent(EventType.CREATED, event);
-		searchRepository.save(doc);
+		var outbox = saveOutboxEvent(EventType.CREATED, doc);
+		
+		try {
+			searchRepository.save(doc);
+	        outbox.setProcessed(true);
+	        outboxRepository.save(outbox);
+		} catch (Exception e) {
+	        log.error("Immediate ES write failed, fallback enabled", e);
+		}
 	}
 
 	@Async
 	@EventListener
 	public void handleVehicleDeletion(VehicleDeletedEvent event) {
-		if (searchRepository.existsByPlate(event.plate())) {
-			saveOutboxEvent(EventType.DELETED, event);
-			searchRepository.deleteByPlate(event.plate());
-		} else {
-			log.warn("Item don't exist on the elastic search");
-		}
+	    var outbox = saveOutboxEvent(EventType.DELETED, event.plate());
+	    try {
+	        searchRepository.deleteByPlate(event.plate()); 
+	        outbox.setProcessed(true);
+	        outboxRepository.save(outbox);
+	    } catch (Exception e) {
+	        log.error("Immediate ES delete failed, fallback enabled", e);
+	    }
 	}
 
-	private void saveOutboxEvent(EventType eventType, Object payload) {
+	private VehicleOutbox saveOutboxEvent(EventType eventType, Object payload) {
 		String json = null;
 		try {
 			json = objectMapper.writeValueAsString(payload);
@@ -58,7 +68,7 @@ public class VehicleIndexer {
 		}
 
 		var event = mapper.build(new VehicleOutboxBuild(eventType, json, ZonedDateTime.now(ZoneOffset.UTC)));
-		outboxRepository.save(event);
+		return outboxRepository.save(event);
 	}
 
 }

@@ -1,15 +1,11 @@
 package com.tom.first.username.service;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tom.first.username.dto.UserRequest;
 import com.tom.first.username.dto.UserResponse;
-import com.tom.first.username.logic.GenerateData;
 import com.tom.first.username.mapper.UserMapper;
 import com.tom.first.username.processes.events.UserCreatedEvent;
 import com.tom.first.username.processes.events.UserDeletedEventByEmail;
@@ -23,12 +19,9 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class UserService {
 
-	private final AtomicBoolean running = new AtomicBoolean(false);
-	private final ThreadPoolTaskExecutor executor;
 	private final ApplicationEventPublisher eventPublisher;
 	private final UserRepository repository;
 	private final UserMapper mapper;
-	private final GenerateData dataGeneration;
 
 	@Transactional(readOnly = true)
 	public UserResponse findById(long query) {
@@ -51,34 +44,8 @@ public class UserService {
 		});
 	}
 
-	public void startStreaming(int speed) {
-		if (running.compareAndSet(false, true)) {
-			executor.submit(() -> sendLoop(speed));
-			log.info("Sending User Data");
-		} else {
-			log.warn("Stopped Sending User Data");
-		}
-	}
-
-	public void stopStreaming() {
-		running.set(false);
-		log.warn("Stopped Sending User Data");
-	}
-
-	private void sendLoop(int speed) {
-		while (running.get()) {
-			var user = dataGeneration.processAndGenerateUser();
-			eventPublisher.publishEvent(user);
-			try {
-				Thread.sleep(speed > 0 ? speed : 100);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-			}
-		}
-	}
-
 	@Transactional
-	public UserResponse createUsername(UserRequest request) {
+	public UserResponse createUser(UserRequest request) {
 		if (repository.existsByEmail(request.email())) {
 			throw new RuntimeException(String.format("User with same email already exists %s", request.email()));
 		}

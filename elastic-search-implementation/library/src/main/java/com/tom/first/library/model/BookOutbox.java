@@ -3,6 +3,8 @@ package com.tom.first.library.model;
 import java.time.ZonedDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import com.tom.first.library.model.enums.EventType;
 
@@ -14,11 +16,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "book_outbox")
 public class BookOutbox {
@@ -33,8 +37,8 @@ public class BookOutbox {
     private EventType eventType;
 
     @Column(name = "payload", 
-    		nullable = false, 
-    		columnDefinition = "jsonb")
+    		nullable = false)
+    @JdbcTypeCode(SqlTypes.JSON)
     private String payload;
 
     @CreationTimestamp

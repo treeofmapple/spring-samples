@@ -34,7 +34,7 @@ public class EvaluationIndexer {
 	@EventListener
 	public void handleVehicleCreated(EvaluationCreatedEvent event) {
 		var doc = mapper.build(event.evaluation());
-		saveOutboxEvent(EventType.CREATED, event);
+		saveOutboxEvent(EventType.CREATED, doc);
 		searchRepository.save(doc);
 	}
 

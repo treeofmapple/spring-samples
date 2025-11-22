@@ -21,7 +21,7 @@ public class GenerateData {
 	private final GenerateDataUtil dataUtil;
 	
     @Transactional
-    public Vehicle processGenerateAnVehicle() {
+    public Vehicle processVehicle() {
     	var gen = genVehicle();
     	vehicleRepository.save(gen);
     	return gen;
@@ -33,7 +33,7 @@ public class GenerateData {
 		vehicle.setModel(dataUtil.generateCarModel());
 		vehicle.setColor(dataUtil.generateCarColor());
 		vehicle.setPlate(dataUtil.generateCarLicensePlate());
-		vehicle.setType(ThreadLocalRandom.current().nextBoolean() ? Type.CARRO : Type.MOTO);
+		vehicle.setType(ThreadLocalRandom.current().nextBoolean() ? Type.CAR : Type.MOTORCYCLE);
 		return vehicle;
 	}
 }

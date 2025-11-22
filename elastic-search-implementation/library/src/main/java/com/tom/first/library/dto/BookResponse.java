@@ -6,33 +6,13 @@ import java.time.LocalDateTime;
 public record BookResponse(
 		
 		String title,
-		
 		String author,
-		
-		int quantity,
-		
-		double price,
-		
+		Integer quantity,
+		Double price,
 		LocalDate launchYear,
-		
 		LocalDateTime createdDate
 		
 
 ) {
 
-	public record BookUpdateResponse(
-
-		String title,
-		
-		String author,
-		
-		int quantity,
-		
-		double price,
-		
-		LocalDate launchYear
-
-	) {
-	}
-	
 }

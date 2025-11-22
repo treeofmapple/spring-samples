@@ -2,9 +2,11 @@ package com.tom.first.vehicle.mapper;
 
 import java.util.List;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.data.domain.Page;
 
@@ -34,6 +36,7 @@ public interface VehicleMapper {
 	@Mapping(source = "name", target = "name")
 	Brand buildBrand(String name);
 	
+	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "brand", ignore = true)
 	@Mapping(target = "model", ignore = true)

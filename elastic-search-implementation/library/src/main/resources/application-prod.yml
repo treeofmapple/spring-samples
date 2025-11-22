@@ -31,3 +31,5 @@ spring:
 webflux:
   api:
     user: ${USER_PORT}
+  thread:
+    limit: ${WEBFLUX_SPEED:4}

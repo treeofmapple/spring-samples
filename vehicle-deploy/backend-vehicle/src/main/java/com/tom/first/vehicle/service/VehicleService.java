@@ -93,16 +93,24 @@ public class VehicleService {
 		
 		var olderVehicle = vehicleUtils.findById(query);
 		
-	    vehicleUtils.checkIfPlateIsTaken(olderVehicle, request.licensePlate());
-		var brand = brandUtils.checkIfBrandIsTaken(olderVehicle.getBrand(), request.brand());
-		var model = modelUtils.checkIfModelIsTaken(olderVehicle.getModel(), brand, request.model());
+	    if (request.licensePlate() != null) {
+	        vehicleUtils.checkIfPlateIsTaken(olderVehicle, request.licensePlate());
+	    }
+
+	    var brand = olderVehicle.getBrand();
+	    if (request.brand() != null) {
+	        brand = brandUtils.checkIfBrandIsTaken(olderVehicle.getBrand(), request.brand());
+	        olderVehicle.setBrand(brand);
+	    }
+
+	    if (request.model() != null) {
+	        var model = modelUtils.checkIfModelIsTaken(olderVehicle.getModel(), brand, request.model());
+	        olderVehicle.setModel(model);
+	    }
+	    
+		mapper.update(olderVehicle, request);
 		
-		var vehicle = mapper.update(olderVehicle, request);
-		
-		vehicle.setBrand(brand);
-		vehicle.setModel(model);
-		
-		var vehicleSaved = vehicleRepository.save(vehicle);
+		var vehicleSaved = vehicleRepository.save(olderVehicle);
 		return mapper.toResponse(vehicleSaved);
 	}
 

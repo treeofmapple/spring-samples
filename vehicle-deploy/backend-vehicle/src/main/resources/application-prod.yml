@@ -28,7 +28,7 @@ spring:
     clean-disabled: true 
     validate-on-migrate: true
     # Always on first run should be false
-    baseline-on-migrate: ${FLYWAY_BASELINE-MIGRATION:false} 
+    baseline-on-migrate: ${FLYWAY_BASELINE_MIGRATION:false} 
     baseline-version: ${FLYWAY_VERSION:1}
 
 # 'm' for minutes, 'h' for hours, 'd' for days

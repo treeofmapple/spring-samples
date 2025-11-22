@@ -1,18 +1,15 @@
 package com.tom.first.library.service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tom.first.library.dto.BookItemResponse;
 import com.tom.first.library.dto.BookRequest;
 import com.tom.first.library.dto.BookResponse;
-import com.tom.first.library.logic.GenerateData;
 import com.tom.first.library.mapper.BookMapper;
 import com.tom.first.library.model.Book;
 import com.tom.first.library.processes.events.BookCreatedEvent;
@@ -31,12 +28,9 @@ public class BookService {
 	// private final RentHistoryRepository historyRepository;
 	// private final UserService service;
 
-	private final AtomicBoolean running = new AtomicBoolean(false);
-	private final ThreadPoolTaskExecutor executor;
 	private final ApplicationEventPublisher eventPublisher;
 	private final BookRepository bookRepository;
 	private final BookMapper mapper;
-	private final GenerateData dataGeneration;
 
 	@Transactional(readOnly = true)
 	public BookResponse findById(long query) {
@@ -69,32 +63,6 @@ public class BookService {
 	@Transactional(readOnly = true)
 	public BookItemResponse findAllRentBooks() {
 		return null;
-	}
-
-	public void startStreaming(int speed) {
-		if (running.compareAndSet(false, true)) {
-			executor.submit(() -> sendLoop(speed));
-			log.info("Sending Evaluation Data");
-		} else {
-			log.warn("Stopped Sending Evaluation Data");
-		}
-	}
-
-	public void stopStreaming() {
-		running.set(false);
-		log.warn("Stopped Sending Evaluation Data");
-	}
-
-	private void sendLoop(int speed) {
-		while (running.get()) {
-			var book = dataGeneration.processGenerateAnEvaluation();
-			eventPublisher.publishEvent(book);
-			try {
-				Thread.sleep(speed > 0 ? speed : 100);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-			}
-		}
 	}
 
 	@Transactional

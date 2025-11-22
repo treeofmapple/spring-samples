@@ -46,18 +46,6 @@ public class EvaluationController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
-	@PostMapping(value = "/data/start")
-	public ResponseEntity<Void> startDataStreaming(@RequestParam(required = false, defaultValue = "200") int speed) {
-		service.startStreaming(speed);
-		return ResponseEntity.status(HttpStatus.OK).build();
-	}
-
-	@PostMapping(value = "/data/stop")
-	public ResponseEntity<Void> stopDataStreaming() {
-		service.stopStreaming();
-		return ResponseEntity.status(HttpStatus.OK).build();
-	}
-
 	@PostMapping
 	public ResponseEntity<EvaluationResponse> createEvaluation(
 			@RequestBody(required = true) EvaluationRequest request) {
@@ -72,8 +60,8 @@ public class EvaluationController {
 	}
 
 	@DeleteMapping(params = "subject")
-	public ResponseEntity<Void> deleteEvaluation(@RequestParam String subject) {
-		service.deleteEvaluationBySubject(subject);
+	public ResponseEntity<Void> deleteEvaluation(@RequestParam(value = "subject") String query) {
+		service.deleteEvaluationBySubject(query);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 

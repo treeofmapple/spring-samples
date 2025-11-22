@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum Permission {
-
 	USER_READ("user:read"),
 	USER_UPDATE("user:update"),
 	USER_DELETE("user:delete"),
@@ -19,8 +18,8 @@ public enum Permission {
 	MANAGER_CREATE("manager:create"),
 	MANAGER_DELETE("manager:delete")
 	;
-	
+
 	@Getter
 	private final String permission;
-	
+
 }

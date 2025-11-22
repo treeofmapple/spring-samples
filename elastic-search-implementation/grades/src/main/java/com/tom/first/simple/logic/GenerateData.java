@@ -21,10 +21,11 @@ public class GenerateData {
 	private final GenerateDataUtil dataUtil;
 	private final UserMapper mapper;
 
+	// Webflux
 	private final UserService userService;
 
 	@Transactional
-	public Evaluation processGenerateAnEvaluation() {
+	public Evaluation processEvaluation() {
 		var gen = genEvaluation();
 		evaluationRepository.save(gen);
 		return gen;

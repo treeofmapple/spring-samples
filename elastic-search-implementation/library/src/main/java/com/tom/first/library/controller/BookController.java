@@ -45,18 +45,6 @@ public class BookController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
-	@PostMapping(value = "/data/start")
-	public ResponseEntity<Void> startDataStreaming(@RequestParam(required = false, defaultValue = "200") int speed) {
-		service.startStreaming(speed);
-		return ResponseEntity.status(HttpStatus.OK).build();
-	}
-
-	@PostMapping(value = "/data/stop")
-	public ResponseEntity<Void> stopDataStreaming() {
-		service.stopStreaming();
-		return ResponseEntity.status(HttpStatus.OK).build();
-	}
-
 	@PostMapping
 	public ResponseEntity<BookResponse> createBook(@RequestBody(required = true) BookRequest request) {
 		var response = service.createBook(request);
@@ -64,7 +52,7 @@ public class BookController {
 	}
 
 	@DeleteMapping(params = "title")
-	public ResponseEntity<Void> deleteBookByTitle(@RequestParam String query) {
+	public ResponseEntity<Void> deleteBookByTitle(@RequestParam(value = "title") String query) {
 		service.deleteBookByTitle(query);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}

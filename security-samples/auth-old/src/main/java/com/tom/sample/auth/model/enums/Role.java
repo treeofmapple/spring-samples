@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum Role {
-
 	ANONYMOUS(Collections.emptySet()),
 	USER(Set.of(
 			USER_READ,
@@ -33,7 +32,7 @@ public enum Role {
 			USER_DELETE,
 			USER_CREATE
 		)
-	),	
+	),
 	ADMIN(Set.of(
 			ADMIN_READ,
 			ADMIN_UPDATE,
@@ -58,7 +57,7 @@ public enum Role {
 			USER_UPDATE,
 			USER_DELETE,
 			USER_CREATE
-			
+
 		)
 	)
 	;
@@ -74,5 +73,5 @@ public enum Role {
 		authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
 		return authorities;
 	}
-	
+
 }

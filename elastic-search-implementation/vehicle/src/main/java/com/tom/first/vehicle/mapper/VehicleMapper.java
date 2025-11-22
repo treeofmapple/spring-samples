@@ -15,7 +15,6 @@ import com.tom.first.vehicle.model.VehicleOutbox;
 public interface VehicleMapper {
 
 	@Mapping(target = "id", ignore = true)
-	@Mapping(target = "type", ignore = true)
 	Vehicle build(VehicleRequest request);
 
 	@Mapping(target = "id", ignore = true)

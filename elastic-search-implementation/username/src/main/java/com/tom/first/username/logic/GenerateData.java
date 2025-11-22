@@ -18,7 +18,7 @@ public class GenerateData {
 	private final GenerateDataUtil dataUtil;
 	
     @Transactional
-    public User processAndGenerateUser() {
+    public User processUser() {
     	var gen = genUser();
     	usernameRepository.save(gen);
     	return gen;

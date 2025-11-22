@@ -3,6 +3,8 @@ package com.tom.first.username.model;
 import java.time.ZonedDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import com.tom.first.username.model.enums.EventType;
 
@@ -35,8 +37,8 @@ public class UserOutbox {
     private EventType eventType;
 
     @Column(name = "payload", 
-    		nullable = false, 
-    		columnDefinition = "jsonb")
+    		nullable = false)
+    @JdbcTypeCode(SqlTypes.JSON)
     private String payload;
 
     @CreationTimestamp

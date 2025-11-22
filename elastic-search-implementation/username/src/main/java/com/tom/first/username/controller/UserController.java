@@ -44,26 +44,14 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
-	@PostMapping(value = "/data/start")
-	public ResponseEntity<Void> startDataStreaming(@RequestParam(required = false, defaultValue = "200") int speed) {
-		service.startStreaming(speed);
-		return ResponseEntity.status(HttpStatus.OK).build();
-	}
-
-	@PostMapping(value = "/data/stop")
-	public ResponseEntity<Void> stopDataStreaming() {
-		service.stopStreaming();
-		return ResponseEntity.status(HttpStatus.OK).build();
-	}
-
 	@PostMapping
 	public ResponseEntity<UserResponse> createUser(@RequestBody(required = true) UserRequest request) {
-		var response = service.createUsername(request);
+		var response = service.createUser(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
 	@DeleteMapping(value = "/{query}")
-	public ResponseEntity<Void> deleteVehicle(@PathVariable long query) {
+	public ResponseEntity<Void> deleteUserById(@PathVariable long query) {
 		service.deleteUserById(query);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}

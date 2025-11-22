@@ -1,0 +1,893 @@
+{
+	"info": {
+		"_postman_id": "bbf1367f-fbaa-4a6c-bfbc-bdb5608d57de",
+		"name": "Full Elastic Sender Suite",
+		"description": "All API collections grouped into folders, each with its own baseUrl",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38340143"
+	},
+	"item": [
+		{
+			"name": "Vehicle Elastic Search API",
+			"item": [
+				{
+					"name": "Search Vehicles (Paged & Filtered)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{elastic_search}}/v1/vehicle/search",
+							"host": [
+								"{{elastic_search}}"
+							],
+							"path": [
+								"v1",
+								"vehicle",
+								"search"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "{{page}}",
+									"disabled": true
+								},
+								{
+									"key": "plate",
+									"value": "{{plate}}",
+									"disabled": true
+								},
+								{
+									"key": "brand",
+									"value": "{{brand}}",
+									"disabled": true
+								},
+								{
+									"key": "model",
+									"value": "{{model}}",
+									"disabled": true
+								},
+								{
+									"key": "color",
+									"value": "{{color}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Vehicle by Plate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{elastic_search}}/v1/vehicle/search?plate={{plate}}",
+							"host": [
+								"{{elastic_search}}"
+							],
+							"path": [
+								"v1",
+								"vehicle",
+								"search"
+							],
+							"query": [
+								{
+									"key": "plate",
+									"value": "{{plate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Evaluation Elastic Sender API",
+			"item": [
+				{
+					"name": "Get Evaluation by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{evaluation_url}}/v1/evaluation?id={{id}}",
+							"host": [
+								"{{evaluation_url}}"
+							],
+							"path": [
+								"v1",
+								"evaluation"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Evaluation by Subject",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{evaluation_url}}/v1/evaluation?subject={{subject}}",
+							"host": [
+								"{{evaluation_url}}"
+							],
+							"path": [
+								"v1",
+								"evaluation"
+							],
+							"query": [
+								{
+									"key": "subject",
+									"value": "{{subject}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Evaluation by Grade",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{evaluation_url}}/v1/evaluation?grade={{grade}}",
+							"host": [
+								"{{evaluation_url}}"
+							],
+							"path": [
+								"v1",
+								"evaluation"
+							],
+							"query": [
+								{
+									"key": "grade",
+									"value": "{{grade}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Evaluation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"subject\": \"Math\",\n  \"description\": \"Algebra exam\",\n  \"grade\": 8.5,\n  \"username\": \"john_doe\"\n}"
+						},
+						"url": {
+							"raw": "{{evaluation_url}}/v1/evaluation",
+							"host": [
+								"{{evaluation_url}}"
+							],
+							"path": [
+								"v1",
+								"evaluation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Evaluation by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{evaluation_url}}/v1/evaluation/{{id}}",
+							"host": [
+								"{{evaluation_url}}"
+							],
+							"path": [
+								"v1",
+								"evaluation",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Evaluation by Subject",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{evaluation_url}}/v1/evaluation?subject={{subject}}",
+							"host": [
+								"{{evaluation_url}}"
+							],
+							"path": [
+								"v1",
+								"evaluation"
+							],
+							"query": [
+								{
+									"key": "subject",
+									"value": "{{subject}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start Streaming (send random evaluations)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{evaluation_url}}/v1/book/streaming/start?speed={{speed}}",
+							"host": [
+								"{{evaluation_url}}"
+							],
+							"path": [
+								"v1",
+								"book",
+								"streaming",
+								"start"
+							],
+							"query": [
+								{
+									"key": "speed",
+									"value": "{{speed}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stop Streaming",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{evaluation_url}}/v1/book/streaming/stop",
+							"host": [
+								"{{evaluation_url}}"
+							],
+							"path": [
+								"v1",
+								"book",
+								"streaming",
+								"stop"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Book Elastic Sender",
+			"item": [
+				{
+					"name": "Find Book by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{library_url}}/v1/book?id=1",
+							"host": [
+								"{{library_url}}"
+							],
+							"path": [
+								"v1",
+								"book"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Book by Subject (Title)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{library_url}}/v1/book?subject=The Hobbit",
+							"host": [
+								"{{library_url}}"
+							],
+							"path": [
+								"v1",
+								"book"
+							],
+							"query": [
+								{
+									"key": "subject",
+									"value": "The Hobbit"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find All Books From Author",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{library_url}}/v1/book?author=Tolkien",
+							"host": [
+								"{{library_url}}"
+							],
+							"path": [
+								"v1",
+								"book"
+							],
+							"query": [
+								{
+									"key": "author",
+									"value": "Tolkien"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Book",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"The Hobbit\",\n  \"author\": \"J.R.R. Tolkien\",\n  \"quantity\": 10,\n  \"price\": 29.99,\n  \"launchYear\": \"1937-09-21\"\n}"
+						},
+						"url": {
+							"raw": "{{library_url}}/v1/book",
+							"host": [
+								"{{library_url}}"
+							],
+							"path": [
+								"v1",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Book by Title",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{library_url}}/v1/book?title=The Hobbit",
+							"host": [
+								"{{library_url}}"
+							],
+							"path": [
+								"v1",
+								"book"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "The Hobbit"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start Book Streaming",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{library_url}}/v1/book/streaming/start?speed=200",
+							"host": [
+								"{{library_url}}"
+							],
+							"path": [
+								"v1",
+								"book",
+								"streaming",
+								"start"
+							],
+							"query": [
+								{
+									"key": "speed",
+									"value": "200"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stop Book Streaming",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{library_url}}/v1/book/streaming/stop",
+							"host": [
+								"{{library_url}}"
+							],
+							"path": [
+								"v1",
+								"book",
+								"streaming",
+								"stop"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start One-Author Book Streaming",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{library_url}}/v1/book/streaming/author/start?speed=200",
+							"host": [
+								"{{library_url}}"
+							],
+							"path": [
+								"v1",
+								"book",
+								"streaming",
+								"author",
+								"start"
+							],
+							"query": [
+								{
+									"key": "speed",
+									"value": "200"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stop One-Author Book Streaming",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{library_url}}/v1/book/streaming/author/stop",
+							"host": [
+								"{{library_url}}"
+							],
+							"path": [
+								"v1",
+								"book",
+								"streaming",
+								"author",
+								"stop"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Elastic Sender",
+			"item": [
+				{
+					"name": "Find User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{user_url}}/v1/username?id=1",
+							"host": [
+								"{{user_url}}"
+							],
+							"path": [
+								"v1",
+								"username"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find User by Username",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{user_url}}/v1/username?username=johndoe",
+							"host": [
+								"{{user_url}}"
+							],
+							"path": [
+								"v1",
+								"username"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "johndoe"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find User by Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{user_url}}/v1/username?email=john@example.com",
+							"host": [
+								"{{user_url}}"
+							],
+							"path": [
+								"v1",
+								"username"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "john@example.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{user_url}}/v1/username",
+							"host": [
+								"{{user_url}}"
+							],
+							"path": [
+								"v1",
+								"username"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{user_url}}/v1/username/1",
+							"host": [
+								"{{user_url}}"
+							],
+							"path": [
+								"v1",
+								"username",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start User Streaming",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{user_url}}/v1/username/streaming/start?speed=2000",
+							"host": [
+								"{{user_url}}"
+							],
+							"path": [
+								"v1",
+								"username",
+								"streaming",
+								"start"
+							],
+							"query": [
+								{
+									"key": "speed",
+									"value": "2000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stop User Streaming",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{user_url}}/v1/username/streaming/stop",
+							"host": [
+								"{{user_url}}"
+							],
+							"path": [
+								"v1",
+								"username",
+								"streaming",
+								"stop"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vehicle Elastic Sender",
+			"item": [
+				{
+					"name": "Find Vehicle by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{vehicle_url}}/v1/vehicle?id=1",
+							"host": [
+								"{{vehicle_url}}"
+							],
+							"path": [
+								"v1",
+								"vehicle"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Vehicle by Plate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{vehicle_url}}/v1/vehicle?plate=bfi-0925-4",
+							"host": [
+								"{{vehicle_url}}"
+							],
+							"path": [
+								"v1",
+								"vehicle"
+							],
+							"query": [
+								{
+									"key": "plate",
+									"value": "bfi-0925-4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Vehicle",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const letters = Array.from({ length: 3 }, () =>\r",
+									"    String.fromCharCode(65 + Math.floor(Math.random() * 26))\r",
+									").join('');\r",
+									"\r",
+									"const numbers = Math.floor(1000 + Math.random() * 9000);\r",
+									"\r",
+									"pm.variables.set(\"randomPlate\", `${letters}-${numbers}`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"brand\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"color\": \"Blue\",\n  \"plate\": \"{{randomPlate}}\",\n  \"type\": \"CAR\"\n}"
+						},
+						"url": {
+							"raw": "{{vehicle_url}}/v1/vehicle",
+							"host": [
+								"{{vehicle_url}}"
+							],
+							"path": [
+								"v1",
+								"vehicle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Vehicle",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{vehicle_url}}/v1/vehicle/EJX-8542",
+							"host": [
+								"{{vehicle_url}}"
+							],
+							"path": [
+								"v1",
+								"vehicle",
+								"EJX-8542"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start Vehicle Streaming",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{vehicle_url}}/v1/vehicle/streaming/start?speed=2000",
+							"host": [
+								"{{vehicle_url}}"
+							],
+							"path": [
+								"v1",
+								"vehicle",
+								"streaming",
+								"start"
+							],
+							"query": [
+								{
+									"key": "speed",
+									"value": "2000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stop Vehicle Streaming",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{vehicle_url}}/v1/vehicle/streaming/stop",
+							"host": [
+								"{{vehicle_url}}"
+							],
+							"path": [
+								"v1",
+								"vehicle",
+								"streaming",
+								"stop"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "elastic_search",
+			"value": ""
+		},
+		{
+			"key": "evaluation_url",
+			"value": ""
+		},
+		{
+			"key": "library_url",
+			"value": ""
+		},
+		{
+			"key": "user_url",
+			"value": ""
+		},
+		{
+			"key": "vehicle_url",
+			"value": ""
+		}
+	]
+}

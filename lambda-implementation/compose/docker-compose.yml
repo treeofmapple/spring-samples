@@ -1,0 +1,30 @@
+services:
+  lambdaimplementation:
+    build:
+      context: ..
+      dockerfile: compose/Dockerfile
+    container_name: lambda-implementation
+    restart: unless-stopped
+    ports:
+      - "${LAMBDA_IMPLEMENTATION_PORT}:${LAMBDA_IMPLEMENTATION_PORT}"
+    env_file:
+      - .env
+
+  
+  postgres:
+    image: postgres:16
+    container_name: postgres-lambdatester
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    ports:
+      - "${DB_EXTERNAL_PORT:-5432}:5432"
+    volumes:
+      - postgres_lambdatester:/var/lib/postgresql/data
+
+volumes:
+  postgres_lambdatester:

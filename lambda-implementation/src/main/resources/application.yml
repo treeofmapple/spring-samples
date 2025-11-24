@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: console, ${PROFILE:test}
+  application:
+      name: lambda-implementation
+
+server:
+  port: ${LAMBDA_IMPLEMENTATION_PORT:8000}
+  forward-headers-strategy: framework

@@ -1,3 +1,0 @@
-spring:
-  config:
-    import: "aws-parameterstore:/config/aws-lambda-sample/${spring.profiles.active}/"

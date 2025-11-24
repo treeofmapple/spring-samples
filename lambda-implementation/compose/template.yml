@@ -1,0 +1,29 @@
+Globals:
+  Function:
+    Timeout: 60
+    MemorySize: 1024
+    Runtime: java21
+    Handler: com.tom.awstest.lambda.config.StreamLambdaHandler
+
+Resources:
+  SpringBootLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ..
+      PackageType: Zip
+      Environment:
+        Variables:
+          SPRING_PROFILES_ACTIVE: prod
+          PROFILE: prod
+          DB_HOST: postgres_local
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          DB_DATABASE: postgres
+          PAGE_SIZE: "10"
+
+      Events:
+        ProxyApi:
+          Type: HttpApi
+          Properties:
+            Path: /{proxy+}
+            Method: ANY

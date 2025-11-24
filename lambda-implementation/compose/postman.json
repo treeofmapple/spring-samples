@@ -1,0 +1,115 @@
+{
+  "info": {
+    "name": "Product API",
+    "_postman_id": "f8d3281c-9d2c-4f3b-9e77-aws-pato",
+    "description": "Postman collection for ProductController",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Search Product By Name",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/v1/product?name={{name}}&page={{page}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["v1", "product"],
+          "query": [
+            { "key": "name", "value": "{{name}}" },
+            { "key": "page", "value": "{{page}}", "description": "Default 0" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Search Product By ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/v1/product?id={{id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["v1", "product"],
+          "query": [
+            { "key": "id", "value": "{{id}}" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Example Product\",\n  \"description\": \"Simple description\",\n  \"price\": 100.50,\n  \"stock\": 10\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/v1/product",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["v1", "product"]
+        }
+      }
+    },
+    {
+      "name": "Update Product",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Updated Name\",\n  \"description\": \"Updated Description\",\n  \"price\": 120.00\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/v1/product/{{id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["v1", "product", "{{id}}"]
+        }
+      }
+    },
+    {
+      "name": "Delete Product",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:8080/v1/product/{{id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["v1", "product", "{{id}}"]
+        }
+      }
+    },
+    {
+      "name": "Activate Product",
+      "request": {
+        "method": "PUT",
+        "url": {
+          "raw": "http://localhost:8080/v1/product/activate/{{id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["v1", "product", "activate", "{{id}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "name", "value": "test" },
+    { "key": "page", "value": "0" },
+    { "key": "id", "value": "1" }
+  ]
+}

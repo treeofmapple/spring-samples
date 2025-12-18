@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, config, ${PROFILE:test}
+  application:
+    name: vehicle-dynamodb
+
+server:
+  port: ${VEHICLE_DYNAMODB_PORT:8000} 

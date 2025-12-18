@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_VEHICLE:vehicle_db}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 10
+      idle-timeout: 300000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      keepalive-time: 300000
+  jpa:
+    open-in-view: false 
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+webflux:
+  thread:
+    limit: ${WEBFLUX_SPEED:4}

@@ -1,0 +1,31 @@
+Globals:
+  Function:
+    Timeout: 60
+    MemorySize: 2048
+    Runtime: java21
+    Handler: com.tom.vehicle.dynamodb.config.LambdaStreamHandler
+
+Resources:
+  SpringBootLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      PackageType: Zip
+      SnapStart:
+        ApplyOn: PublishedVersions
+      AutoPublishAlias: live
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+          SPRING_PROFILES_ACTIVE: prod
+          AWS_REGION: us-east-1
+          DYNAMO_ENDPOINT: http://dynamodb-vehiclelambda:8000
+          DYNAMO_TABLE: vehicle
+          DYNAMO_LOCAL: true
+
+      Events:
+        ProxyApi:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY

@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, config, ${PROFILE:test}
+  application:
+    name: vehicle-webflux
+
+server:
+  port: ${VEHICLE_WEBFLUX_PORT:8000} 

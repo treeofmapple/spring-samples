@@ -1,0 +1,28 @@
+services:
+  vehicle-lambda:
+    build:
+      context: ..
+      dockerfile: compose/Dockerfile
+    container_name: vehicle-lambda
+    restart: unless-stopped
+    ports:
+      - "${VEHICLE_DYNAMODB_PORT}:${VEHICLE_DYNAMODB_PORT}"
+    env_file:
+      - .env
+
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb-vehiclelambda
+    restart: unless-stopped
+    ports:
+      - "${DYNAMODB_PORT:-8020}:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /data"
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_KEY}
+    volumes:
+      - dynamodb_data:/data
+
+volumes:
+  dynamodb_data:
+    driver: local

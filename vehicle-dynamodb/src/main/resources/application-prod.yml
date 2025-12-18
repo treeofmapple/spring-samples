@@ -1,0 +1,10 @@
+spring:
+  main:
+    lazy-initialization: true
+
+dynamodb:
+  region: ${AWS_REGION:us-east-1}
+  endpoint: ${DYNAMO_ENDPOINT:}
+  table-name: ${DYNAMO_TABLE:vehicle}
+  use-local: ${DYNAMO_LOCAL:false}
+

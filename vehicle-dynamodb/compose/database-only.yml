@@ -1,0 +1,24 @@
+services:
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb-vehiclelambda
+    restart: unless-stopped
+    ports:
+      - "${DYNAMODB_PORT:-8020}:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /data"
+    environment:
+      AWS_ACCESS_KEY_ID: "fakeMyKeyId"
+      AWS_SECRET_ACCESS_KEY: "fakeSecretAccessKey"
+    volumes:
+      - dynamodb_data:/data
+    networks:
+      - my-network
+
+volumes:
+  dynamodb_data:
+    driver: local
+
+networks:
+  my-network:
+    name: my-network
+    driver: bridge

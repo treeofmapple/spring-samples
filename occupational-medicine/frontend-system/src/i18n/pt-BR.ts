@@ -1,0 +1,157 @@
+const ptBR = {
+  'app.title': 'MedClinic',
+  'app.subtitle': 'Sistema de Gestão',
+
+  'login.title': 'Sistema de Gestão da Clínica',
+  'login.description': 'Acesse o portal da sua clínica de medicina ocupacional',
+  'login.email': 'Email',
+  'login.password': 'Senha',
+  'login.placeholderEmail': 'Insira seu email',
+  'login.placeholderPassword': 'Insira sua senha',
+  'login.invalidCredentials': 'Email ou senha inválidos. Tente: admin@clinic.com / doctor@clinic.com / employee@clinic.com com senha: password',
+  'login.signIn': 'Entrar',
+  'login.demoAccounts': 'Contas de demonstração:',
+  'login.demo.admin': 'Admin: admin@clinic.com',
+  'login.demo.doctor': 'Médico: doctor@clinic.com',
+  'login.demo.employee': 'Funcionário: employee@clinic.com',
+  'login.demo.password': 'Senha: password',
+
+  'nav.dashboard': 'Painel',
+  'nav.companies': 'Empresas',
+  'nav.clientEmployees': 'Funcionários (Clientes)',
+  'nav.clinicStaff': 'Equipe da Clínica',
+  'nav.medicalExams': 'Exames Médicos',
+  'nav.asoIssuance': 'Emissão de ASO',
+  'nav.occupationalRisks': 'Riscos Ocupacionais',
+  'nav.reports': 'Relatórios',
+  'nav.signOut': 'Sair',
+
+  'risks.description': 'Gerencie e monitore os riscos de saúde e segurança no trabalho',
+
+  'dashboard.welcome': 'Bem-vindo de volta, {name}!',
+  'dashboard.subtitle': "Veja o que está acontecendo na sua clínica hoje",
+  'stats.totalCompanies': 'Total de Empresas',
+  'stats.activeEmployees': 'Empregados Ativos',
+  'stats.pendingExams': 'Exames Pendentes',
+  'stats.highRiskCases': 'Casos de Alto Risco',
+  'recentActivities.title': 'Atividades Recentes',
+  'upcomingExams.title': 'Exames Agendados'
+  ,
+  // ASO related
+  'aso.description': 'Emitir e gerenciar Atestados de Saúde Ocupacional (ASO)',
+  'aso.issue': 'Emitir ASO',
+  'aso.newTitle': 'Emitir novo ASO',
+  'aso.newDescription': 'Emita um Atestado de Saúde Ocupacional baseado em um exame concluído.',
+  'aso.selectExamPlaceholder': 'Selecione um exame para emitir ASO'
+  ,
+  'aso.medicalObservationsPlaceholder': 'Insira observações médicas para o ASO',
+  'aso.workRestrictionsPlaceholder': 'Insira quaisquer restrições ou limitações de trabalho',
+  'aso.searchPlaceholder': 'Pesquisar ASOs por funcionário, empresa ou número do ASO...'
+  ,
+  // Companies
+  'companies.description': 'Gerencie empresas clientes e suas informações',
+  'companies.new': 'Nova Empresa',
+  'companies.registerTitle': 'Registrar nova empresa',
+  'companies.registerDescription': 'Adicione uma nova empresa cliente ao sistema. Todos os campos são obrigatórios.',
+  'companies.fields.name': 'Nome da Empresa',
+  'companies.fields.cnpj': '00.000.000/0000-00',
+  'companies.fields.address': 'Endereço',
+  'companies.fields.phone': 'Telefone',
+  'companies.registerButton': 'Registrar Empresa',
+  'common.cancel': 'Cancelar'
+  ,
+  // Client employees
+  'clients.description': 'Gerencie funcionários de empresas clientes',
+  'clients.newEmployee': 'Novo Funcionário',
+  'clients.registerTitle': 'Registrar novo funcionário',
+  'clients.registerDescription': 'Adicione um novo funcionário de uma empresa cliente ao sistema.',
+  'clients.fields.name': 'Nome completo',
+  'clients.fields.dob': 'Data de nascimento',
+  'clients.selectCompanyPlaceholder': 'Selecione a empresa',
+  'clients.fields.position': 'Cargo',
+  'clients.fields.department': 'Departamento',
+  'clients.registerButton': 'Registrar Funcionário'
+  ,
+  'clients.fields.cpf': '000.000.000-00',
+  'clients.newThisMonth': 'Novos este mês',
+  'clients.searchPlaceholder': 'Pesquisar funcionários por nome, empresa ou cargo...'
+    ,
+    // Clinic staff
+    'access.restrictedTitle': 'Acesso restrito',
+    'access.restrictedMessage': 'Apenas administradores podem acessar o registro de equipe da clínica.',
+    'clinic.description': 'Gerencie profissionais e membros da equipe da clínica',
+    'clinic.newStaff': 'Novo membro da equipe',
+    'clinic.registerTitle': 'Registrar novo membro da equipe',
+    'clinic.registerDescription': 'Adicione um novo profissional à equipe da clínica.',
+    'clinic.fields.name': 'Nome completo',
+    'clinic.fields.role': 'Função',
+    'clinic.fields.registration': 'Registro profissional',
+    'clinic.fields.specialty': 'Especialidade médica',
+    'clinic.fields.phone': 'Telefone',
+    'clinic.registerButton': 'Registrar Membro'
+    ,
+    'clinic.totalStaff': 'Total de Equipe',
+    'clinic.searchPlaceholder': 'Pesquisar equipe por nome, função ou registro...'
+      ,
+      // Exams
+      'exams.description': 'Agende e gerencie exames ocupacionais',
+      'exams.schedule': 'Agendar Exame',
+      'exams.scheduleTitle': 'Agendar Exame Médico',
+      'exams.scheduleDescription': 'Agende um novo exame de saúde ocupacional para um funcionário.'
+      ,
+      'exams.selectType': 'Selecione o tipo de exame',
+      'exams.observationsPlaceholder': 'Insira observações ou instruções especiais'
+      ,
+      // Risks
+      'risks.total': 'Total de Riscos',
+      'risks.active': 'Riscos Ativos',
+      'risks.controlled': 'Controlados',
+      'risks.critical': 'Críticos',
+      'risks.assign': 'Atribuir Risco',
+      'risks.assignTitle': 'Atribuir Risco ao Funcionário',
+      'risks.new': 'Novo Risco',
+      'risks.registerTitle': 'Registrar novo risco ocupacional',
+      'risks.searchPlaceholder': 'Pesquisar riscos ou atribuições...',
+      'risks.registerButton': 'Registrar Risco',
+      'risks.protectionPlaceholder': 'Descreva medidas de proteção específicas para este funcionário',
+
+      // Reports
+      'reports.title': 'Relatórios e Estatísticas',
+      'reports.description': 'Análises abrangentes e relatórios de dados de saúde ocupacional',
+      'reports.export': 'Exportar Relatórios',
+      'reports.period.daily': 'Diário',
+      'reports.period.weekly': 'Semanal',
+      'reports.period.monthly': 'Mensal',
+      'reports.period.yearly': 'Anual',
+      'reports.monthlyCompliance': 'Relatório de Conformidade Mensal',
+      'reports.riskAssessment': 'Relatório de Avaliação de Risco',
+      'reports.asoSummary': 'Resumo de ASO'
+      ,
+      'command.description': 'Pesquise por um comando para executar...'
+      ,
+      // Occupational risks specific keys
+      'risks.assignDescription': 'Associe um risco ocupacional a um funcionário específico.',
+      'risks.selectEmployee': 'Selecione o funcionário',
+      'risks.table.risk': 'Risco',
+      'risks.selectRisk': 'Selecione o risco',
+      'risks.fields.exposureLevel': 'Nível de exposição',
+      'risks.selectExposure': 'Selecione o nível de exposição',
+      'risks.fields.protectionMeasures': 'Medidas de proteção',
+      'risks.registerDescription': 'Adicione um novo risco ocupacional ao sistema para monitoramento e gestão.',
+      'risks.fields.name': 'Nome do risco',
+      'risks.fields.namePlaceholder': 'Insira o nome do risco',
+      'risks.fields.category': 'Categoria',
+      'risks.selectCategory': 'Selecione a categoria',
+      'risks.fields.severity': 'Severidade',
+      'risks.selectSeverity': 'Selecione a severidade',
+      'severity.low': 'Baixa',
+      'severity.medium': 'Média',
+      'severity.high': 'Alta',
+      'severity.critical': 'Crítica',
+      'risks.fields.description': 'Descrição',
+      'risks.fields.descriptionPlaceholder': 'Descreva o risco ocupacional em detalhes',
+      'risks.fields.preventiveMeasures': 'Medidas preventivas',
+      'risks.fields.preventivePlaceholder': 'Descreva medidas preventivas e controles'
+};
+
+export default ptBR;

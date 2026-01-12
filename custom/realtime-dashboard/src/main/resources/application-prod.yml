@@ -1,0 +1,48 @@
+spring:
+  datasource:
+      url: jdbc:h2:mem:testdb
+      driver-class-name: org.h2.Driver
+      username: sa
+      password: 
+  h2:
+    console:
+      path: /h2-console
+      enabled: false
+  jpa:
+    #database-platform: org.hibernate.dialect.H2Dialect 
+    hibernate:
+      ddl-auto: create-drop 
+    show-sql: false
+    open-in-view: false 
+    
+  rabbitmq:
+    host: ${RABBIT_HOST}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USERNAME}
+    password: ${RABBIT_PASSWORD}
+    
+    max-inbound-message-body-size: 5MB
+    connection-timeout: 5000
+    publisher-confirm-type: correlated
+    
+    cache:
+      channel:
+        size: 25
+        checkout-timeout: 1000
+      connection:
+        mode: channel
+        
+    listener:
+      simple:
+        acknowledge-mode: auto
+        max-concurrency: 10
+        prefetch: 20
+        concurrency: 5
+        default-requeue-rejected: false
+
+    template:
+      receive-timeout: 5000
+      retry:
+        enabled: true
+        max-attempts: 3
+        

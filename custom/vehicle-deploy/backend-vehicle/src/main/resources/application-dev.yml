@@ -1,0 +1,43 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_DATABASE:example}
+
+    # ?ssl=false&sslmode=disable
+    # ?ssl=true&sslmode=required
+
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      max-lifetime: 270000 # 4.5 minutes (in ms)
+      idle-timeout: 200000 # 4.1 minutes (should be less than maxLifetime)
+      connection-timeout: 10000
+      minimum-idle: 2
+      maximum-pool-size: 10
+      pool-name: "DevDBPool"
+      connection-test-query: SELECT 1
+  jpa:
+    open-in-view: false 
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    locations: classpath:db/migration
+    enabled: ${FLYWAY:false}
+    clean-disabled: ${FLYWAY_CLEAN:false} 
+    validate-on-migrate: ${FLYWAY_MIGRATION-VALIDATE:false}
+    baseline-on-migrate: ${FLYWAY_MIGRATION-BASELINE:false}
+    baseline-version: ${FLYWAY_VERSION:1}
+
+
+# 's' for seconds, 'm' for minutes, 'h' for hours, 'd' for days
+application:
+  page:
+    size: ${PAGE_SIZE:10}
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS:*}
+    time: ${CORS_TIME:3600}
+

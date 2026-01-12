@@ -1,0 +1,39 @@
+Resources:
+  SpringBootLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.tom.aws.awstest.config.LambdaHandler::handleRequest
+      Runtime: java21
+      MemorySize: 2048
+      Timeout: 90
+      CodeUri: ..
+      Environment:
+        Variables:
+          SPRING_PROFILES_ACTIVE: "prod"
+          PROFILE: "prod"
+          DB_HOST: "host.docker.internal"
+          DB_PORT: "5432"
+          DB_USER: "postgres"
+          DB_PASSWORD: "postgres"
+          DB_DATABASE: "postgres"
+          OPENOBSERVE_ENABLE: "true"
+          OPENOBSERVE_URL: "http://host.docker.internal:5080/api/default/default/_json"
+          OPENOBSERVE_EMAIL: "root@example.com"
+          OPENOBSERVE_PASSWORD: "Complexpass#123"
+          OPENOBSERVE_TELEMETRY: "true"
+          JAEGER_ENABLED: "true"
+          JAEGER_URL: "http://host.docker.internal:14268/api/traces"
+          PROMETHEUS_ENABLED: "true"
+          CLOUDFLARE_ENDPOINT: "http://host.docker.internal:9000"
+          CLOUDFLARE_ACCESS_KEY: "minioadmin"
+          CLOUDFLARE_SECRET_KEY: "minioadmin"
+          CLOUDFLARE_BUCKET_NAME: "image"
+          CLOUDFLARE_DDL_AUTO: "update"
+          CLOUDFLARE_ACCELERATE: "false"
+          PAGE_SIZE: "10"
+      Events:
+        ProxyApi:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY

@@ -1,0 +1,144 @@
+{
+  "info": {
+    "name": "URL Shortener API - Regenerated",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "c6b96847-f035-451e-929d-1caddcfd6ae5"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "shortUrl",
+      "value": "abc123"
+    },
+    {
+      "key": "shortCode",
+      "value": "abc123"
+    }
+  ],
+  "item": [
+    {
+      "name": "Shorten URL",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"url\": \"https://example.com\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            ""
+          ]
+        }
+      }
+    },
+    {
+      "name": "Redirect URL",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/{{shortCode}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{shortCode}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Extend URL Expiration",
+      "request": {
+        "method": "PATCH",
+        "url": {
+          "raw": "{{baseUrl}}/extend?url={{shortUrl}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "extend"
+          ],
+          "query": [
+            {
+              "key": "url",
+              "value": "{{shortUrl}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Find Basic URL Info",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/info?url={{shortUrl}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "info"
+          ],
+          "query": [
+            {
+              "key": "url",
+              "value": "{{shortUrl}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Developer - Full URL Info",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/dev/full?url={{shortUrl}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "dev",
+            "full"
+          ],
+          "query": [
+            {
+              "key": "url",
+              "value": "{{shortUrl}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Developer - Delete URL",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/dev/remove/{{shortCode}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "dev",
+            "remove",
+            "{{shortCode}}"
+          ]
+        }
+      }
+    }
+  ]
+}

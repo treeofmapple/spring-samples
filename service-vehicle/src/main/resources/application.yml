@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, config, ${PROFILE:test}
+  application:
+    name: vehicle
+
+server:
+  port: ${VEHICLE_PORT:8000}

@@ -1,0 +1,43 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_DATABASE:example}
+
+    # ?ssl=false&sslmode=disable
+    # ?ssl=true&sslmode=required
+
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      max-lifetime: 1800000 # 30 minutes (in ms)
+      idle-timeout: 600000 # 10 minutes (should be less than maxLifetime)
+      connection-timeout: 30000 # 30 seconds
+      minimum-idle: 5
+      maximum-pool-size: 20
+      pool-name: "ProdDBPool"
+      #initialization-fail-timeout: -1
+  jpa:
+    open-in-view: false 
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+      
+application:
+  page:
+    size: ${PAGE_SIZE:10}
+
+cloud:
+  aws:
+    endpoint: ${CLOUDFLARE_ENDPOINT:NONE}
+    access-key-id: ${CLOUDFLARE_ACCESS_KEY:NONE}
+    secret-access-key: ${CLOUDFLARE_SECRET_KEY:NONE}
+    bucket: ${CLOUDFLARE_BUCKET_NAME:NONE}
+    region: auto
+    ddlAuto: ${CLOUDFLARE_DDL_AUTO:update}
+    accelerate-enabled: ${CLOUDFLARE_ACCELERATE:false}
+    s3:
+      path-style-access-enabled: true
+

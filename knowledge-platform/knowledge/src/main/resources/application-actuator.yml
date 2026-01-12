@@ -1,0 +1,15 @@
+management:
+  endpoints:
+    web:
+      base-path: ${ACTUATOR:/actuator}
+      exposure:
+        include: "*"
+    access:
+      default: read-only
+  endpoint:
+    info:
+      access: read-only
+    health:
+      show-details: always
+    metrics:
+      access: read-only 

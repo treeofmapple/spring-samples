@@ -1,0 +1,396 @@
+{
+	"info": {
+		"_postman_id": "04d66040-58f6-4b23-a5da-7dd350c3afd0",
+		"name": "AWS Tester API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38340143"
+	},
+	"item": [
+		{
+			"name": "Image",
+			"item": [
+				{
+					"name": "Search Images",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/image/search?page=0&query=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"image",
+								"search"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "query",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Image by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/image/search/id?query=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"image",
+								"search",
+								"id"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/image/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"image",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download Image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/image/download/{{name}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"image",
+								"download",
+								"{{name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rename Image",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"new-image-name.jpg\""
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/image/edit/{{name}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"image",
+								"edit",
+								"{{name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Image",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/image/remove?name={{name}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"image",
+								"remove"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{name}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Images",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/image/data/generate?quantity=5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"image",
+								"data",
+								"generate"
+							],
+							"query": [
+								{
+									"key": "quantity",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Search Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/product/search?page=0&query=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product",
+								"search"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "query",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Product by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/product/search/id?id=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product",
+								"search",
+								"id"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test Product\",\n  \"quantity\": 3,\n  \"description\": \"A sample product\",\n  \"price\": 99.99\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/product/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"New Product Name\",\n  \"description\": \"Updated description\",\n  \"price\": 120.50\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/product/edit/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product",
+								"edit",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/product/delete/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product",
+								"delete",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/product/activate/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product",
+								"activate",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/product/data/generate?quantity=5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product",
+								"data",
+								"generate"
+							],
+							"query": [
+								{
+									"key": "quantity",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "name",
+			"value": "test.jpg"
+		}
+	]
+}

@@ -9,7 +9,6 @@ package com.tom.management.config;
 	        description = "Microsservico de gestão de espaço fisico",
 	        version = "1.0A",
 	        contact = @Contact(
-	            name = "Pogeku",
 	            url = "https://"
 	        )
 	    ),
@@ -18,20 +17,20 @@ package com.tom.management.config;
 	    }
 	)
 public class SwaggerConfig {
-	
+
     @Bean
     public GroupedOpenApi usuarioApi() {
         return GroupedOpenApi.builder()
                 .group("Resposta-Controller")
-                .pathsToMatch("/resposta/**") 
+                .pathsToMatch("/resposta/**")
                 .build();
     }
-    
+
     @Bean
     public GroupedOpenApi allControllersApi() {
         return GroupedOpenApi.builder()
                 .group("All Controllers")
-                .pathsToMatch("/**") 
+                .pathsToMatch("/**")
                 .pathsToExclude("/resposta/**")
                 .build();
     }

@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:16.3-alpine
+    container_name: postgresql-shortener
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_EXTERNAL_PORT}:5432"
+    env_file:
+      - .env
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis-shortener
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - redis_data:/data
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local

@@ -1,0 +1,67 @@
+{"properties": [
+  {
+    "name": "application.encoding.key-length",
+    "type": "java.lang.Integer",
+    "description": "Size of the key encoded for the user use the shortened url."
+  },
+  {
+    "name": "application.cors.allowed-origins",
+    "type": "java.lang.String",
+    "description": "A description for 'application.cors.allowed-origins'"
+  },
+  {
+    "name": "application.cors.time",
+    "type": "java.lang.String",
+    "description": "A description for 'application.cors.time'"
+  },
+  {
+    "name": "application.url.expiration-time",
+    "type": "java.lang.String",
+    "description": "A description for 'application.url.expiration-time'"
+  },
+  {
+    "name": "application.url.user-increment",
+    "type": "java.lang.String",
+    "description": "A description for 'application.url.user-increment'"
+  },
+  {
+    "name": "application.scheduled.database.expired-time",
+    "type": "java.lang.String",
+    "description": "A description for 'application.scheduled.database.expired-time'"
+  },
+  {
+    "name": "application.scheduled.redis.connection-check",
+    "type": "java.lang.String",
+    "description": "A description for 'application.scheduled.redis.connection-check'"
+  },
+  {
+    "name": "application.scheduled.redis.access-count",
+    "type": "java.lang.String",
+    "description": "A description for 'application.scheduled.redis.access-count'"
+  },
+  {
+    "name": "application.redis.time.short-url",
+    "type": "java.lang.String",
+    "description": "A description for 'application.redis.time.short-url'"
+  },
+  {
+    "name": "application.redis.time.userSessions",
+    "type": "java.lang.String",
+    "description": "A description for 'application.redis.time.userSessions'"
+  },
+  {
+    "name": "test.redis.port",
+    "type": "java.lang.String",
+    "description": "A description for 'test.redis.port'"
+  },
+  {
+    "name": "application.redis.config.time.short-url",
+    "type": "java.lang.String",
+    "description": "A description for 'application.redis.config.time.short-url'"
+  },
+  {
+    "name": "application.redis.config.time.userSessions",
+    "type": "java.lang.String",
+    "description": "A description for 'application.redis.config.time.userSessions'"
+  }
+]}

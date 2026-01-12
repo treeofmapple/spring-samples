@@ -1,0 +1,17 @@
+services:
+  service-url-shortener-tester:
+    build:
+      context: ..
+      dockerfile: compose/Dockerfile.test
+    container_name: url-shortener-tester
+    restart: "no"
+    environment:
+      TESTCONTAINERS_RYUK_DISABLED: "true"
+      TESTCONTAINERS_CHECKS_DISABLE: "true"
+      TESTCONTAINERS_REUSE_ENABLE: "true"
+      TESTCONTAINERS_HOST_OVERRIDE: "host.docker.internal"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.m2:/root/.m2
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: console, ${PROFILE:test}
+  application:
+      name: kafka-producer
+
+server:
+  port: ${PRODUCER_PORT:8000}

@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16.3-alpine
+    container_name: postgresql-shortener
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_EXTERNAL_PORT:-5432}:5432"
+    env_file:
+      - .env
+
+  backend-vehicle:
+    build:
+      context: ..
+      dockerfile: compose/Dockerfile
+    container_name: backend-vehicle
+    restart: unless-stopped
+    volumes:
+      - maven_cache:/root/.m2
+    depends_on:
+      - postgres
+    ports:
+      - "${BACKEND_VEHICLE_PORT}:${BACKEND_VEHICLE_PORT}"
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
+    driver: local
+  maven_cache:
+    driver: local

@@ -1,0 +1,119 @@
+services:
+  aws-tester:
+    build:
+      context: ..
+      dockerfile: compose/Dockerfile
+    container_name: aws-tester
+    restart: unless-stopped
+    ports:
+      - "${AWS_TEST_PORT}:${AWS_TEST_PORT}"
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:16
+    container_name: postgres-awstester
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    ports:
+      - "${DB_EXTERNAL_PORT:-5432}:5432"
+    volumes:
+      - postgres_aws_data:/var/lib/postgresql/data
+
+  openobserve:
+    image: openobserve/openobserve:latest
+    container_name: openobserve-awstester
+    ports:
+      - "5080:5080"
+    environment:
+      - ZO_ROOT_USER_EMAIL=${OPENOBSERVE_EMAIL}
+      - ZO_ROOT_USER_PASSWORD=${OPENOBSERVE_PASSWORD}
+      - ZO_TELEMETRY=${OPENOBSERVE_TELEMETRY}
+      - ZO_MEMORY_CACHE_MAX_SIZE=256
+      - ZO_MAX_FILE_SIZE_IN_MEMORY=128
+    volumes:
+      - openobserve_data:/data
+
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command: --config.file=/etc/prometheus/prometheus.yml
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.53
+    container_name: jaeger
+    restart: unless-stopped
+    ports:
+      - "6831:6831/udp"
+      - "14268:14268"
+      - "16686:16686"
+      - "4317:4317"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:16686"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  grafana:
+    image: grafana/grafana:10.0.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+      - jaeger
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana_dashboards:/var/lib/grafana/dashboards
+
+  minio:
+    image: minio/minio:RELEASE.2023-05-04T21-44-30Z
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${CLOUDFLARE_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${CLOUDFLARE_SECRET_KEY}
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  mc-setup:
+    image: minio/mc
+    container_name: mc-setup
+    restart: no
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      MINIO_ROOT_USER: ${CLOUDFLARE_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${CLOUDFLARE_SECRET_KEY}
+    volumes:
+      - ./setup.sh:/app/setup.sh
+    entrypoint: /bin/sh
+    command: "/app/setup.sh"
+
+volumes:
+  postgres_aws_data:
+  grafana_data:
+  minio_data:
+  openobserve_data:

@@ -1,0 +1,12 @@
+logging:
+  level:
+    root: info
+    org:
+      apache:
+        kafka: error
+      springframework: warn
+      boot: error
+      data:
+        redis: debug
+  pattern:
+    console: '%n %d{HH:mm:ss} | %highlight(%-5level) | %cyan(%logger{30}) | %msg'

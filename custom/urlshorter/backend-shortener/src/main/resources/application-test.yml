@@ -1,0 +1,37 @@
+spring:
+  flyway:
+    enabled: false
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+application:
+  encoding:
+    key-length: 10
+  cors:
+    allowed-origins: "*"
+    time: 3600
+  url:
+    expiration-time: "2D" # Two days
+    user-increment: "30M" # 20 Minutes
+  scheduled:
+    database:
+      expired-time: "1H" # Clean expired URL's
+    redis:
+      connection-check: "5M"
+      access-count: "10M"
+
+test:
+  redis:
+    port: 6379
+

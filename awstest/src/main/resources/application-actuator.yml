@@ -1,0 +1,39 @@
+management:
+  endpoints:
+    web:
+      base-path: ${ACTUATOR:/actuator}
+      exposure:
+        include: "*"
+    access:
+      default: read-only
+  endpoint:
+    info:
+      access: read-only
+    health:
+      show-details: always
+    metrics:
+      access: read-only 
+    prometheus:
+      access: unrestricted 
+
+  tracing:
+    enabled: ${TRACING_ENABLED:false}
+    sampling:
+      probability: 1.0
+
+  prometheus:
+    metrics:
+      export:
+        enabled: ${PROMETHEUS_ENABLED:false}
+
+jaeger:
+  enabled: ${JAEGER_ENABLED:false}
+  url: ${JAEGER_URL}
+  ratio: ${JAEGER_RATIO:0.1}
+  batch: ${JAEGER_BATCH:100}
+
+openobserve:
+  enabled: ${OPENOBSERVE_ENABLE:false}
+  url: ${OPENOBSERVE_URL}
+  username: ${OPENOBSERVE_EMAIL}
+  password: ${OPENOBSERVE_PASSWORD}

@@ -1,0 +1,152 @@
+{
+  "id": null,
+  "uid": "springboot-dashboard",
+  "title": "Spring Boot Application Metrics",
+  "tags": ["spring", "micrometer", "prometheus"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5s",
+
+  "panels": [
+    {
+      "type": "row",
+      "title": "System Metrics",
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 }
+    },
+
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "JVM Memory Used",
+      "targets": [
+        {
+          "expr": "jvm_memory_used_bytes{area=\"heap\"}",
+          "legendFormat": "Heap Used",
+          "interval": ""
+        },
+        {
+          "expr": "jvm_memory_used_bytes{area=\"nonheap\"}",
+          "legendFormat": "Non-Heap Used",
+          "interval": ""
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 1 }
+    },
+
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "CPU Load",
+      "targets": [
+        {
+          "expr": "system_cpu_usage",
+          "legendFormat": "System CPU"
+        },
+        {
+          "expr": "process_cpu_usage",
+          "legendFormat": "Process CPU"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 1 }
+    },
+
+    {
+      "type": "row",
+      "title": "HTTP & Web Metrics",
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 }
+    },
+
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "HTTP Requests Per Second",
+      "targets": [
+        {
+          "expr": "rate(http_server_requests_seconds_count[1m])",
+          "legendFormat": "{{method}} {{uri}}"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 10 }
+    },
+
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "HTTP Response Time (95th Percentile)",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket[1m])) by (le, uri))",
+          "legendFormat": "{{uri}}"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 18 }
+    },
+
+    {
+      "type": "row",
+      "title": "JVM Internals",
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 26 }
+    },
+
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Garbage Collection",
+      "targets": [
+        {
+          "expr": "rate(jvm_gc_pause_seconds_count[5m])",
+          "legendFormat": "GC Count"
+        },
+        {
+          "expr": "rate(jvm_gc_pause_seconds_sum[5m])",
+          "legendFormat": "GC Pause Sum"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 27 }
+    },
+
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "Thread Count",
+      "targets": [
+        {
+          "expr": "jvm_threads_live_threads",
+          "legendFormat": "Live"
+        },
+        {
+          "expr": "jvm_threads_daemon_threads",
+          "legendFormat": "Daemon"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 27 }
+    },
+
+    {
+      "type": "row",
+      "title": "Uptime",
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 35 }
+    },
+
+    {
+      "id": 7,
+      "type": "stat",
+      "title": "Application Uptime",
+      "targets": [
+        {
+          "expr": "process_uptime_seconds"
+        }
+      ],
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 36 }
+    }
+  ],
+
+  "templating": {
+    "list": []
+  }
+}

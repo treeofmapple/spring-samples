@@ -1,0 +1,56 @@
+spring:
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    clean-disabled: true
+    validate-on-migrate: true
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_DATABASE:example}
+    # ?ssl=true&sslmode=require
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      max-lifetime: ${DB_MAXLIFETIME}
+      idle-timeout: ${DB_IDLE_TIMEOUT}
+      minimum-idle: 5
+      maximum-pool-size: 20
+      connection-test-query: SELECT 1
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      #username: ${REDIS_USERNAME:}
+      #password: ${REDIS_PASSWORD:}
+      timeout: ${REDIS_TIMEOUT:5000}
+      ssl:
+        enabled: ${REDIS_SSL:false}
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          time-between-eviction-runs: 1s
+
+application:
+  encoding:
+    key-length: ${KEY_LENGTH:10}
+  cors:
+    allowed-origins: ${ALLOWED-ORIGINS:*}
+    time: ${CORS-TIME:3600}
+  url:
+    expiration-time: ${EXPIRATION_TIME:2D} # Two days
+    user-increment: ${USER_INCREMENTATION:30M} # 30 Minutes
+  scheduled:
+    database:
+      expired-time: ${EXPIRED_DATA:1H} # Clean expired URL's
+    redis:
+      connection-check: ${CONNECTION-CHECK:5M}
+      access-count: ${ACCESS-COUNT:10M}

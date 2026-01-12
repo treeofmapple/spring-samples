@@ -1,0 +1,75 @@
+services:
+  arduino-dashboard:
+    build:
+      context: ../arduino-backend
+      dockerfile: Dockerfile
+    container_name: arduino-dashboard
+    restart: unless-stopped
+    depends_on:
+      timescale:
+        condition: service_healthy
+      emqx:
+        condition: service_started
+    ports:
+      - "${ARDUINO_DASHBOARD_PORT}:${ARDUINO_DASHBOARD_PORT}"
+    env_file:
+      - .env
+  arduino-frontend:
+      build:
+        context: ../arduino-frontend
+        dockerfile: Dockerfile
+      container_name: arduino-frontend
+      restart: unless-stopped
+      depends_on:
+        - arduino-dashboard
+      ports:
+        - "5173:5173"
+      volumes:
+        - ../arduino-frontend:/app
+        - /app/node_modules
+      env_file:
+        - .env
+
+  timescale:
+    image: timescale/timescaledb:latest-pg16
+    container_name: timescaledb-arduino
+    restart: always
+    environment:
+      POSTGRES_USER: ${TS_USER}
+      POSTGRES_PASSWORD: ${TS_PASSWORD}
+      POSTGRES_DB: ${TS_DATABASE}
+    ports:
+      - "${TS_PORT}:${TS_PORT}"
+    volumes:
+      - timescaledb-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${TS_USER} -d ${TS_DATABASE}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  emqx:
+    image: emqx:5.3
+    container_name: mqtt-broker
+    restart: unless-stopped
+    ports:
+      - "9002:1883"
+      - "9003:8083"
+      - "18083:18083"
+    environment:
+      EMQX_ALLOW_ANONYMOUS: "false"
+      EMQX_AUTH__MZ__AUTHN__MECHANISM: password_based
+      EMQX_AUTH__MZ__AUTHN__CONFIG__PASSWORD_HASH: plain
+      EMQX_AUTH__MZ__AUTHN__CONFIG__USER__1__USERNAME: ${MQTT_USERNAME}
+      EMQX_AUTH__MZ__AUTHN__CONFIG__USER__1__PASSWORD: ${MQTT_PASSWORD}
+      EMQX_DASHBOARD__DEFAULT_USERNAME: ${MQTT_DASHBOARD_USERNAME}
+      EMQX_DASHBOARD__DEFAULT_PASSWORD: ${MQTT_DASHBOARD_PASSWORD}
+    healthcheck:
+      test: ["CMD", "/opt/emqx/bin/emqx_ctl", "status"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres-arduino:
+  timescaledb-data:

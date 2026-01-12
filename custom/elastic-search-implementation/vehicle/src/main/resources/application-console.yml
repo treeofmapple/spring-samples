@@ -1,0 +1,16 @@
+spring:
+  banner:
+    location: classpath:banners.txt
+  main:
+    banner-mode: console
+
+logging:
+  level:
+    root: info
+    org:
+      springframework: warn
+      boot: error
+      data:
+        redis: debug
+  pattern:
+    console: '%n %d{HH:mm:ss} | %highlight(%-5level) | %cyan(%logger{30}) | %msg'

@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NoteService {
 
-	@Value("${application.page.size:10}")
+	@Value("${application.page.size:20}")
 	private int PAGE_SIZE;
 
 	private final NoteRepository repository;

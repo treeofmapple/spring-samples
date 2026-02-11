@@ -1,5 +1,23 @@
 package com.tom.mail.sender.dto;
 
-public record MailRequest() {
+import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tom.mail.sender.global.constraints.MailConstraints;
+
+import jakarta.validation.constraints.NotBlank;
+
+public record MailRequest(
+		
+		@JsonProperty("title")
+		@NotBlank(message = "Mail title cannot be blank.")
+		@Length(max = MailConstraints.MAX_TITLE_LENGTH)
+		String name,
+		
+		@JsonProperty("content")
+		@Length(max = MailConstraints.MAX_CONTENT_LENGTH)
+		String content
+		
+) {
+	
 }

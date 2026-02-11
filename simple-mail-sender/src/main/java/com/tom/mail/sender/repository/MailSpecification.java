@@ -11,9 +11,9 @@ import com.tom.mail.sender.model.Mail;
 import jakarta.persistence.criteria.Predicate;
 
 @Component
-public class MailSpecialization {
+public class MailSpecification {
 
-	public static Specification<Mail> findByCriteria(String title) {
+	public static Specification<Mail> findByCriteria(String title, List<String> users) {
 		return (root, query, criteriaBuilder) -> {
 			List<Predicate> predicates = new ArrayList<>();
 
@@ -22,11 +22,13 @@ public class MailSpecialization {
 						"%" + title.toLowerCase() + "%"));
 			}
 
-			if (predicates.isEmpty()) {
-				return criteriaBuilder.conjunction();
+			if (users != null && !users.isEmpty()) {
+				predicates.add(root.join("users").in(users));
+				query.distinct(true);
 			}
 
-			return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+			return predicates.isEmpty() ? criteriaBuilder.conjunction()
+					: criteriaBuilder.and(predicates.toArray(new Predicate[0]));
 		};
 	}
 

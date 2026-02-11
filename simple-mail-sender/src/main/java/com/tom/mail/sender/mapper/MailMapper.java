@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import com.tom.mail.sender.dto.MailRequest;
 import com.tom.mail.sender.dto.MailResponse;
 import com.tom.mail.sender.dto.MailUpdateRequest;
+import com.tom.mail.sender.dto.MailUserRequest;
 import com.tom.mail.sender.dto.PageMailResponse;
 import com.tom.mail.sender.model.Mail;
 
@@ -20,13 +21,19 @@ import com.tom.mail.sender.model.Mail;
 public interface MailMapper {
 
 	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "content", expression = "java(request.content() != null ? request.content().getBytes(StandardCharsets.UTF_8) : null)")
 	Mail build(MailRequest request);
 
+	@Mapping(target = "id", ignore = true)
+	Mail build(MailUserRequest request);
+	
+	@Mapping(target = "content", expression = "java(request.content() != null ? request.content().getBytes(StandardCharsets.UTF_8) : null)")
 	MailResponse toResponse(Mail mail);
 	
 	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "content", expression = "java(request.content() != null ? request.content().getBytes(StandardCharsets.UTF_8) : null)")
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	Mail update(@MappingTarget Mail mail, MailUpdateRequest request);
+	void update(@MappingTarget Mail mail, MailUpdateRequest request);
 
 	List<MailResponse> toResponseList(List<Mail> users);
 

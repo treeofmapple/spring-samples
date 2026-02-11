@@ -1,10 +1,10 @@
 package com.tom.mail.sender.global.constraints;
 
-public final class PostConstraints {
+public final class MailConstraints {
 
 	public static final int MAX_TITLE_LENGTH = 200;
     public static final int MAX_CONTENT_LENGTH = 50000;
 
-    private PostConstraints() {}
+    private MailConstraints() {}
 	
 }

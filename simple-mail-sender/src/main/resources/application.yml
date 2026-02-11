@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: actuator, console, ${PROFILE:test}
+  application:
+      name: # Name of the project
+
+server:
+  port: ${MAIL_PORT:8000}
+  forward-headers-strategy: framework

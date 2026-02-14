@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.0.2</version>
+        <relativePath />
+    </parent>
+    <groupId>com.tom.reactive</groupId>
+    <artifactId>first</artifactId>
+    <version>v0.1</version>
+    <name>trying-reactive</name>
+    <description>Reactive First Try</description>
+
+    <licenses>
+        <license>
+            <name>BSD 2-Clause License</name>
+            <url>https://opensource.org/license/bsd-2-clause</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Samuel</name>
+            <url>https://github.com/treeofmapple</url>
+            <organization>Comical Ferret</organization>
+            <organizationUrl>https://github.com/Pato-Incomum</organizationUrl>
+        </developer>
+    </developers>
+
+    <properties>
+        <java.version>21</java.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
+    </properties>
+    <dependencies>
+
+        <!-- Spring Validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Spring Data R2DBC -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-r2dbc</artifactId>
+        </dependency>
+
+        <!-- Spring WebClient -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webclient</artifactId>
+        </dependency>
+
+        <!-- Spring Webflux-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+
+        <!-- Databases -->
+        <!-- IO H2 -->
+        <dependency>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Spring h2 Console-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-h2console</artifactId>
+        </dependency>
+
+        <!-- Tooling -->
+        <!-- MapStruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Compilation Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <!-- Resource Processing Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Spring Boot Plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Test Console Output -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <useFile>false</useFile>
+                    <forkCount>1</forkCount>
+                    <reuseForks>true</reuseForks>
+                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                    <trimStackTrace>true</trimStackTrace>
+                    <printSummary>true</printSummary>
+                    <enableAssertions>true</enableAssertions>
+                    <systemPropertyVariables>
+                        <org.jboss.logging.provider>slf4j</org.jboss.logging.provider>
+                        <org.hibernate.SQL.level>OFF</org.hibernate.SQL.level>
+                        <jansi.force>true</jansi.force>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>

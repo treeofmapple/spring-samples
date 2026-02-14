@@ -2,7 +2,7 @@ spring:
   profiles:
     active: actuator, console, ${PROFILE:test}
   application:
-      name: # Name of the project
+      name: mail-sender
 
 server:
   port: ${MAIL_PORT:8000}

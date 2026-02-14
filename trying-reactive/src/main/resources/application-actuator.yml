@@ -1,0 +1,10 @@
+logging:
+  level:
+    #io:
+    #  r2dbc:
+    #    h2: DEBUG
+    root: INFO
+    org:
+      springframework: warn
+      boot: error
+      #r2dbc: DEBUG

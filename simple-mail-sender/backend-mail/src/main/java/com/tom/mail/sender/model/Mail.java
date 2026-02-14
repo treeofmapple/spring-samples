@@ -1,6 +1,7 @@
 package com.tom.mail.sender.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -37,21 +38,23 @@ public class Mail extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
-	
+
 	@Column(name = "title", length = 80, unique = true, updatable = true, nullable = false)
 	private String title;
-	
+
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
-	@Column(name = "content", nullable = true, unique = false)
+	@Column(name = "content", nullable = true, unique = false, columnDefinition = "BYTEA")
 	private byte[] content;
-	
+
 	@ElementCollection
 	@CollectionTable(name = "mail_users", joinColumns = @JoinColumn(name = "mail_id"))
-	@Column(name = "users_email", nullable = true)	
+	@Column(name = "users_email", nullable = true)
 	private Set<String> users;
-	
-	@Column(name = "time_sent", nullable = true)
-	private LocalDateTime sentOnTime;
-	
+
+	@ElementCollection
+	@CollectionTable(name = "mail_sent_history", joinColumns = @JoinColumn(name = "mail_id"))
+	@Column(name = "sent_at", nullable = true)
+	private List<LocalDateTime> sentOnTime;
+
 }

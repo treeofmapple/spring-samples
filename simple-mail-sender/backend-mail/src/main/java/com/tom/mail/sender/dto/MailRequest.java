@@ -9,10 +9,9 @@ import jakarta.validation.constraints.NotBlank;
 
 public record MailRequest(
 		
-		@JsonProperty("title")
 		@NotBlank(message = "Mail title cannot be blank.")
 		@Length(max = MailConstraints.MAX_TITLE_LENGTH)
-		String name,
+		String title,
 		
 		@JsonProperty("content")
 		@Length(max = MailConstraints.MAX_CONTENT_LENGTH)

@@ -1,0 +1,383 @@
+{
+  "info": {
+    "_postman_id": "3d907f6f-9bbf-452d-8120-f689e66e7071",
+    "name": "Mail Sender API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38340143"
+  },
+  "item": [
+    {
+      "name": "Configuration System Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/config",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "config"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search Mail By Params",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/v1/mail/search?page=0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "mail",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "title",
+              "value": null,
+              "disabled": true
+            },
+            {
+              "key": "mails",
+              "value": null,
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search Mail By Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/v1/mail/:id",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "mail",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{mailId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "What is The Master Mail",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/v1/mail/email",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "mail",
+            "email"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Mail",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "if (jsonData.id) {",
+              "    pm.collectionVariables.set(\"mailId\", jsonData.id);",
+              "    console.log(\"Mail id has been set\");",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\" : \"Mail titles\",\n    \"content\" : \"\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/v1/mail",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "mail"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Send Mail",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/v1/mail/send/:id",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "mail",
+            "send",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{mailId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Custom Content",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "",
+            "value": "",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "d97fb6ab-f335-4f21-a918-0e92d813437c",
+              "src": "postman-cloud:///1f1090fc-05cc-4260-8282-ff62002c62f5"
+            },
+            {
+              "key": "variables",
+              "type": "file",
+              "uuid": "87143ca5-9a42-4335-8766-d06af2b5184a",
+              "src": "postman-cloud:///1f1090fc-5e69-4b20-8b53-75e680606240"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/v1/mail/custom/:id",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "mail",
+            "custom",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{mailId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Users Mails",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"mailId\" : \"{{mailId}}\",\n    \"mails\": [\n        \"test1@example.com\",\n        \"test2@example.com\",\n        \"test3@example.com\",\n        \"test4@example.com\",\n        \"test5@example.com\",\n        \"test6@example.com\",\n        \"test7@example.com\",\n        \"test8@example.com\",\n        \"test9@example.com\",\n        \"test10@example.com\"\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/v1/mail/users/add",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "mail",
+            "users",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove Users Mails",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"mailId\" : \"{{mailId}}\",\n    \"mails\": [\n        \"test@example.com\"\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/v1/mail/users/remove",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "mail",
+            "users",
+            "remove"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Define Master Mail",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"mail\" : \"\",\n    \"password\": \"\",\n    \"mailServer\" : \"\"\n\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/v1/mail/email",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "mail",
+            "email"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit Mail Info",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"mailId\": {{mailId}},\n    \"title\" : \"\",\n    \"content\" : \"\"\n\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/v1/mail",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "mail"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Mail",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    pm.collectionVariables.unset(\"mailId\");",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/v1/mail/{{mailId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "mail",
+            "{{mailId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "mailId",
+      "value": ""
+    }
+  ]
+}

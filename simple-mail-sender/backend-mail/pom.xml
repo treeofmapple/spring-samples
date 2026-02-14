@@ -67,6 +67,19 @@
             <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
 
+        <!-- Spring Websocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <!-- Limit Rate -->
+        <dependency>
+            <groupId>com.bucket4j</groupId>
+            <artifactId>bucket4j-core</artifactId>
+            <version>8.10.1</version>
+        </dependency>
+
         <!-- Databases -->
         <!-- H2 -->
         <dependency>
@@ -90,11 +103,11 @@
             <version>${mapstruct.version}</version>
         </dependency>
 
-		<!-- Spring Apache Freemaker -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-freemarker</artifactId>
-		</dependency>
+        <!-- Spring Apache Freemaker -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
 
         <!-- Mail .md compiler -->
         <dependency>

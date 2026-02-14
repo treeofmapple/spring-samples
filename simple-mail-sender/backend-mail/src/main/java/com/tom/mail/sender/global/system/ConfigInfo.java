@@ -1,6 +1,9 @@
 package com.tom.mail.sender.global.system;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.tom.mail.sender.global.constraints.MailConstraints;
 
 import lombok.RequiredArgsConstructor;
 
@@ -8,37 +11,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ConfigInfo {
 
-	/*
-	
-	@Value("${storage.allowed-types}")
-    private List<String> allowedTypes;
-	
-    @Value("${application.size.file:20}")
-    private long fileSizeMb;
+    @Value("${application.size.Page:20}")
+    private long pageSize;
 
-    @Value("${cache.chances.max-attempts:5}")
-    private int maxLoginAttempts;
-
-    @Value("${cache.time.login-attempt:15m}")
-    private String loginCacheTime;
-
-    @Value("${spring.servlet.multipart.max-file-size:50MB}")
-    private String serverMaxFileSize;
-
-    @Value("${spring.servlet.multipart.max-request-size:50MB}")
-    private String serverMaxRequestSize;
-	
     public SystemInfo fetchSystemInformations() {
         return new SystemInfo(
-            allowedTypes,
-            fileSizeMb,
-            maxLoginAttempts,
-            loginCacheTime,
-            serverMaxFileSize,
-            serverMaxRequestSize,
-            PostConstraints.MAX_TITLE_LENGTH,
-            PostConstraints.MAX_CONTENT_LENGTH
+        		pageSize,
+        		MailConstraints.MAX_TITLE_LENGTH,
+        		MailConstraints.MAX_CONTENT_LENGTH,
+        		MailConstraints.MAIL_BATCH_SIZE,
+        		MailConstraints.MAIL_WAIT_TIME,
+        		MailConstraints.TEMPLATE_FILE_EXTENSION,
+        		String.join(", ", MailConstraints.VARIABLES_FILE_EXTENSION)
         );
     }
-	*/
 }

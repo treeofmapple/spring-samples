@@ -1,6 +1,8 @@
 package com.tom.mail.sender.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -18,9 +20,13 @@ import com.tom.mail.sender.dto.MailUpdateRequest;
 import com.tom.mail.sender.dto.MailUserRequest;
 import com.tom.mail.sender.dto.MasterMailRequest;
 import com.tom.mail.sender.dto.PageMailResponse;
+import com.tom.mail.sender.exception.sql.DataViolationException;
 import com.tom.mail.sender.exception.sql.NotFoundException;
+import com.tom.mail.sender.exception.system.VariablesNotDefinedException;
 import com.tom.mail.sender.logic.mail.EmailSessionConfig;
+import com.tom.mail.sender.logic.mail.MailContentProcessor;
 import com.tom.mail.sender.logic.mail.MailSender;
+import com.tom.mail.sender.logic.mail.MailUtils;
 import com.tom.mail.sender.mapper.MailMapper;
 import com.tom.mail.sender.model.Mail;
 import com.tom.mail.sender.repository.MailRepository;
@@ -40,8 +46,10 @@ public class MailService {
 	private final MailRepository repository;
 	private final MailMapper mailMapper;
 	private final MailSender mailSender;
-	private final EmailSessionConfig emailConfig;
+	private final MailUtils mailUtils;
 	private final MailComponent mailComponent;
+	private final MailContentProcessor mailProcessor;
+	private final EmailSessionConfig emailConfig;
 
 	@Transactional(readOnly = true)
 	public MailResponse searchMailById(UUID mailId) {
@@ -60,56 +68,66 @@ public class MailService {
 	@Transactional
 	public MailResponse createMail(MailRequest request) {
 		var mail = mailMapper.build(request);
+		if (repository.existsByTitle(request.title())) {
+			throw new DataViolationException(String.format("Mail with title: %s, already exists.", request.title()));
+		}
+
 		var savedMail = repository.save(mail);
 		return mailMapper.toResponse(savedMail);
 	}
 
 	@Transactional
-	public MailResponse addCustomContent(UUID mailId, MultipartFile files) {
+	public MailResponse addCustomContent(UUID mailId, MultipartFile template, MultipartFile variablesFile) {
 		var mail = mailComponent.searchById(mailId);
-		
-		return mailMapper.toResponse(mail);
-	}
-	
-	@Transactional
-	public MailResponse sendMail(UUID mailId) {
-		var mail = mailComponent.searchById(mailId);
-		mailSender.sendEmailWithAttachment(null, null, null, null);
+		mail.setContent(mailProcessor.processEmailTemplate(template, variablesFile));
 		return mailMapper.toResponse(mail);
 	}
 
 	@Transactional
-	public MailResponse addUsersMails(UUID mailId, MailUserRequest request) {
+	public MailResponse sendMail(UUID mailId) {
+		if (!emailConfig.getMasterMailDefined()) {
+			throw new VariablesNotDefinedException(String.format("Define mail sender variables before sending mail."));
+		}
 		var mail = mailComponent.searchById(mailId);
-		
-		mail.setUsers(null);
+		if (mail.getUsers() == null || mail.getUsers().isEmpty()) {
+			throw new VariablesNotDefinedException(String.format("Email didn't define users to sent mail"));
+		}
+		mailSender.sendEmailWithAttachment(mail);
+		mail.getSentOnTime().add(LocalDateTime.now());
+		return mailMapper.toResponse(mail);
+	}
+
+	@Transactional
+	public MailResponse addUsersMails(MailUserRequest request) {
+		var mail = mailComponent.searchById(request.mailId());
+		mailComponent.addUsersToList(mail, request.mails());
 		var updatedMail = repository.save(mail);
 		return mailMapper.toResponse(updatedMail);
 	}
 
 	@Transactional
-	public MailResponse removeUsersMails(UUID mailId, MailUserRequest request) {
-		var mail = mailComponent.searchById(mailId);
-		
-		mail.setUsers(null);
+	public MailResponse removeUsersMails(MailUserRequest request) {
+		var mail = mailComponent.searchById(request.mailId());
+		mailComponent.removeUsersFromList(mail, request.mails());
 		var updatedMail = repository.save(mail);
 		return mailMapper.toResponse(updatedMail);
 	}
 
 	@Transactional
 	public Boolean defineMasterMail(MasterMailRequest request) {
-		emailConfig.setMasterEmail(request.mail());
+		mailMapper.update(emailConfig, request);
+		mailUtils.testConnection();
 		return emailConfig.isMasterMailDefined();
 	}
 
 	@Transactional(readOnly = true)
 	public String whatIsTheMasterMail() {
-		return emailConfig.getMasterEmail();
+		return Objects.requireNonNullElse(emailConfig.getMasterEmail(), "No master email defined");
 	}
 
 	@Transactional
 	public MailResponse editMailInfo(MailUpdateRequest request) {
-		var mail = mailComponent.searchById(request.id());
+		var mail = mailComponent.searchById(request.mailId());
 		mailMapper.update(mail, request);
 		var updatedMail = repository.save(mail);
 		return mailMapper.toResponse(updatedMail);

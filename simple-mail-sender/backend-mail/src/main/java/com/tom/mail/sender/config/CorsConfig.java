@@ -12,7 +12,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class CorsConfig {
 
-	@Value("${settings.cors.allowed-origins}")
+	@Value("${settings.cors.allowed-origins:*}")
 	private String[] allowedOrigins;
 
 	@Value("${settings.cors.max-age:3600}")

@@ -10,7 +10,7 @@ public record MailResponse(
 		String title,
 		String content,
 		List<String> users,
-		LocalDateTime sentOnTime
+		List<LocalDateTime> sentOnTime
 		
 ) {
 

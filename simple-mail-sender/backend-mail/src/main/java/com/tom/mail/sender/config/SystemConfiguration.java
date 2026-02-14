@@ -49,11 +49,11 @@ public class SystemConfiguration {
 				16, // saltLength
 				32, // hashLength
 				1, // parallelism
-				16384, // 64MB memory
+				16384, // 16MB memory
 				2 // iterations
 		);
 	}
 	// return new BCryptPasswordEncoder(12);
 	
-	*/
+	 */
 }

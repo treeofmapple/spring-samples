@@ -1,0 +1,5 @@
+name: Tom
+company: Tom Mail Sender Corp
+membership_level: Premium
+system_name: MailGen-v1
+support_email: support@tommail.com

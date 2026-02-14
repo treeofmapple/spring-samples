@@ -25,30 +25,27 @@ public class MailComponent {
 				.orElseThrow(() -> new NotFoundException(String.format("Mail with id: %s was not found", mailId)));
 	}
 
-	public Set<String> addUsersToList(Mail mail, List<String> emails){
-		var users = repository.findByUsersIn(emails);
+	public Set<String> addUsersToList(Mail mail, List<String> emails) {
+		Set<String> usersOnDB = emails.stream()
+	            .filter(e -> e != null && !e.isBlank())
+	            .collect(Collectors.toSet());
 		
-		Set<String> newList = users.stream().filter(d -> repository.existsByUsersContaining(users)).collect(Collectors.toSet());
-		
-		if(newList.isEmpty()) {
-			throw new DataViolationException(String.format(""));
+		if (usersOnDB.isEmpty()) {
+			throw new DataViolationException(String.format("The request contained no valid email addresses."));
 		}
-		
-		mail.getUsers().clear();
-		return newList;
+
+		mail.getUsers().addAll(usersOnDB);
+		return usersOnDB;
 	}
-	
-	public Set<String> removeUsersToList(Mail mail, List<String> emails){
-		var users = repository.findByUsersIn(emails);
-		
-		Set<String> newList = users.stream().filter(d -> repository.existsByUsersContaining(users)).collect(Collectors.toSet());
-		
-		if(newList.isEmpty()) {
-			throw new DataViolationException(String.format(""));
+
+	public Set<String> removeUsersFromList(Mail mail, List<String> emailsToRemove) {
+		var currentUsers = mail.getUsers();
+		boolean changed = currentUsers.removeIf(emailsToRemove::contains);
+
+		if (!changed) {
+			throw new DataViolationException("None of the specified emails were associated with this mail.");
 		}
-		
-		mail.getUsers().clear();
-		return newList;
+		return currentUsers;
 	}
-	
+
 }

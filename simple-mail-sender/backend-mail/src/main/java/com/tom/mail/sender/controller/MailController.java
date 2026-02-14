@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tom.mail.sender.dto.MailRequest;
 import com.tom.mail.sender.dto.MailResponse;
@@ -37,11 +38,11 @@ public class MailController {
 
 	private final MailService mailService;
 
-	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/search")
 	public ResponseEntity<PageMailResponse> searchMailByParams(
 			@RequestParam(defaultValue = "0", required = false) @Min(0) int page,
 			@RequestParam(required = false) String title,
-			@RequestParam(required = false) List<@Email(message = "Only valid mails") String> userMails) {
+			@RequestParam(required = false, value = "mails") List<@Email(message = "Only valid mails") String> userMails) {
 		var response = mailService.searchMailByParams(page, title, userMails);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
@@ -58,19 +59,27 @@ public class MailController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
+	@PostMapping(value = "/custom/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<MailResponse> addCustomContent(@PathVariable(value = "id") UUID mailId,
+			@RequestParam(value = "file") MultipartFile template,
+			@RequestParam(value = "variables") MultipartFile variablesFile) {
+		var response = mailService.addCustomContent(mailId, template, variablesFile);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+
 	@PostMapping(value = "/send/{id}")
 	public ResponseEntity<MailResponse> sendMail(@PathVariable(value = "id") UUID mailId) {
 		var response = mailService.sendMail(mailId);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
-	@PostMapping(value = "/user/add")
+	@PostMapping(value = "/users/add")
 	public ResponseEntity<MailResponse> addUsersMails(@RequestBody MailUserRequest request) {
 		var response = mailService.addUsersMails(request);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
-	@PostMapping(value = "/user/remove")
+	@PostMapping(value = "/users/remove")
 	public ResponseEntity<MailResponse> removeUsersMails(@RequestBody MailUserRequest request) {
 		var response = mailService.removeUsersMails(request);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -85,7 +94,7 @@ public class MailController {
 	@GetMapping(value = "/email")
 	public ResponseEntity<String> whatIsTheMasterMail() {
 		var response = mailService.whatIsTheMasterMail();
-		return ResponseEntity.status(null).body(response);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
 	@PutMapping

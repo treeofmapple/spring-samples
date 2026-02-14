@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: actuator, console, ${PROFILE:test}
+  application:
+      name: Reactive-Test
+
+server:
+  port: ${REACTIVE_PORT:8000}
+  forward-headers-strategy: framework

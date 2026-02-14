@@ -1,0 +1,40 @@
+services:
+  backendmail:
+    build:
+      context: ../backend-mail
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${MAIL_PORT}:${MAIL_PORT}"
+    env_file:
+      - .env
+
+  #  frontendmail:
+  #    build:
+  #      context: ../frontend-mail
+  #      dockerfile: Dockerfile
+  #      args:
+  #        - API_URL=${API_URL:-http://backendmail:8000}
+  #    restart: unless-stopped
+  #    ports:
+  #      - "4200:80"
+  #    depends_on:
+  #      - backendmail
+  #    env_file:
+  #      - .env
+
+  mail:
+    image: axllent/mailpit:latest
+    container_name: mail-server
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    environment:
+      - MP_MAX_MESSAGES=500
+      - MP_DATABASE=/data/mailpit.db
+    volumes:
+      - mail_data:/data
+
+volumes:
+  mail_data:

@@ -1,0 +1,14 @@
+{
+  "name": "compose",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3"
+  }
+}

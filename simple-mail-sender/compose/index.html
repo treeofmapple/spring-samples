@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Progress Monitor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <style>
+        #progress-container { width: 100%; background-color: #f1f1f1; border-radius: 5px; margin-top: 20px; }
+        #bar { width: 0%; height: 30px; background-color: #04AA6D; text-align: center; line-height: 30px; color: white; border-radius: 5px; transition: width 0.5s; }
+    </style>
+</head>
+<body>
+
+    <h2>Mail Sending Progress</h2>
+    <div id="status">Connecting to server...</div>
+
+    <div id="progress-container">
+        <div id="bar">0%</div>
+    </div>
+
+    <script>
+        const socket = new SockJS('http://localhost:8000/email-progress');
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            document.getElementById('status').innerText = "Connected! Waiting for emails...";
+            console.log('Connected: ' + frame);
+
+            stompClient.subscribe('/topic/email-progress', function (sdkEvent) {
+                const data = JSON.parse(sdkEvent.body);
+
+                const percent = Math.round(data.percent);
+                const progressBar = document.getElementById('bar');
+
+                progressBar.style.width = percent + '%';
+                progressBar.innerText = percent + '%';
+
+                document.getElementById('status').innerText =
+                    "Sending: " + data.current + " of " + data.total;
+            });
+        }, function(error) {
+            document.getElementById('status').innerText = "Connection Error: " + error;
+        });
+    </script>
+</body>
+</html>

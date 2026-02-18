@@ -1,5 +1,19 @@
-package com.tom.mail.sender.global.system;
+package com.tom.security.hash.global.system;
 
-public record SystemInfo() {
+import java.time.Duration;
+
+public record SystemInfo(
+		
+		Integer maxLoginAttempts,
+		Duration loginAttemptTimeoutTime,
+		Boolean httpsOnly,
+		Integer applicationPageSizeDefault,
+		Integer nicknameMinLength,
+		Integer nicknameMaxLength,
+		Integer emailMinLength,
+		Integer emailMaxLength,
+		Integer minimalPasswordSize
+		
+) {
 
 }

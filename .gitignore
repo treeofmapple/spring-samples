@@ -13,6 +13,8 @@
 **/bazel-out
 **/*.lock
 
+**/*.pem
+
 # Node
 **/node_modules
 **/npm-debug.log

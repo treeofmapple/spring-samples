@@ -1,44 +1,42 @@
-package com.tom.mail.sender.global.system;
+package com.tom.security.hash.global.system;
 
+import java.time.Duration;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import lombok.RequiredArgsConstructor;
+import com.tom.security.hash.global.constraints.UserConstraints;
 
 @Component
-@RequiredArgsConstructor
-public class ConfigInfo {
+public class ConfigInfo extends UserConstraints {
 
-	/*
+	private ConfigInfo() {
+		super();
+	}
 	
-	@Value("${storage.allowed-types}")
-    private List<String> allowedTypes;
-	
-    @Value("${application.size.file:20}")
-    private long fileSizeMb;
-
     @Value("${cache.chances.max-attempts:5}")
-    private int maxLoginAttempts;
+    private Integer maxLoginAttempts;
 
     @Value("${cache.time.login-attempt:15m}")
-    private String loginCacheTime;
+    private Duration loginAttemptTimeoutTime;
 
-    @Value("${spring.servlet.multipart.max-file-size:50MB}")
-    private String serverMaxFileSize;
-
-    @Value("${spring.servlet.multipart.max-request-size:50MB}")
-    private String serverMaxRequestSize;
+	@Value("${security.https-only:false}")
+	private Boolean httpsOnly;
 	
-    public SystemInfo fetchSystemInformations() {
+	@Value("${application.size.page:20}")
+	private Integer applicationPageSizeDefault;
+	
+    public SystemInfo returnSystemBuilded() {
         return new SystemInfo(
-            allowedTypes,
-            fileSizeMb,
             maxLoginAttempts,
-            loginCacheTime,
-            serverMaxFileSize,
-            serverMaxRequestSize,
-            PostConstraints.MAX_TITLE_LENGTH,
-            PostConstraints.MAX_CONTENT_LENGTH
+            loginAttemptTimeoutTime,
+            httpsOnly,
+            applicationPageSizeDefault,
+            NICKNAME_MIN_LENGTH,
+            NICKNAME_MAX_LENGTH,
+            EMAIL_MIN_LENGTH,
+            EMAIL_MAX_LENGTH,
+            MINIMAL_PASSWORD_SIZE
         );
     }
-	*/
 }

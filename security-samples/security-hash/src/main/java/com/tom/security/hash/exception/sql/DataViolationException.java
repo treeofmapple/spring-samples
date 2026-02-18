@@ -1,8 +1,8 @@
-package com.tom.mail.sender.exception.sql;
+package com.tom.security.hash.exception.sql;
 
 import org.springframework.http.HttpStatus;
 
-import com.tom.mail.sender.exception.global.GlobalRuntimeException;
+import com.tom.security.hash.exception.global.GlobalRuntimeException;
 
 @SuppressWarnings("serial")
 public class DataViolationException extends GlobalRuntimeException {

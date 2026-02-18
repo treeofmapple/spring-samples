@@ -1,4 +1,4 @@
-package com.tom.mail.sender.global;
+package com.tom.security.hash.global;
 
 import java.time.ZonedDateTime;
 

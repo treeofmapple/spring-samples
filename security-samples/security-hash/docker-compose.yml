@@ -1,0 +1,11 @@
+services:
+  securityhash:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: security-hash
+    restart: unless-stopped
+    ports:
+      - "${SECURITY_HASH}:${SECURITY_HASH}"
+    env_file:
+      - .env

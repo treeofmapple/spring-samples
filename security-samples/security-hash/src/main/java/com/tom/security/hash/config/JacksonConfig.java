@@ -1,4 +1,4 @@
-package com.tom.mail.sender.config;
+package com.tom.security.hash.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +13,10 @@ public class JacksonConfig {
 	@Bean
 	ObjectMapper objectMapper() {
 		ObjectMapper mapper = new ObjectMapper();
+
 		mapper.registerModule(new JavaTimeModule());
 		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
 		return mapper;
 	}
 }

@@ -1,9 +1,12 @@
 spring:
   profiles:
-    active: actuator, console, ${PROFILE:test}
+    active: actuator, console, config, prod # ${PROFILE:test}
+    #group: 
+      #prod: 
+      #test: 
   application:
-      name: # Name of the project
+      name: Security-HASH
 
 server:
-  port: ${SERVICE_PORT:8000}
+  port: ${SECURITY_HASH:8000}
   forward-headers-strategy: framework

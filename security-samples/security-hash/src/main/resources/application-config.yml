@@ -1,0 +1,10 @@
+cookies:
+  security:
+    cookie-name: _ratkin_ # Refresh Token Cookie Name
+    same-site: "Lax"
+    secure: true
+    
+cache:
+  cluster-name: "cache-cluster"
+  name:
+    login-attempt: "login-attempt-cache"

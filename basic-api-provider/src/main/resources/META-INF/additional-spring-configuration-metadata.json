@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "application.page.size",
+    "type": "java.lang.String",
+    "description": "A description for 'application.page.size'"
+  },
+  {
+    "name": "application.cors.allowed-origins",
+    "type": "java.lang.String",
+    "description": "A description for 'application.cors.allowed-origins'"
+  },
+  {
+    "name": "application.cors.time",
+    "type": "java.lang.String",
+    "description": "A description for 'application.cors.time'"
+  },
+  {
+    "name": "application.rate.limit",
+    "type": "java.lang.String",
+    "description": "A description for 'application.rate.limit'"
+  },
+  {
+    "name": "application.rate.refil.time",
+    "type": "java.lang.String",
+    "description": "A description for 'application.rate.refil.time'"
+  }
+]}

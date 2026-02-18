@@ -1,4 +1,4 @@
-package com.tom.mail.sender.config;
+package com.tom.security.hash.config;
 
 import java.io.BufferedReader;
 import java.io.IOException;

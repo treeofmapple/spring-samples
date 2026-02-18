@@ -1,0 +1,112 @@
+{"properties": [
+  {
+    "name": "application.size.page",
+    "type": "java.lang.String",
+    "description": "A description for 'application.size.page'"
+  },
+  {
+    "name": "settings.cors.allowed-origins",
+    "type": "java.lang.String",
+    "description": "A description for 'settings.cors.allowed-origins'"
+  },
+  {
+    "name": "settings.cors.max-age",
+    "type": "java.lang.String",
+    "description": "A description for 'settings.cors.max-age'"
+  },
+  {
+    "name": "settings.security.user",
+    "type": "java.lang.String",
+    "description": "A description for 'settings.security.user'"
+  },
+  {
+    "name": "settings.security.email",
+    "type": "java.lang.String",
+    "description": "A description for 'settings.security.email'"
+  },
+  {
+    "name": "settings.security.password",
+    "type": "java.lang.String",
+    "description": "A description for 'settings.security.password'"
+  },
+  {
+    "name": "security.https-only",
+    "type": "java.lang.String",
+    "description": "A description for 'security.https-only'"
+  },
+  {
+    "name": "security.front.csrf",
+    "type": "java.lang.String",
+    "description": "A description for 'security.front.csrf'"
+  },
+  {
+    "name": "cache.chances.max-attempts",
+    "type": "java.lang.String",
+    "description": "A description for 'cache.chances.max-attempts'"
+  },
+  {
+    "name": "cache.time.login-attempt",
+    "type": "java.lang.String",
+    "description": "A description for 'cache.time.login-attempt'"
+  },
+  {
+    "name": "cache.name.login-attempt",
+    "type": "java.lang.String",
+    "description": "A description for 'cache.name.login-attempt'"
+  },
+  {
+    "name": "cookies.security.cookie-name",
+    "type": "java.lang.String",
+    "description": "A description for 'cookies.security.cookie-name'"
+  },
+  {
+    "name": "cookies.security.same-site",
+    "type": "java.lang.String",
+    "description": "A description for 'cookies.security.same-site'"
+  },
+  {
+    "name": "cookies.security.secure",
+    "type": "java.lang.String",
+    "description": "A description for 'cookies.security.secure'"
+  },
+  {
+    "name": "scheduled.token-cleanup",
+    "type": "java.lang.String",
+    "description": "A description for 'scheduled.token-cleanup'"
+  },
+  {
+    "name": "security.tokens.private-key",
+    "type": "java.lang.String",
+    "description": "A description for 'security.tokens.private-key'"
+  },
+  {
+    "name": "security.tokens.public-key",
+    "type": "java.lang.String",
+    "description": "A description for 'security.tokens.public-key'"
+  },
+  {
+    "name": "security.tokens.expiration",
+    "type": "java.lang.String",
+    "description": "A description for 'security.tokens.expiration'"
+  },
+  {
+    "name": "security.tokens.refresh-token",
+    "type": "java.lang.String",
+    "description": "A description for 'security.tokens.refresh-token'"
+  },
+  {
+    "name": "security.tokens.base-path",
+    "type": "java.lang.String",
+    "description": "A description for 'security.tokens.base-path'"
+  },
+  {
+    "name": "cache.cluster-name",
+    "type": "java.lang.String",
+    "description": "A description for 'cache.cluster-name'"
+  },
+  {
+    "name": "cache.address",
+    "type": "java.lang.String",
+    "description": "A description for 'cache.address'"
+  }
+]}

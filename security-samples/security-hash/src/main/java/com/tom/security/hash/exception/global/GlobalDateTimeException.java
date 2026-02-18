@@ -1,4 +1,4 @@
-package com.tom.mail.sender.exception.global;
+package com.tom.security.hash.exception.global;
 
 import java.time.DateTimeException;
 

@@ -1,0 +1,53 @@
+spring:
+  main:
+    lazy-initialization: true
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 5
+      pool-name: "H2TestPool"
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    open-in-view: false
+    show-sql: false
+    hibernate:
+      ddl-auto: update 
+
+scheduled:
+  token-cleanup: ${TOKEN_CLEANUP:24h}      
+
+cache:
+  address: ${CACHE_ADDRESS:127.0.0.1:5701}
+  chances:
+    max-attempts: ${LOGIN_ATTEMPTS:5}
+  time:
+    login-attempt: ${LOGIN_CACHE_TIME:15m}
+
+security:
+  https-only: ${HTTPS_ONLY:false} # Set on false when developing
+  front:
+    csrf: ${CSRF_ENABLED:false}
+  tokens:
+    base-path: ${KEYS_PATH:/temp/keys}
+    expiration: ${EXPIRATION_KEY:15m}
+    refresh-token: ${REFRESH_KEY:7d}
+
+application:
+  size:
+    page: ${PAGE_SIZE:20}
+
+settings:
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:4200}
+    max-age: ${CORS_TIME:3600}
+  security:
+    user: ${ADMIN_USER:admin}
+    email: ${ADMIN_EMAIL:admin@admin.com}
+    password: ${ADMIN_PASSWORD:admin}

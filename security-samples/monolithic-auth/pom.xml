@@ -13,6 +13,8 @@
     <version>v0.1</version>
     <name>Monolithic</name>
     <description>Monolithic auth system</description>
+    
+    <!-- Old Version:: Outdated -->
 
     <licenses>
         <license>

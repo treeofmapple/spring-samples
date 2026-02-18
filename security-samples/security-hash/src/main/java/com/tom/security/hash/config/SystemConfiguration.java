@@ -1,24 +1,37 @@
-package com.tom.mail.sender.config;
+package com.tom.security.hash.config;
+
+import java.time.ZonedDateTime;
+import java.util.Optional;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.auditing.DateTimeProvider;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.ForwardedHeaderFilter;
+
+import com.tom.security.hash.exception.sql.NotFoundException;
+import com.tom.security.hash.logic.auditing.ApplicationAuditAware;
+import com.tom.security.hash.security.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
-// @EnableJpaAuditing(auditorAwareRef = "auditorAware", dateTimeProviderRef = "dateTimeProvider")
+@EnableJpaAuditing(auditorAwareRef = "auditorProvider", dateTimeProviderRef = "dateTimeProvider")
 public class SystemConfiguration {
+
+	private final UserRepository repository;
 
 	@Bean
 	ForwardedHeaderFilter forwardedHeaderFilter() {
 		return new ForwardedHeaderFilter();
 	}
-	
-	/*
-	
-	private final UserRepository repository;
 	
 	@Bean
 	UserDetailsService userDetailsService() {
@@ -29,7 +42,7 @@ public class SystemConfiguration {
 	}
 
 	@Bean
-	AuditorAware<String> auditorAware() {
+	AuditorAware<String> auditorProvider() {
 		return new ApplicationAuditAware();
 	}
 	
@@ -55,5 +68,4 @@ public class SystemConfiguration {
 	}
 	// return new BCryptPasswordEncoder(12);
 	
-	*/
 }

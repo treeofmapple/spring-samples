@@ -32,3 +32,8 @@ public abstract class Auditable {
 	private Long version = 0L;
 
 }
+
+/*
+ * TODO: Auditable table to let the system store who created whom, better usage
+ * on an system with authentication or better usage of user
+ */

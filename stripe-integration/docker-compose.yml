@@ -3,9 +3,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: security-hash
+    container_name: stripe-automation
     restart: unless-stopped
     ports:
-      - "${SECURITY_HASH}:${SECURITY_HASH}"
+      - "${STRIPE_PORT}:${STRIPE_PORT}"
     env_file:
       - .env

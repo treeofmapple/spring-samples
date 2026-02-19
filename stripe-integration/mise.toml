@@ -1,0 +1,21 @@
+[tools]
+maven = "3"
+
+[env]
+_.file = ".env"
+
+[tasks.build]
+description = "Build the Project Image"
+run = "mvn clean package -DskipTests"
+
+[tasks.run]
+description = "Run Spring App"
+run = "mvn clean spring-boot:run"
+
+[tasks.docker_run]
+description = "Run Docker Compose Project"
+run = "docker compose up --build"
+
+[tasks.docker_stop]
+description = "Stop Docker Compose Project"
+run = "docker compose down"

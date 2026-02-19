@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: actuator, console, config, prod # ${PROFILE:test}
+    active: actuator, console, config, ${PROFILE:test}
     #group: 
       #prod: 
       #test: 

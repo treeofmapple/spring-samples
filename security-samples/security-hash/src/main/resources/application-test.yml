@@ -35,7 +35,7 @@ security:
   front:
     csrf: ${CSRF_ENABLED:false}
   tokens:
-    base-path: ${KEYS_PATH:/temp/keys}
+    base-path: ${KEYS_PATH:keys}
     expiration: ${EXPIRATION_KEY:15m}
     refresh-token: ${REFRESH_KEY:7d}
 

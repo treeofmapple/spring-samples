@@ -35,7 +35,7 @@ public class JwtService {
 	private RSAPublicKey publicKey;
 	private RSAPrivateKey privateKey;
 
-	@Value("${security.tokens.base-path}")
+	@Value("${security.tokens.base-path:keys}")
 	private String basePath;
 
 	@Value("private.pem")

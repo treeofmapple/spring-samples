@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -40,6 +41,12 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ApiErrorResponse> handleMissingParams(MissingServletRequestParameterException ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 				.body(new ApiErrorResponse("Missing required parameter: " + ex.getParameterName()));
+	}
+
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public ResponseEntity<String> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
+				.body("Method not supported: " + ex.getMethod() + ".  The method supported is:" + ex.getSupportedHttpMethods());
 	}
 
 	@ExceptionHandler({ MethodArgumentNotValidException.class })

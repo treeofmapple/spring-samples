@@ -1,7 +1,10 @@
 package com.tom.stripe.payment.user.dto;
 
-public record UserRequest(
+import java.util.UUID;
+
+public record UserUpdate(
 		
+		UUID userId,
 		String nickname,
 		String email
 		

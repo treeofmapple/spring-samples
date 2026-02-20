@@ -41,9 +41,9 @@ public class User extends Auditable {
 
 	@ToString.Include
 	@Column(name = "stripe_customer_id", nullable = true)
-    private String stripeCustomerId;
+	private String stripeCustomerId;
 
 	@Column(name = "default_payment_method_id", nullable = true)
-    private String defaultPaymentMethodId;
+	private String defaultPaymentMethodId;
 
 }

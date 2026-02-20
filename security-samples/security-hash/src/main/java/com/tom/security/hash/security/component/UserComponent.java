@@ -32,7 +32,7 @@ public class UserComponent {
 				.orElseThrow(() -> new NotFoundException(String.format("The user email: %s was not found", email)));
 	}
 	
-	public void ensureNickanmeAndEmailAreUnique(String nickname, String email) {
+	public void ensureNicknameAndEmailAreUnique(String nickname, String email) {
 		if (repository.existsByNickname(nickname)) {
 			throw new DataViolationException("Nickname is already taken: " + nickname);
 		}
@@ -53,6 +53,5 @@ public class UserComponent {
 			throw new DataViolationException("Nickname is already taken by another account: " + newUsername);
 		}
 	}
-
 	
 }

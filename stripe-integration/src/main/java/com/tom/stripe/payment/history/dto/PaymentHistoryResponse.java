@@ -1,5 +1,15 @@
 package com.tom.stripe.payment.history.dto;
 
-public record PaymentHistoryResponse() {
+import java.util.UUID;
+
+import com.tom.stripe.payment.payment.enums.PaymentStatus;
+
+public record PaymentHistoryResponse(
+		
+		UUID paymentId,
+		PaymentStatus status,
+		String reason
+		
+) {
 
 }

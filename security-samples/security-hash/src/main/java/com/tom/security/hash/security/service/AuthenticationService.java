@@ -68,7 +68,7 @@ public class AuthenticationService {
 
 		checkIfUserIsAlreadyAuthenticated(httpRequest, refreshTokenCookieName);
 		
-		userComponent.ensureNickanmeAndEmailAreUnique(request.nickname(), request.email());
+		userComponent.ensureNicknameAndEmailAreUnique(request.nickname(), request.email());
 
 		if (!request.password().equals(request.confirmPassword())) {
 			throw new BadCredentialsException("Passwords not matches");

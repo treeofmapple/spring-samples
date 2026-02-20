@@ -1,9 +1,6 @@
 package com.tom.stripe.payment.history.model;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
-
-import org.hibernate.annotations.CreationTimestamp;
 
 import com.tom.stripe.payment.global.Auditable;
 import com.tom.stripe.payment.payment.enums.PaymentStatus;
@@ -41,18 +38,16 @@ public class PaymentHistory extends Auditable {
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_id", nullable = false)
-    private Payment payment;
+	@JoinColumn(name = "payment_id", nullable = false)
+	private Payment payment;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private PaymentStatus status;
+	@ToString.Include
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false)
+	private PaymentStatus status;
 
-    @CreationTimestamp
-    @Column(name = "changed_at", updatable = false)
-    private LocalDateTime changedAt;
+	@ToString.Include
+	@Column(name = "reason", nullable = true)
+	private String reason;
 
-    @Column(name = "reason")
-    private String reason;
-	
 }

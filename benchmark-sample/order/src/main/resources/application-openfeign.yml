@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    openfeign:
+      httpclient:
+        connection-timeout: ${CONNECTION-TIMEOUT:5000}
+        ok-http:
+          read-timeout: ${READ-TIMEOUT:5000}
+feign:
+  product-service:
+    url: ${PRODUCT-SERVICE:http://localhost:8002} # Docker remember to change name
+  client-service:
+    url: ${CLIENT-SERVICE:http://localhost:8001} # Docker remember to change name
+
+# Remember to change the docker name to like product:8002

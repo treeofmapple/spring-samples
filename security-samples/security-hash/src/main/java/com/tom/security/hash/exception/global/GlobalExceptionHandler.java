@@ -45,8 +45,8 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ResponseEntity<String> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
-		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
-				.body("Method not supported: " + ex.getMethod() + ".  The method supported is:" + ex.getSupportedHttpMethods());
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("Method not supported: " + ex.getMethod()
+				+ ".  The method supported is:" + ex.getSupportedHttpMethods());
 	}
 
 	@ExceptionHandler({ MethodArgumentNotValidException.class })

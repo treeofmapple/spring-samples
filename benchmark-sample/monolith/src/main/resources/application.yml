@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: actuator, console, ${PROFILE:test}
+  application:
+      name: monolith
+
+server:
+  port: 8000

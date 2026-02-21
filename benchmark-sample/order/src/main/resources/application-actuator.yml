@@ -1,0 +1,20 @@
+management:
+  info:
+    build:
+      enabled: true
+  endpoints:
+    web:
+      base-path: ${ACTUATOR:/actuator}
+      exposure:
+        include: "*"
+    access:
+      default: unrestricted
+  endpoint:
+    info:
+      access: unrestricted
+    health:
+      show-details: always
+    metrics:
+      access: unrestricted
+    prometheus:
+      access: unrestricted

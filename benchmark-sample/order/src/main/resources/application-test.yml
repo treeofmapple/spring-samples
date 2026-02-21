@@ -1,0 +1,10 @@
+application:
+  test:
+    client-count: ${TEST_CLIENT-COUNT:100_000}
+    product-count: ${TEST_PRODUCT-COUNT:400_000}
+    order-count: ${TEST_ORDER-COUNT:10_000}
+    data-check:
+      repetitions: ${TEST_DATA-CHECK:1000}
+    item-order:
+      min-per: ${TEST_ITEM-MIN:5}
+      max-per: ${TEST_ITEM-MAX:55}

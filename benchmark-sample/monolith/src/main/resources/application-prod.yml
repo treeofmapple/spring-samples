@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:benchmarkdb}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: ${DDL_AUTO:create-drop}
+    show-sql: false
+
+application:
+  test:
+    client-count: ${TEST_CLIENT-COUNT:100_000}
+    product-count: ${TEST_PRODUCT-COUNT:400_000}
+    data-check:
+      repetitions: ${TEST_DATA-CHECK:1000}

@@ -14,4 +14,11 @@ public class StripeIntegrationApplication {
 		app.run(args);
 	}
 
+	/*
+	 * TODO: Revenue Recovery (Dunning) Stripe can automatically email users when a
+	 * card fails and retry the charge at "smart" intervals using machine learning.
+	 *
+	 * Add this on a project if implements mail
+	 */
+	
 }

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tom.stripe.payment.history.component.PaymentHistoryComponent;
 import com.tom.stripe.payment.logic.security.SecurityUtils;
 import com.tom.stripe.payment.payment.component.PaymentComponent;
 import com.tom.stripe.payment.payment.dto.PagePaymentResponse;
@@ -33,6 +34,7 @@ public class PaymentService {
 	private final PaymentSortParameter paymentSort;
 	
 	private final PaymentComponent component;
+	private final PaymentHistoryComponent historyComponent;
 	
 	private final SecurityUtils security;
 	
@@ -50,15 +52,29 @@ public class PaymentService {
 		return mapper.toResponse(payment);
 	} 
 	
+	// set currency
+	
+	// set user default payment method
 	
 	// fetch all
 	
 	// fetch by id
 	
-	// create
+	// add stripe tax (compliance)
 	
-	// update
+	// create a payment
 	
-	// delete
+	// update a payment if needs
+	
+	// delete a payment
+	
+	/* require a refund 
+	 *
+	 * {
+	 * i will create two endpoints, one for easy one
+	 * other for system auditory, only allow if the system permits it,
+	 * user check refund 
+	 * }
+	 * */
 	
 }

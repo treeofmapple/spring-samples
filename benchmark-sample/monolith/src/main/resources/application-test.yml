@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb 
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: ${DDL_AUTO:create-drop} 
+    show-sql: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+
+application:
+  test:
+    client-count: ${TEST_CLIENT-COUNT:100_000}
+    product-count: ${TEST_PRODUCT-COUNT:400_000}
+    data-check:
+      repetitions: ${TEST_DATA-CHECK:1000}

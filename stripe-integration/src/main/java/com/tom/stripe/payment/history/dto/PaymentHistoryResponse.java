@@ -6,6 +6,7 @@ import com.tom.stripe.payment.payment.enums.PaymentStatus;
 
 public record PaymentHistoryResponse(
 		
+		UUID id,
 		UUID paymentId,
 		PaymentStatus status,
 		String reason

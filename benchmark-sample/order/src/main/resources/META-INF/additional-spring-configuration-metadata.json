@@ -1,0 +1,42 @@
+{"properties": [
+  {
+    "name": "feign.product-service.url",
+    "type": "java.lang.String",
+    "description": "A description for 'feign.product-service.url'"
+  },
+  {
+    "name": "feign.client-service.url",
+    "type": "java.lang.String",
+    "description": "A description for 'feign.client-service.url'"
+  },
+  {
+    "name": "application.test.client-count",
+    "type": "java.lang.String",
+    "description": "A description for 'application.test.client-count'"
+  },
+  {
+    "name": "application.test.product-count",
+    "type": "java.lang.String",
+    "description": "A description for 'application.test.product-count'"
+  },
+  {
+    "name": "application.test.order-count",
+    "type": "java.lang.String",
+    "description": "A description for 'application.test.order-count'"
+  },
+  {
+    "name": "application.test.data-check.repetitions",
+    "type": "java.lang.String",
+    "description": "A description for 'application.test.data-check.repetitions'"
+  },
+  {
+    "name": "application.test.item-order.min-per",
+    "type": "java.lang.String",
+    "description": "A description for 'application.test.item-order.min-per'"
+  },
+  {
+    "name": "application.test.item-order.max-per",
+    "type": "java.lang.String",
+    "description": "A description for 'application.test.item-order.max-per'"
+  }
+]}

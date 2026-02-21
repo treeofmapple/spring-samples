@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: actuator, console, database, openfeign, test
+  application:
+    name: order
+
+server:
+  port: ${SERVER_PORT:8004}

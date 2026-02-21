@@ -1,8 +1,11 @@
 package com.tom.stripe.payment.user.model;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import com.tom.stripe.payment.global.Auditable;
+import com.tom.stripe.payment.payment.enums.AcceptedCurrency;
+import com.tom.stripe.payment.payment.enums.PaymentMethods;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,8 +16,8 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Setter
@@ -23,7 +26,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(onlyExplicitlyIncluded = true)
-@Table(name = "users", indexes = { @Index(name = "index_user_email", columnList = "email") })
+@Table(name = "users", indexes = { @Index(name = "index_user_email", columnList = "email"),
+		@Index(name = "index_user_balance", columnList = "balance") })
 public class User extends Auditable {
 
 	@Id
@@ -39,11 +43,28 @@ public class User extends Auditable {
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 
+	@Column(name = "tax_id", length = 20, nullable = true)
+	private String taxId;
+
+	@Column(name = "postal_code", length = 20, nullable = true)
+	private String postalCode;
+
+	@Column(name = "country_code", length = 2, nullable = true)
+	private String countryCode;
+
+	@Column(name = "balance", precision = 15, scale = 2, nullable = false)
+	private BigDecimal balance;
+
 	@ToString.Include
 	@Column(name = "stripe_customer_id", nullable = true)
 	private String stripeCustomerId;
 
-	@Column(name = "default_payment_method_id", nullable = true)
-	private String defaultPaymentMethodId;
+	@ToString.Include
+	@Column(name = "preffered_currency", nullable = true)
+	private AcceptedCurrency currencyPreffered;
+
+	@ToString.Include
+	@Column(name = "preffered_paymentMethod", nullable = true)
+	private PaymentMethods defaultPaymentMethods;
 
 }

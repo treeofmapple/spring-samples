@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tom.stripe.payment.exception.sql.NotFoundException;
+import com.tom.stripe.payment.logic.payment.StripePayment;
 import com.tom.stripe.payment.logic.security.SecurityUtils;
 import com.tom.stripe.payment.user.component.UserComponent;
 import com.tom.stripe.payment.user.dto.PageUserResponse;
@@ -42,6 +42,8 @@ public class UserService {
 	private final UserComponent component;
 
 	private final SecurityUtils security;
+	
+	private final StripePayment stripePayment;
 
 	@Transactional(readOnly = true)
 	public PageUserResponse searchUserByParams(int page, String username, String email, UserSortOption sortParam) {
@@ -72,12 +74,14 @@ public class UserService {
 		component.ensureNicknameAndEmailAreUnique(request.nickname(), request.email());
 
 		var user = mapper.build(request);
+		var customerId = stripePayment.createStripeCustomer(user);
+		user.setStripeCustomerId(customerId);
+		
 		var userCreated = repository.save(user);
 		log.info("IP: {}, created user: {}", userIp, request.nickname());
 		return mapper.toResponse(userCreated);
 	}
 
-	// update
 	@Transactional
 	public UserResponse updateUser(UserUpdate request) {
 		var userIp = security.getRequestingClientIp();
@@ -89,20 +93,25 @@ public class UserService {
 		component.checkIfEmailAlreadyUsed(user, request.email());
 
 		mapper.update(user, request);
+		stripePayment.updateStripeCustomer(user.getStripeCustomerId(), user);
 
 		var userEdited = repository.save(user);
 		log.info("IP: {}, updated user: {}", userIp, request.nickname());
 		return mapper.toResponse(userEdited);
 	}
 
+	/*
+	 * revoking user access is better, but i don't had implemented that, but this is
+	 * more drastic, just for testing also
+	 */
+	
 	@Transactional
 	public void deleteUser(UUID userId) {
 		var userIp = security.getRequestingClientIp();
 		log.info("IP: {}, is deleting user with id: {}", userIp, userId);
 
-		if (!repository.existsById(userId)) {
-			throw new NotFoundException(String.format("User with id: %s, was not found.", userId));
-		}
+		var user = component.findById(userId);
+		stripePayment.deleteStripeCustomer(user.getStripeCustomerId());
 		repository.deleteById(userId);
 
 		log.info("IP: {}, deleted user with id: {}", userIp, userId);

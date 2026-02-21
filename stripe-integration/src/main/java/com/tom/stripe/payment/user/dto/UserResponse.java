@@ -1,5 +1,6 @@
 package com.tom.stripe.payment.user.dto;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public record UserResponse(
@@ -13,8 +14,12 @@ public record UserResponse(
 		 * search By Id, i made only this for testing. But on a real system is a no no.
 		 */
 		
+		String taxId,
+		String postalCode,
+		String countryCode,
 		String stripeCustomerId,
-		String defaultPaymentMethodId 
+		String defaultPaymentMethodId,
+		BigDecimal balance
 		
 ) {
 

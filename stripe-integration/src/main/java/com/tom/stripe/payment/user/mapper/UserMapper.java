@@ -10,6 +10,7 @@ import org.mapstruct.ReportingPolicy;
 import org.springframework.data.domain.Page;
 
 import com.tom.stripe.payment.user.dto.PageUserResponse;
+import com.tom.stripe.payment.user.dto.PostalInfoRequest;
 import com.tom.stripe.payment.user.dto.SimpleUserResponse;
 import com.tom.stripe.payment.user.dto.UserRequest;
 import com.tom.stripe.payment.user.dto.UserResponse;
@@ -20,6 +21,8 @@ import com.tom.stripe.payment.user.model.User;
 public interface UserMapper {
 
 	User build(UserRequest request);
+	
+	User build(PostalInfoRequest request);
 
 	UserResponse toResponse(User user);
 

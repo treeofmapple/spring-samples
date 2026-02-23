@@ -8,7 +8,6 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Component
-@RequestScope
 public class SecurityUtils {
 
     private final HttpServletRequest request;
@@ -18,18 +17,18 @@ public class SecurityUtils {
     }
 
 	public String getRequestingClientIp() {
-		return this.request.getRemoteAddr();	
+		return this.request.getRemoteAddr();
 	}
-	
+
 	public void invalidateUserSession() {
 		var session = request.getSession(false);
 	    if (session != null) {
 	        session.invalidate();
 	    }
 	}
-	
+
 	public void logAction(String action, Object target) {
 		log.info("IP: {}, is {}: {}", getRequestingClientIp(), action, target);
 	}
-    
+
 }

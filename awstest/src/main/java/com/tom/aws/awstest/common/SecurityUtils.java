@@ -6,7 +6,6 @@ import org.springframework.web.context.annotation.RequestScope;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Component
-@RequestScope
 public class SecurityUtils {
 
     private final HttpServletRequest request;
@@ -16,14 +15,14 @@ public class SecurityUtils {
     }
 
 	public String getRequestingClientIp() {
-		return this.request.getRemoteAddr();	
+		return this.request.getRemoteAddr();
 	}
-	
+
 	public void invalidateUserSession() {
 		var session = request.getSession(false);
 	    if (session != null) {
 	        session.invalidate();
 	    }
 	}
-    
+
 }

@@ -6,7 +6,6 @@ import org.springframework.web.context.annotation.RequestScope;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Component
-@RequestScope
 public class SecurityUtils {
 
     private final HttpServletRequest request;
@@ -16,18 +15,18 @@ public class SecurityUtils {
     }
 
     public String getRequestingClientIp() {
-    	return this.request.getRemoteAddr();	
+    	return this.request.getRemoteAddr();
     }
-    
+
     /*
-    
+
     public User getAuthenticatedUserOrThrow() {
         return getAuthenticatedUser()
                 .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("User is not authenticated"));
     }
-    
-    
-	
+
+
+
 	public void invalidateUserSession() {
 		var session = request.getSession(false);
 	    if (session != null) {
@@ -35,7 +34,7 @@ public class SecurityUtils {
 	    }
 	    SecurityContextHolder.clearContext();
 	}
-    
+
     private Optional<User> getAuthenticatedUser() {
         return Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
@@ -46,5 +45,5 @@ public class SecurityUtils {
     }
 
      */
-    
+
 }

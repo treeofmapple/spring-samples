@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,13 +23,14 @@ import lombok.ToString;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "webhook_logs")
+@Table(name = "webhook_logs", indexes = { @Index(name = "idx_stripe_event_id", columnList = "stripe_event_id") })
 public class WebhookLogs extends Auditable {
 
 	@Id
 	@ToString.Include
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
+
 	
 	
 	

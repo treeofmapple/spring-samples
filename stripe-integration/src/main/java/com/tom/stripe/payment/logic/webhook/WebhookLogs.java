@@ -4,7 +4,10 @@ import java.util.UUID;
 
 import com.tom.stripe.payment.global.Auditable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +34,22 @@ public class WebhookLogs extends Auditable {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	
-	
-	
+	@Column(name = "stripe_event_id", unique = true, nullable = false)
+	private String stripeEventId;
+
+	@Column(name = "event_type", nullable = false)
+	private String eventType;
+
+	@ToString.Include
+	@Enumerated(EnumType.STRING)
+	@Column(name = "webhook_status", nullable = false)
+	private WebhookStatus status;
+
+	@ToString.Include
+	@Column(name = "logs", columnDefinition = "TEXT", nullable = true)
+	private String logs;
+
+	@Column(name = "error_message", columnDefinition = "TEXT", nullable = true)
+	private String errorMessage;
+
 }

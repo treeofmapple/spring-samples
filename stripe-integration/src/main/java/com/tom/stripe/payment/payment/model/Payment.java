@@ -55,7 +55,7 @@ public class Payment extends Auditable {
 	private String receiptUrl;
 
 	// indepotency key
-	
+
 	@ToString.Include
 	@Column(precision = 15, scale = 2, nullable = false)
 	private BigDecimal amount;
@@ -63,7 +63,7 @@ public class Payment extends Auditable {
 	@ToString.Include
 	@Column(name = "currency", nullable = false)
 	private AcceptedCurrency currency;
-	
+
 	@ToString.Include
 	@Column(name = "payment_method", nullable = false)
 	private PaymentMethods paymentMethod;

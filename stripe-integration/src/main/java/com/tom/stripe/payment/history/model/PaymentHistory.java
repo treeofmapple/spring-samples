@@ -45,7 +45,7 @@ public class PaymentHistory extends Auditable {
 
 	@ToString.Include
 	@Enumerated(EnumType.STRING)
-	@Column(name = "status", nullable = false)
+	@Column(name = "payment_status", nullable = false)
 	private PaymentStatus status;
 
 	@ToString.Include

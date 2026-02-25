@@ -1,0 +1,39 @@
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client-benchmark
+    ports:
+       - "${CLIENT_PORT}:${CLIENT_PORT}"
+    depends_on:
+       - postgres-benchmark
+    mem_limit: 256mb
+    networks:
+       - benchmark-network
+
+  order:
+    build:
+      context: ./order
+      dockerfile: Dockerfile
+    container_name: order-benchmark
+    ports:
+       - "${ORDER_PORT}:${ORDER_PORT}"
+    depends_on:
+       - postgres-benchmark
+    mem_limit: 256mb
+    networks:
+       - benchmark-network
+
+  product:
+    build:
+      context: ./product
+      dockerfile: Dockerfile
+    container_name: client-benchmark
+    ports:
+       - "${ORDER_PORT}:${ORDER_PORT}"
+    depends_on:
+       - postgres-benchmark
+    mem_limit: 256mb
+    networks:
+       - benchmark-network

@@ -8,10 +8,13 @@ import com.tom.stripe.payment.global.Auditable;
 import com.tom.stripe.payment.history.model.PaymentHistory;
 import com.tom.stripe.payment.payment.enums.AcceptedCurrency;
 import com.tom.stripe.payment.payment.enums.PaymentMethods;
+import com.tom.stripe.payment.payment.enums.PaymentStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -54,20 +57,28 @@ public class Payment extends Auditable {
 	@Transient
 	private String receiptUrl;
 
-	// indepotency key
-
 	@ToString.Include
 	@Column(precision = 15, scale = 2, nullable = false)
 	private BigDecimal amount;
 
 	@ToString.Include
-	@Column(name = "currency", nullable = false)
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false)
+	private PaymentStatus status;
+	
+	@ToString.Include
+	@Enumerated(EnumType.STRING)
+	@Column(name = "currency", nullable = true)
 	private AcceptedCurrency currency;
 
 	@ToString.Include
-	@Column(name = "payment_method", nullable = false)
+	@Enumerated(EnumType.STRING)
+	@Column(name = "method", nullable = true)
 	private PaymentMethods paymentMethod;
 
+	@Column(name = "active")
+	private Boolean active = true;
+	
 	@OneToMany(mappedBy = "payment", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<PaymentHistory> paymentHistory;
 

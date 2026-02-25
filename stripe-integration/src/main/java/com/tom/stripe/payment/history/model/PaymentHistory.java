@@ -49,7 +49,7 @@ public class PaymentHistory extends Auditable {
 	private PaymentStatus status;
 
 	@ToString.Include
-	@Column(name = "reason", nullable = true)
+	@Column(name = "reason", nullable = true, columnDefinition = "TEXT")
 	private String reason;
 
 }

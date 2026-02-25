@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -22,12 +23,15 @@ public interface UserMapper {
 
 	User build(UserRequest request);
 	
-	User build(PostalInfoRequest request);
-
 	UserResponse toResponse(User user);
 
 	SimpleUserResponse toSimpleResponse(User user);
+
+	@Mapping(target = "id", ignore = true)
+	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	void update(@MappingTarget User user, PostalInfoRequest request);
 	
+	@Mapping(target = "id", ignore = true)
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	void update(@MappingTarget User user, UserUpdate request);
 

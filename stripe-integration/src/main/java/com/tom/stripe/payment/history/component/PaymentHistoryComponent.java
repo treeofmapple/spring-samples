@@ -52,5 +52,14 @@ public class PaymentHistoryComponent {
 				.build();
 		repository.save(history);
 	}
+
+	@Transactional
+	public void buildHistory(Payment payments, PaymentStatus status) {
+		var history = PaymentHistory.builder()
+				.payment(payments)
+				.status(status)
+				.build();
+		repository.save(history);
+	}
 	
 }

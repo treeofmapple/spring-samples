@@ -44,7 +44,7 @@ public class User extends Auditable {
 	private String email;
 
 	@Column(name = "tax_id", length = 20, nullable = true)
-	private String taxId;
+	private String taxId; // cpf
 
 	@Column(name = "postal_code", length = 20, nullable = true)
 	private String postalCode;
@@ -61,7 +61,7 @@ public class User extends Auditable {
 
 	@ToString.Include
 	@Column(name = "preffered_currency", nullable = true)
-	private AcceptedCurrency currencyPreffered;
+	private AcceptedCurrency currencyPreferred;
 
 	@ToString.Include
 	@Column(name = "preffered_paymentMethod", nullable = true)

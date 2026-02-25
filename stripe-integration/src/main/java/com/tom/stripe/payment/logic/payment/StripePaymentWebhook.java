@@ -30,7 +30,7 @@ public class StripePaymentWebhook {
 			@RequestHeader("Stripe-Signature") String sigHeader) {
 		Event event;
 		try {
-			event = Webhook.constructEvent(payload, sigHeader, sigHeader);
+			event = Webhook.constructEvent(payload, sigHeader, endpointSecret);
 		} catch (SignatureVerificationException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Signature");
 		}

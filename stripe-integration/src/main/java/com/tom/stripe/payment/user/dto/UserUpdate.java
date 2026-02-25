@@ -6,7 +6,10 @@ public record UserUpdate(
 		
 		UUID userId,
 		String nickname,
-		String email
+		String email,
+		String taxId,
+		String postalCode,
+		String countryCode
 		
 ) {
 

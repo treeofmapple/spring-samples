@@ -1,6 +1,8 @@
 package com.tom.stripe.payment.logic.payment;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -9,11 +11,13 @@ import com.stripe.model.Charge;
 import com.stripe.model.Customer;
 import com.stripe.model.PaymentIntent;
 import com.stripe.model.Refund;
+import com.stripe.model.TaxId;
 import com.stripe.param.CustomerCreateParams;
 import com.stripe.param.CustomerUpdateParams;
 import com.stripe.param.PaymentIntentCreateParams;
 import com.stripe.param.PaymentIntentRetrieveParams;
 import com.stripe.param.RefundCreateParams;
+import com.stripe.param.TaxIdCreateParams;
 import com.tom.stripe.payment.exception.payment.PaymentException;
 import com.tom.stripe.payment.exception.server.InternalException;
 import com.tom.stripe.payment.payment.enums.AcceptedCurrency;
@@ -27,19 +31,21 @@ import lombok.RequiredArgsConstructor;
 public class StripePayment {
 
 	public PaymentIntent createPaymentIntent(BigDecimal amount, User user) {
-		if (amount == null) {
-			throw new PaymentException(String.format("Payment amount wasn't defined: %s", amount));
+		if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+			throw new PaymentException(String.format("Payment amount invalid"));
 		}
 	
-		if (user.getCurrencyPreffered() == null) {
+		if (user.getCurrencyPreferred() == null) {
 			throw new PaymentException(
-					String.format("User didn't defined preffered currency: %s", user.getCurrencyPreffered()));
+					String.format("User didn't defined preffered currency: %s", user.getCurrencyPreferred()));
 		}
+		
+		long amountInCents = amount.setScale(2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)).longValue();
 		
 		try {
 			PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-				.setAmount(amount.longValue())
-				.setCurrency(user.getCurrencyPreffered().getCurrencyString())
+				.setAmount(amountInCents)
+				.setCurrency(user.getCurrencyPreferred().getCurrencyString())
 				.setCustomer(user.getStripeCustomerId())
 				.addPaymentMethodType(user.getDefaultPaymentMethods().getPaymentMethodString())
 				.setReceiptEmail(user.getEmail())
@@ -128,24 +134,46 @@ public class StripePayment {
 		        .putMetadata("internal_id", user.getId().toString())
 		        .putMetadata("created_at", String.valueOf(System.currentTimeMillis()))
 		        .build();
+			
 		    Customer customer = Customer.create(params);
 		    return customer.getId();
 		} catch(StripeException e) {
 			throw new InternalException(String.format("System was unable to create user: %s, cause: %s", user.getEmail(), e.getMessage()));
 		}
 	}
-	
+
 	public void updateStripeCustomer(String stripeCustomerId, User user) {
 	    try {
-	        Customer customer = Customer.retrieve(stripeCustomerId);
-	        
-	        CustomerUpdateParams params = CustomerUpdateParams.builder()
-	                .setEmail(user.getEmail())
-	                .setName(user.getNickname())
-	                .putMetadata("updated_at", String.valueOf(System.currentTimeMillis()))
-	                .build();
+	        CustomerUpdateParams.Builder params = CustomerUpdateParams.builder()
+	                .putMetadata("updated_at", String.valueOf(System.currentTimeMillis()));
 
+			if (user.getEmail() != null) {
+				params.setEmail(user.getEmail());
+			}
+			if (user.getNickname() != null) {
+				params.setName(user.getNickname());
+			}	        	
+	        
+	        
+	        if (user.getTaxId() != null && !user.getTaxId().isBlank()) {
+	            
+	            boolean alreadyExists = customer.getTaxIds().list(Map.of())
+	                    .getData().stream()
+	                    .anyMatch(t -> t.getValue().equals(user.getTaxId()));
+
+	            if (!alreadyExists) {
+	                TaxIdCreateParams taxParams = TaxIdCreateParams.builder()
+	                        .setType(determineTaxIdType(user.getTaxId()))
+	                        .setValue(user.getTaxId())
+	                        .build();
+
+	                TaxId.create(taxParams);
+	            }
+	        }
+	        
+	        Customer customer = Customer.retrieve(stripeCustomerId);
 	        customer.update(params);
+	        
 	    } catch (StripeException e) {
 			throw new InternalException(String.format("System was unable to update Stripe client: %s, cause: %s ",
 					stripeCustomerId, e.getMessage()));
@@ -161,6 +189,12 @@ public class StripePayment {
 			throw new InternalException(
 					String.format("System was unable to delete the user cause: %s", e.getMessage()));
 		}
+	}
+	
+	private TaxIdCreateParams.Type determineTaxIdType(String taxId) {
+	    return (taxId.replaceAll("\\D", "").length() <= 11) 
+	            ? TaxIdCreateParams.Type.BR_CPF 
+	            : TaxIdCreateParams.Type.BR_CNPJ;
 	}
 	
 }

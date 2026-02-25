@@ -27,6 +27,9 @@ public abstract class Auditable {
 	@Column(name = "updated_at", nullable = false)
 	private ZonedDateTime updatedAt;
 
+	@Column(name = "deleted_at")
+	private ZonedDateTime deletedAt;
+	
 	@Version
 	@Column(name = "version", nullable = false)
 	private Long version = 0L;

@@ -11,8 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tom.stripe.payment.logic.payment.StripePayment;
 import com.tom.stripe.payment.logic.security.SecurityUtils;
+import com.tom.stripe.payment.payment.enums.AcceptedCurrency;
+import com.tom.stripe.payment.payment.enums.PaymentMethods;
 import com.tom.stripe.payment.user.component.UserComponent;
 import com.tom.stripe.payment.user.dto.PageUserResponse;
+import com.tom.stripe.payment.user.dto.PostalInfoRequest;
 import com.tom.stripe.payment.user.dto.SimpleUserResponse;
 import com.tom.stripe.payment.user.dto.UserRequest;
 import com.tom.stripe.payment.user.dto.UserResponse;
@@ -55,19 +58,19 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public SimpleUserResponse searchById(UUID userId) {
+	public SimpleUserResponse searchUserById(UUID userId) {
 		var user = component.findById(userId);
 		return mapper.toSimpleResponse(user);
 	}
 
 	@Transactional(readOnly = true)
-	public UserResponse searchByIdAuthenticated(UUID userId) {
+	public UserResponse searchUserByIdAuthenticated(UUID userId) {
 		var user = component.findById(userId);
 		return mapper.toResponse(user);
 	}
 
 	@Transactional
-	public UserResponse createByUser(UserRequest request) {
+	public UserResponse createUser(UserRequest request) {
 		var userIp = security.getRequestingClientIp();
 		log.info("IP: {}, is creating user: {}", userIp, request.nickname());
 
@@ -99,7 +102,34 @@ public class UserService {
 		log.info("IP: {}, updated user: {}", userIp, request.nickname());
 		return mapper.toResponse(userEdited);
 	}
+	
+	@Transactional 
+	public UserResponse fillUserData(PostalInfoRequest request) {
+		var user = component.findById(request.userId());
+		mapper.update(user, request);
+		stripePayment.updateStripeCustomer(user.getStripeCustomerId(), user);
+		var userEdited = repository.save(user);
+		return mapper.toResponse(userEdited);
+	}
 
+	@Transactional
+	public UserResponse setDefaultCurrency(UUID userId, AcceptedCurrency currency) {
+		var user = component.findById(userId);
+		AcceptedCurrency.isValid(currency);
+	    user.setCurrencyPreferred(currency);
+		var userSaved = repository.save(user);
+		return mapper.toResponse(userSaved);
+	}
+
+	@Transactional
+	public UserResponse setDefaultPaymentMethod(UUID userId, PaymentMethods paymentMethod) {
+		var user = component.findById(userId);
+		PaymentMethods.isValid(paymentMethod);
+	    user.setDefaultPaymentMethods(paymentMethod);
+		var userSaved = repository.save(user);
+		return mapper.toResponse(userSaved);
+	}
+	
 	/*
 	 * revoking user access is better, but i don't had implemented that, but this is
 	 * more drastic, just for testing also
@@ -112,7 +142,7 @@ public class UserService {
 
 		var user = component.findById(userId);
 		stripePayment.deleteStripeCustomer(user.getStripeCustomerId());
-		repository.deleteById(userId);
+		repository.delete(user);
 
 		log.info("IP: {}, deleted user with id: {}", userIp, userId);
 	}

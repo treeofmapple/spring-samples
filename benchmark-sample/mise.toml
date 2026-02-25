@@ -1,0 +1,35 @@
+[tools]
+maven = "3"
+
+[env]
+file = "compose/.env"
+
+[tasks."run:monolith"]
+dir = "monolith"
+run = "mvn spring-boot:run"
+
+[tasks."run:order"]
+dir = "order"
+run = "mvn spring-boot:run"
+
+[tasks."run:product"]
+dir = "product"
+run = "mvn spring-boot:run"
+
+[tasks."run:client"]
+dir = "client"
+run = "mvn spring-boot:run"
+
+[tasks.run]
+description = "Run all Spring services in parallel"
+depends = ["run:order", "run:product", "run:client"]
+
+[tasks.docker_run]
+description = "Run Docker Compose Project"
+dir = "compose"
+run = "docker compose up --build"
+
+[tasks.docker_stop]
+description = "Stop Docker Compose Project"
+dir = "compose"
+run = "docker compose down"

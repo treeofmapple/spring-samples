@@ -1,20 +1,18 @@
-package com.tom.reactive.first.logic.security;
+package com.tom.benchmark.client.logic;
 
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
-import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class SecurityUtils {
 
-    private final HttpServletRequest request;
-
-    public SecurityUtils(HttpServletRequest request) {
-        this.request = request;
-    }
+    private final ServerHttpRequest request;
 
     public String getRequestingClientIp() {
-    	return this.request.getRemoteAddr();
+    	return this.request.getRemoteAddress().getHostString();
     }
 
     /*
@@ -23,8 +21,6 @@ public class SecurityUtils {
         return getAuthenticatedUser()
                 .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("User is not authenticated"));
     }
-
-
 
 	public void invalidateUserSession() {
 		var session = request.getSession(false);

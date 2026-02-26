@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: actuator, console, ${PROFILE:test}
+    active: console, ${PROFILE:test}
   application:
       name: Reactive-Test
 

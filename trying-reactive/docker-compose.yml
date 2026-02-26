@@ -4,5 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: reactive-test
+    restart: unless-stopped
     ports:
        - "${REACTIVE_PORT}:${REATIVE_PORT}"
+    env_file:
+       - .env

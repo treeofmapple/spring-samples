@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: actuator, console, prod # ${PROFILE:test}
+  application:
+      name: product-benchmark
+
+server:
+  port: ${PRODUCT_PORT:8000}
+  forward-headers-strategy: framework

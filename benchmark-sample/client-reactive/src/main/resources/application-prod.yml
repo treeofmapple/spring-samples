@@ -1,0 +1,28 @@
+spring:
+  main:
+    lazy-initialization: false
+  r2dbc:
+    url: r2dbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:benchmarkdb}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    pool:
+      initial-size: 20
+      max-size: 100 
+      max-idle-time: 30m
+      max-create-connection-time: 5s
+      max-acquire-time: 5s
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:benchmarkdb}
+    user: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    clean-disabled: false 
+    validate-on-migrate: true
+    baseline-on-migrate: false
+    baseline-version: ${FLYWAY_VERSION:1}    
+      
+application:
+  size:
+    page: ${PAGE_SIZE:20}
+

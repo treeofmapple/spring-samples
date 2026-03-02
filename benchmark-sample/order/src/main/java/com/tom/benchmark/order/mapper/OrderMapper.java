@@ -12,7 +12,7 @@ import com.tom.benchmark.order.dto.OrderRequest;
 import com.tom.benchmark.order.dto.OrderResponse;
 import com.tom.benchmark.order.model.Order;
 
-@Mapper(componentModel = "spring", 
+@Mapper(componentModel = "spring",
 uses = {OrderItemMapper.class},
 unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface OrderMapper {
@@ -38,5 +38,5 @@ public interface OrderMapper {
                 .map(itemResponse -> itemResponse.itemTotal())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-    
+
 }

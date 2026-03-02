@@ -19,13 +19,13 @@ public interface OrderItemMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "order", ignore = true)
     @Mapping(target = "productId", ignore = true)
-    @Mapping(target = "priceAtPurchase", ignore = true) 
+    @Mapping(target = "priceAtPurchase", ignore = true)
 	OrderItem toOrderItem(OrderItemRequest request);
 
     @Mapping(target = "productName", ignore = true)
 	@Mapping(target = "itemTotal", expression = "java(calculateItemTotal(orderItem))")
 	OrderItemResponse toResponse(OrderItem orderItem);
-	
+
     default BigDecimal calculateItemTotal(OrderItem orderItem) {
         if (orderItem == null || orderItem.getPriceAtPurchase() == null) {
             return BigDecimal.ZERO;

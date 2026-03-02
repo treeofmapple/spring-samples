@@ -25,12 +25,12 @@ public interface ProductMapper {
 	Product build(ProductRequest request);
 
 	ProductResponse toResponse(Product product);
-	
+
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "createdAt", ignore = true)
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	void update(@MappingTarget Product product, ProductUpdate request);
-	
+
 	default PageProductResponse toResponse(List<Product> list, Integer page, Integer size) {
 		List<ProductResponse> content = list.stream().map(this::toResponse).toList();
 		return new PageProductResponse(content, page, size, 0, (long) list.size());

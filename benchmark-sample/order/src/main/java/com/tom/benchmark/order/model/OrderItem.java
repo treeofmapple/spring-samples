@@ -35,10 +35,10 @@ public class OrderItem {
 
     @Column(name = "product_id", nullable = false)
     private Long productId;
-    
+
     @Column(name = "quantity", nullable = false)
     private int quantity;
-	
+
     @Column(name = "price_at_purchase", nullable = false, precision = 10, scale = 2)
     private BigDecimal priceAtPurchase;
 

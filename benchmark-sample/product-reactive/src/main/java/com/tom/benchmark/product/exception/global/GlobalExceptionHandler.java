@@ -10,6 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.server.ServerWebInputException;
+import org.springframework.web.server.UnsupportedMediaTypeStatusException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -34,22 +36,17 @@ public class GlobalExceptionHandler {
 				"Current request is not a multipart request. Please ensure you are sending 'form-data'."));
 	}
 
-	/*
-	
-	@ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-	public ResponseEntity<ApiErrorResponse> handleUnsupportedMedia(HttpMediaTypeNotSupportedException ex) {
-		String message = String.format("Invalid Media Type Ensure you are using 'form-data' in your request body: ",
-				ex.getCause());
+	@ExceptionHandler(UnsupportedMediaTypeStatusException.class)
+	public ResponseEntity<ApiErrorResponse> handleUnsupportedMedia(UnsupportedMediaTypeStatusException ex) {
+		String message = "Invalid Media Type Ensure you are using 'form-data' in your request body.";
 		return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(new ApiErrorResponse(message));
 	}
 
-	@ExceptionHandler(MissingServletRequestParameterException.class)
-	public ResponseEntity<ApiErrorResponse> handleMissingParams(MissingServletRequestParameterException ex) {
+	@ExceptionHandler(ServerWebInputException.class)
+	public ResponseEntity<ApiErrorResponse> handleMissingParams(ServerWebInputException ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-				.body(new ApiErrorResponse("Missing required parameter: " + ex.getParameterName()));
+				.body(new ApiErrorResponse("Missing required parameter: " + ex.getReason()));
 	}
-
-	 */
 
 	@ExceptionHandler({ MethodArgumentNotValidException.class })
 	public ResponseEntity<ErrorResponse> handle(MethodArgumentNotValidException exp) {

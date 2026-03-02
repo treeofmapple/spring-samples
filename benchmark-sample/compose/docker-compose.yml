@@ -4,36 +4,60 @@ services:
       context: ./client
       dockerfile: Dockerfile
     container_name: client-benchmark
+    restart: unless-stopped
     ports:
-       - "${CLIENT_PORT}:${CLIENT_PORT}"
+       - "${CLIENT_PORT:-8000}:${CLIENT_PORT:-8000}"
     depends_on:
-       - postgres-benchmark
+       - postgres
     mem_limit: 256mb
-    networks:
-       - benchmark-network
+    env_file:
+      - .env
 
   order:
     build:
       context: ./order
       dockerfile: Dockerfile
     container_name: order-benchmark
+    restart: unless-stopped
     ports:
-       - "${ORDER_PORT}:${ORDER_PORT}"
+       - "${ORDER_PORT:-8001}:${ORDER_PORT:-8001}"
     depends_on:
-       - postgres-benchmark
+      - product
+      - client
+      - postgres
     mem_limit: 256mb
-    networks:
-       - benchmark-network
+    env_file:
+      - .env
 
   product:
     build:
       context: ./product
       dockerfile: Dockerfile
-    container_name: client-benchmark
+    container_name: product-benchmark
+    restart: unless-stopped
     ports:
-       - "${ORDER_PORT}:${ORDER_PORT}"
+       - "${PRODUCT_PORT:-8002}:${PRODUCT_PORT:-8002}"
     depends_on:
-       - postgres-benchmark
+       - postgres
     mem_limit: 256mb
-    networks:
-       - benchmark-network
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:16
+    container_name: postgres-test
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    env_file:
+      - .env
+
+
+volumes:
+  pgdata:

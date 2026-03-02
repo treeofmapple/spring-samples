@@ -33,3 +33,13 @@ run = "docker compose up --build"
 description = "Stop Docker Compose Project"
 dir = "compose"
 run = "docker compose down"
+
+[tasks.docker_postgres_up]
+description = "Run Postgres Database"
+dir = "compose"
+run = "docker compose up postgres -d"
+
+[tasks.docker_postgres_down]
+description = "Stop Postgres Database"
+dir = "compose"
+run = "docker compose down postgres"

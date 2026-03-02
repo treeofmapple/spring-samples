@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: actuator, console, prod # ${PROFILE:test}
+    active: actuator, console, ${PROFILE:test}
   application:
       name: product-benchmark
 

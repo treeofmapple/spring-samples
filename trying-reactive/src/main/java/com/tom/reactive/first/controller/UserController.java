@@ -50,7 +50,7 @@ public class UserController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Mono<UserResponse> createMail(@RequestBody UserRequest request) {
+	public Mono<UserResponse> createUser(@RequestBody UserRequest request) {
 		return service.createUser(request);
 	}
 

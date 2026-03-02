@@ -23,14 +23,3 @@ management:
     metrics:
       export:
         enabled: true
-
-logging:
-  level:
-    io:
-      r2dbc:
-        postgres: DEBUG
-    root: INFO
-    org:
-      springframework: warn
-      boot: error
-      r2dbc: DEBUG

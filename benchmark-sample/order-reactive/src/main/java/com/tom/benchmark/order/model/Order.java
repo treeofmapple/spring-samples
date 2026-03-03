@@ -1,7 +1,7 @@
 package com.tom.benchmark.order.model;
 
 import java.time.ZonedDateTime;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
@@ -36,7 +36,7 @@ public class Order {
 
 	@Column("items")
 	@MappedCollection(idColumn = "orders_id")
-	private List<OrderItem> items;
+	private Set<OrderItem> items;
 
 	@ReadOnlyProperty
 	@Column("created_at")

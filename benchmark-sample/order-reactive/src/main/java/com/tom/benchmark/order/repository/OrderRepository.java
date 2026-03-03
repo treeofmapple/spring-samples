@@ -8,7 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import com.tom.benchmark.order.model.Order;
 
+import reactor.core.publisher.Mono;
+
 @Repository
 public interface OrderRepository extends ReactiveCrudRepository<Order, UUID>, ReactiveQueryByExampleExecutor<Order> {
 
+	Mono<Boolean> existsByClientId(UUID clientId);
+	
 }

@@ -36,11 +36,17 @@ public class ProductService {
 	private final ProductRepository repository;
 	private final ProductMapper mapper;
 	private final R2dbcEntityTemplate entityTemplate;
-	
+
 	@Transactional(readOnly = true)
 	public Mono<ProductResponse> searchProductById(UUID productId) {
 		return repository.findById(productId).map(mapper::toResponse)
 				.switchIfEmpty(Mono.error(new NotFoundException("Product with ID: " + productId + " was not found.")));
+	}
+	
+	@Transactional(readOnly = true)
+	public Mono<ProductResponse> searchProductBySku(String productSku) {
+		return repository.findBySku(productSku).map(mapper::toResponse).switchIfEmpty(
+				Mono.error(new NotFoundException("Product with Sku: " + productSku + " was not found.")));
 	}
 
 	@Transactional(readOnly = true)
@@ -68,8 +74,8 @@ public class ProductService {
 	@Transactional
 	public Mono<ProductResponse> updateProduct(ProductUpdate request) {
 		return repository.findById(request.productId())
-				.switchIfEmpty(
-						Mono.error(new NotFoundException("Product with ID: " + request.productId() + " was not found.")))
+				.switchIfEmpty(Mono
+						.error(new NotFoundException("Product with ID: " + request.productId() + " was not found.")))
 				.flatMap(existentUser -> {
 					mapper.update(existentUser, request);
 					existentUser.setId(request.productId());
@@ -86,5 +92,5 @@ public class ProductService {
 			return Mono.error(new NotFoundException("Client with ID: " + userId + " was not found."));
 		});
 	}
-	
+
 }

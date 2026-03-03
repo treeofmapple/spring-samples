@@ -21,7 +21,7 @@ public interface OrderMapper {
 	@Mapping(target = "id", ignore = true)
 	Order build(OrderRequest request);
 	
-	OrderResponse toResponse(Order order);
+	OrderResponse toResponse(Order order, String clientName);
 	
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "createdAt", ignore = true)

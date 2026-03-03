@@ -17,5 +17,4 @@ public interface ProductRepository
 	Mono<Product> findBySku(String sku);
 
 	Mono<Product> findByName(String name);
-
 }

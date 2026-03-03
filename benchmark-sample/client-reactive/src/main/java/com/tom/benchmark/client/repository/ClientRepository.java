@@ -14,5 +14,7 @@ import reactor.core.publisher.Mono;
 public interface ClientRepository extends ReactiveCrudRepository<Client, UUID>, ReactiveQueryByExampleExecutor<Client> {
 
 	Mono<Client> findByName(String name);
+	
+	Mono<Client> findByCpf(String cpf);
 
 }

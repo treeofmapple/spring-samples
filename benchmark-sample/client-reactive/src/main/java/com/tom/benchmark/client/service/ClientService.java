@@ -41,6 +41,12 @@ public class ClientService {
 		return repository.findById(clientId).map(mapper::toResponse)
 				.switchIfEmpty(Mono.error(new NotFoundException("Client with ID: " + clientId + " was not found.")));
 	}
+	
+	@Transactional(readOnly = true)
+	public Mono<ClientResponse> searchClientByCpf(String cpf) {
+		return repository.findByCpf(cpf).map(mapper::toResponse)
+				.switchIfEmpty(Mono.error(new NotFoundException("Client with CPF: " + cpf + " was not found.")));
+	}
 
 	@Transactional(readOnly = true)
 	public Mono<PageClientResponse> searchClientByParams(int page, String name, String cpf) {
@@ -77,12 +83,12 @@ public class ClientService {
 	}
 
 	@Transactional
-	public Mono<Void> deleteClient(UUID userId) {
-		return repository.existsById(userId).flatMap(exists -> {
+	public Mono<Void> deleteClient(UUID clientId) {
+		return repository.existsById(clientId).flatMap(exists -> {
 			if (Boolean.TRUE.equals(exists)) {
-				return repository.deleteById(userId);
+				return repository.deleteById(clientId);
 			}
-			return Mono.error(new NotFoundException("Client with ID: " + userId + " was not found."));
+			return Mono.error(new NotFoundException("Client with ID: " + clientId + " was not found."));
 		});
 	}
 

@@ -36,8 +36,14 @@ public class ProductController {
 
 	@GetMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public Mono<ProductResponse> searchProductById(@PathVariable(value = "id") UUID userId) {
-		return service.searchProductById(userId);
+	public Mono<ProductResponse> searchProductById(@PathVariable(value = "id") UUID productId) {
+		return service.searchProductById(productId);
+	}
+
+	@GetMapping(params = "sku")
+	@ResponseStatus(HttpStatus.OK)
+	public Mono<ProductResponse> searchProductBySku(@RequestParam(value = "sku") String productSku) {
+		return service.searchProductBySku(productSku);
 	}
 
 	@GetMapping(value = "/search")

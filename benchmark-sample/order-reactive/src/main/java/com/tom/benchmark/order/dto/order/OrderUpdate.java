@@ -1,5 +1,11 @@
 package com.tom.benchmark.order.dto.order;
 
-public record OrderUpdate() {
+import java.util.UUID;
+
+public record OrderUpdate(
+
+		UUID orderId
+		
+) {
 
 }

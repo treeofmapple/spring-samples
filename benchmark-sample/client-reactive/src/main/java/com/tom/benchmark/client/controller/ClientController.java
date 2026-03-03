@@ -39,6 +39,12 @@ public class ClientController {
 		return service.searchClientById(userId);
 	}
 
+	@GetMapping(value = "/{cpf}")
+	@ResponseStatus(HttpStatus.OK)
+	public Mono<ClientResponse> searchClientByCpf(@PathVariable(value = "cpf") String dataCpf) {
+		return service.searchClientByCpf(dataCpf);
+	}
+
 	@GetMapping(value = "/search")
 	@ResponseStatus(HttpStatus.OK)
 	public Mono<PageClientResponse> searchClientByParams(

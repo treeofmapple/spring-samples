@@ -24,8 +24,8 @@ services:
     ports:
        - "${ORDER_PORT:-8001}:${ORDER_PORT:-8001}"
     depends_on:
-      - product
-      - client
+      - product-service
+      - client-service
       - postgres
       - discovery-reactive
       - gateway-reactive

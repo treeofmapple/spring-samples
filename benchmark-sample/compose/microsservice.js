@@ -1,6 +1,8 @@
 import http from 'k6/http';
 import { check, sleep, group } from 'k6';
 
+// Later it will be only one ip to deal with all the load
+
 const CLIENT_URL = 'http://localhost:8001/v1';
 const PRODUCT_URL = 'http://localhost:8002/v1';
 
@@ -12,13 +14,13 @@ export const options = {
     ],
     thresholds: {
         'http_req_duration': ['p(95)<500'],
-        'http_req_failed': ['rate<0.10'], 
-        'checks': ['rate>0.80'],          
+        'http_req_failed': ['rate<0.10'],
+        'checks': ['rate>0.80'],
     },
 };
 
 export default function () {
-    const uniqueId = `${__VU}-${__ITER}`; 
+    const uniqueId = `${__VU}-${__ITER}`;
 
     const clientCpf = `cpf-${uniqueId}`;
     const clientName = `Test Client ${uniqueId}`;

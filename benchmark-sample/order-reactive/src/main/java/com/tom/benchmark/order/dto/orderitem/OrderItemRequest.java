@@ -1,5 +1,10 @@
 package com.tom.benchmark.order.dto.orderitem;
 
-public record OrderItemRequest() {
+public record OrderItemRequest(
+		
+		String productSku,
+		Integer quantity
+		
+) {
 
 }

@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: console, ${PROFILE:test}
+  application:
+      name: gateway-benchmark
+
+server:
+  port: ${GATEWAY_PORT:8000}
+  forward-headers-strategy: framework

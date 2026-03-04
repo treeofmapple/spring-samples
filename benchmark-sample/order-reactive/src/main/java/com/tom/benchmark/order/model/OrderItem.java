@@ -22,28 +22,30 @@ import lombok.ToString;
 @ToString(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "order_item")
+@Table(name = "order_items")
 public class OrderItem {
 
-    @Id
-    @ToString.Include
-    private UUID Id;
+	@Id
+	@ToString.Include
+	private UUID Id;
 
-    @Column("orders_id") // , nullable = false)
-    private UUID orderId;
+	@Column("orders_id")
+	@ToString.Include
+	private UUID orderId;
 
-    @Column("product_id") //, nullable = false)
-    private UUID productId;
+	@Column("product_id")
+	@ToString.Include
+	private UUID productId;
 
-    @ToString.Include
-    @Column("quantity") // , nullable = false)
-    private Integer quantity;
+	@ToString.Include
+	@Column("quantity")
+	private Integer quantity;
 
-    @ToString.Include
-    @Column("price_at_purchase") //, nullable = false, precision = 10, scale = 2)
-    private BigDecimal priceAtPurchase;
+	@ToString.Include
+	@Column("price_at_purchase")
+	private BigDecimal priceAtPurchase;
 
-    @ReadOnlyProperty
+	@ReadOnlyProperty
 	@Column("created_at")
 	private ZonedDateTime createdAt;
 

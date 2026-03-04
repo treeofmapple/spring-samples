@@ -23,6 +23,7 @@ import com.tom.benchmark.order.repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Log4j2
@@ -38,42 +39,50 @@ public class OrderService {
 	private final ClientService clientService;
 	private final R2dbcEntityTemplate entityTemplate;
 
-	// make it work even if the findByCpf don't work when the service gets off
-	
 	@Transactional(readOnly = true)
 	public Mono<OrderResponse> searchOrderById(UUID orderId) {
-		return repository.findById(orderId).map(mapper::toResponse)
-				.switchIfEmpty(Mono.error(new NotFoundException("Order with ID: " + orderId + " was not found.")));
+		return repository.findById(orderId)
+				.switchIfEmpty(Mono.error(new NotFoundException("Order with ID: " + orderId + " was not found.")))
+				.flatMap(order -> clientService.findById(order.getClientId())
+						.map(client -> mapper.toResponse(order, client.name()))
+						.onErrorResume(e -> Mono.just(mapper.toResponse(order, null))));
 	}
 
 	@Transactional(readOnly = true)
-	public Mono<PageOrderResponse> searchClientByParams(int page) {
+	public Mono<PageOrderResponse> searchOrderByParams(int page) {
 		Order probe = Order.builder().build();
 
 		ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase()
 				.withStringMatcher(StringMatcher.CONTAINING).withIgnoreNullValues();
 
 		return repository.findAll(Example.of(probe, matcher)).skip((long) page * PAGE_SIZE).take(PAGE_SIZE)
-				.collectList().map(list -> mapper.toResponse(list, page, PAGE_SIZE));
+				.collectList()
+				.flatMap(list -> Flux.fromIterable(list)
+						.flatMap(order -> clientService.findById(order.getClientId())
+								.map(client -> mapper.toResponse(order, client.name()))
+								.onErrorResume(e -> Mono.just(mapper.toResponse(order, null))))
+						.collectList()
+						.map(content -> new PageOrderResponse(content, page, PAGE_SIZE, 0, (long) list.size())));
 	}
 
-	@Transactional
+	@Transactional // only creates with clientId
 	public Mono<OrderResponse> createOrder(OrderRequest request) {
 		return clientService.findByCpf(request.clientCpf())
 				.switchIfEmpty(Mono.error(new NotFoundException("No client found with cpf provided")))
 				.flatMap(client -> repository.existsByClientId(client.id()).flatMap(exists -> {
 					if (exists) {
-						return Mono.error(new DataViolationException("Client already has an existing order"));
+						return Mono.<OrderResponse>error(
+								new DataViolationException("Client already has an existing order"));
 					}
 
 					Order order = mapper.build(request);
 					order.setClientId(client.id());
 
-					return repository.save(order).map(savedOrder -> mapper.toResponse(savedOrder, client.name()));
+					return entityTemplate.insert(order).map(savedOrder -> mapper.toResponse(savedOrder, client.name()));
 				}));
 	}
 
-	@Transactional
+	@Transactional // only updates with clientId
 	public Mono<OrderResponse> updateOrder(OrderUpdate request) {
 		return repository.findById(request.orderId())
 				.switchIfEmpty(
@@ -82,11 +91,14 @@ public class OrderService {
 					mapper.update(existentOrder, request);
 					existentOrder.setId(request.orderId());
 					return entityTemplate.update(existentOrder);
-				}).map(mapper::toResponse);
+				})
+				.flatMap(order -> clientService.findById(order.getClientId())
+						.map(client -> mapper.toResponse(order, client.name()))
+						.onErrorResume(e -> Mono.just(mapper.toResponse(order, null))));
 	}
 
-	@Transactional
-	public Mono<Void> deleteOrder(UUID orderId) {
+	@Transactional // can delete without clientId
+	public Mono<Void> deleteOrderById(UUID orderId) {
 		return repository.existsById(orderId).flatMap(exists -> {
 			if (Boolean.TRUE.equals(exists)) {
 				return repository.deleteById(orderId);

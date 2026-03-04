@@ -1,5 +1,5 @@
 services:
-  client:
+  client-service:
     build:
       context: ./client
       dockerfile: Dockerfile
@@ -9,11 +9,13 @@ services:
        - "${CLIENT_PORT:-8000}:${CLIENT_PORT:-8000}"
     depends_on:
        - postgres
+       - discovery-reactive
+       - gateway-reactive
     mem_limit: 256mb
     env_file:
       - .env
 
-  order:
+  order-service:
     build:
       context: ./order
       dockerfile: Dockerfile
@@ -25,15 +27,48 @@ services:
       - product
       - client
       - postgres
+      - discovery-reactive
+      - gateway-reactive
     mem_limit: 256mb
     env_file:
       - .env
 
-  product:
+  product-service:
     build:
       context: ./product
       dockerfile: Dockerfile
     container_name: product-benchmark
+    restart: unless-stopped
+    ports:
+       - "${PRODUCT_PORT:-8002}:${PRODUCT_PORT:-8002}"
+    depends_on:
+       - postgres
+       - discovery-reactive
+       - gateway-reactive
+    mem_limit: 256mb
+    env_file:
+      - .env
+
+  gateway-reactive:
+    build:
+      context: ./gateway-reactive
+      dockerfile: Dockerfile
+    container_name: gateway-benchmark
+    restart: unless-stopped
+    ports:
+       - "${PRODUCT_PORT:-8002}:${PRODUCT_PORT:-8002}"
+    depends_on:
+       - postgres
+       - discovery-reactive
+    mem_limit: 256mb
+    env_file:
+      - .env
+
+  discovery-reactive:
+    build:
+      context: ./discovery-reactive
+      dockerfile: Dockerfile
+    container_name: discovery-benchmark
     restart: unless-stopped
     ports:
        - "${PRODUCT_PORT:-8002}:${PRODUCT_PORT:-8002}"

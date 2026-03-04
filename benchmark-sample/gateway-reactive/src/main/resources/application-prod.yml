@@ -1,0 +1,32 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+          routes:
+            - id: product-service-route
+              uri: lb://product-benchmark
+              predicates:
+                - Path=/product/**
+              filters:
+                - StripPrefix=1
+                - AddRequestHeader=X-Request-Time, {T(java.time.LocalDateTime).now().toString()}
+                 
+            - id: client-service-route
+              uri: lb://client-benchmark
+              predicates:
+                - Path=/client/**
+              filters:
+                - StripPrefix=1
+                - AddRequestHeader=X-Request-Time, {T(java.time.LocalDateTime).now().toString()}
+                
+            - id: order-service-route
+              uri: lb://order-benchmark
+              predicates:
+                - Path=/order/**
+              filters:
+                - StripPrefix=1
+                - AddRequestHeader=X-Request-Time, {T(java.time.LocalDateTime).now().toString()}

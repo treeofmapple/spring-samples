@@ -1,6 +1,7 @@
 package com.tom.benchmark.order.dto.orderitem;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public record OrderItemResponse(
@@ -9,7 +10,8 @@ public record OrderItemResponse(
 		String productName,
 		Integer quantity,
 		BigDecimal priceAtPurchase,
-		BigDecimal itemTotal
+		BigDecimal itemTotal,
+		ZonedDateTime createdAt
 		
 ) {
 

@@ -11,7 +11,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 public class ProductConfig {
 
 	@Bean
-	ProductService productService(@Value("${product.service-url}") String url) {
+	ProductService productService(@Value("${service.product.url}") String url) {
 		WebClient client = WebClient.builder().baseUrl(url).build();
 		HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(WebClientAdapter.create(client)).build();
 		return factory.createClient(ProductService.class);

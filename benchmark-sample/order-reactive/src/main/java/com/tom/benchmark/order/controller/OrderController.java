@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tom.benchmark.client.dto.ClientUpdate;
-import com.tom.benchmark.client.dto.PageClientResponse;
+import com.tom.benchmark.order.dto.order.OrderRequest;
 import com.tom.benchmark.order.dto.order.OrderResponse;
-import com.tom.benchmark.order.logic.client.ClientRequest;
-import com.tom.benchmark.order.logic.client.ClientResponse;
+import com.tom.benchmark.order.dto.order.OrderUpdate;
+import com.tom.benchmark.order.dto.order.PageOrderResponse;
 import com.tom.benchmark.order.service.OrderService;
 
 import jakarta.validation.constraints.Min;
@@ -36,34 +35,33 @@ public class OrderController {
 
 	@GetMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public Mono<OrderResponse> searchClientById(@PathVariable(value = "id") UUID userId) {
-		return service.searchClientById(userId);
+	public Mono<OrderResponse> searchOrderById(@PathVariable(value = "id") UUID orderId) {
+		return service.searchOrderById(orderId);
 	}
 
 	@GetMapping(value = "/search")
 	@ResponseStatus(HttpStatus.OK)
-	public Mono<PageClientResponse> searchClientByParams(
-			@RequestParam(defaultValue = "0", required = false) @Min(0) int page,
-			@RequestParam(required = false) String name, @RequestParam(required = false) String email) {
-		return service.searchClientByParams(page, name, email);
+	public Mono<PageOrderResponse> searchClientByParams(
+			@RequestParam(defaultValue = "0", required = false) @Min(0) int page) {
+		return service.searchOrderByParams(page);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Mono<ClientResponse> createClient(@RequestBody ClientRequest request) {
-		return service.createClient(request);
+	public Mono<OrderResponse> createOrder(@RequestBody OrderRequest request) {
+		return service.createOrder(request);
 	}
 
 	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
-	public Mono<ClientResponse> updateClient(@RequestBody ClientUpdate request) {
-		return service.updateClient(request);
+	public Mono<OrderResponse> updateClient(@RequestBody OrderUpdate request) {
+		return service.updateOrder(request);
 	}
 
 	@DeleteMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public Mono<Void> deleteClient(@PathVariable(value = "id") UUID userId) {
-		return service.deleteClient(userId);
+	public Mono<Void> deleteOrderById(@PathVariable(value = "id") UUID orderId) {
+		return service.deleteOrderById(orderId);
 	}
-	
+
 }

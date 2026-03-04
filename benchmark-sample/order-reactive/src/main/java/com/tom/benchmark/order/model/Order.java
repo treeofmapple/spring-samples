@@ -31,7 +31,7 @@ public class Order {
 	private UUID id;
 
 	@ToString.Include
-	@Column("clientId")
+	@Column("client_id")
 	private UUID clientId;
 
 	@Column("items")

@@ -1,0 +1,13 @@
+logging:
+  level:
+    io:
+      r2dbc:
+        postgres: DEBUG
+    root: INFO
+    org:
+      springframework: warn
+      boot: error
+      r2dbc: DEBUG
+    
+  pattern:
+    console: '%n %d{HH:mm:ss} | %highlight(%-5level) | %cyan(%logger{30}) | %msg'

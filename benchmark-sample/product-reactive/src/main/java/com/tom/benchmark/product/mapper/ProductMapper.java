@@ -16,12 +16,10 @@ import com.tom.benchmark.product.dto.ProductResponse;
 import com.tom.benchmark.product.dto.ProductUpdate;
 import com.tom.benchmark.product.model.Product;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, imports = { UUID.class,
-		java.time.ZonedDateTime.class })
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, imports = { UUID.class })
 public interface ProductMapper {
 
 	@Mapping(target = "id", expression = "java(UUID.randomUUID())")
-	@Mapping(target = "createdAt", expression = "java(java.time.ZonedDateTime.now())")
 	Product build(ProductRequest request);
 
 	ProductResponse toResponse(Product product);

@@ -7,7 +7,7 @@ spring:
 server:
   port: ${PRODUCT_PORT:8000}
   forward-headers-strategy: framework
-  
+
 eureka:
   client:
-    enabled: false
+    enabled: false  

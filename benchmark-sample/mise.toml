@@ -9,7 +9,7 @@ dir = "monolith"
 run = "mvn spring-boot:run"
 
 [tasks."run:order"]
-dir = "product-reactive"
+dir = "order-reactive"
 run = "mvn spring-boot:run"
 
 [tasks."run:product"]
@@ -17,7 +17,7 @@ dir = "product-reactive"
 run = "mvn spring-boot:run"
 
 [tasks."run:client"]
-dir = "product-reactive"
+dir = "client-reactive"
 run = "mvn spring-boot:run"
 
 [tasks.run]

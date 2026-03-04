@@ -22,7 +22,7 @@ import lombok.ToString;
 @ToString(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "product")
+@Table(name = "product", schema = "shop")
 public class Product {
 
 	@Id

@@ -5,5 +5,9 @@ spring:
       name: client-benchmark
 
 server:
-  port: ${CLIENT_PORT:8000}
+  port: ${CLIENT_PORT:8001}
   forward-headers-strategy: framework
+
+eureka:
+  client:
+    enabled: false

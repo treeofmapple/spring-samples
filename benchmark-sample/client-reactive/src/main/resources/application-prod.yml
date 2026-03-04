@@ -1,4 +1,8 @@
 spring:
+  sql:
+    init:
+      continue-on-error: true
+      mode: never
   main:
     lazy-initialization: false
   r2dbc:
@@ -13,13 +17,15 @@ spring:
       max-acquire-time: 5s
   flyway:
     enabled: true
+    default-schema: shop
+    table: flyway_schema_history_client
     locations: classpath:db/migration
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:benchmarkdb}
     user: ${DB_USER:postgres}
     password: ${DB_PASSWORD:postgres}
     clean-disabled: false 
     validate-on-migrate: true
-    baseline-on-migrate: false
+    baseline-on-migrate: true
     baseline-version: ${FLYWAY_VERSION:1}    
       
 application:

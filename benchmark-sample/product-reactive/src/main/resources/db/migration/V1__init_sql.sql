@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS product (
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     price NUMERIC(19,2) NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uk_product_sku UNIQUE (sku)
 );

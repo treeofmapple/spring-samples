@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "c19de17a-a6f9-4af8-8f8f-7f1db5d223d6",
+		"name": "Product-Reactive",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38340143"
+	},
+	"item": [
+		{
+			"name": "Create a Product",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomSku = \"SKU-\" + Math.random().toString(36).substring(7).toUpperCase();",
+							"pm.variables.set(\"randomSku\", randomSku);",
+							"",
+							"const min = 1;",
+							"const max = 40;",
+							"const randomPrice = (Math.random() * (max - min) + min).toFixed(2);",
+							"",
+							"pm.variables.set(\"randomPrice\", randomPrice);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"if (jsonData.id) {\r",
+							"    pm.collectionVariables.set(\"productId\", jsonData.id);\r",
+							"    console.log(\"Product ID: \" + jsonData.id + \" has been set.\");\r",
+							"}\r",
+							"if (jsonData.sku) {\r",
+							"    pm.collectionVariables.set(\"skuData\", jsonData.sku);\r",
+							"    console.log(\"Product SKU: \" + jsonData.sku + \" has been set.\");\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"sku\": \"{{randomSku}}\",\n    \"name\" : \"{{$randomBankAccountName}}\",\n    \"description\" : \"{{$randomCompanyName}} {{$randomPhrase}}\",\n    \"price\" : \"{{$randomPrice}}\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/v1/product",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Product by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/product/{{productId}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"product",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Product By SKU",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/product?sku={{skuData}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"product"
+					],
+					"query": [
+						{
+							"key": "sku",
+							"value": "{{skuData}}",
+							"description": "Product SKU data"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Producy By Page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/product/search?page=0",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"product",
+						"search"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0",
+							"description": "Product Page"
+						},
+						{
+							"key": "name",
+							"value": null,
+							"description": "Product Name",
+							"disabled": true
+						},
+						{
+							"key": "price",
+							"value": null,
+							"description": "Product Price",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"if (jsonData.id) {\r",
+							"    pm.collectionVariables.set(\"productId\", jsonData.id);\r",
+							"    console.log(\"Product ID: \" + jsonData.id + \" has been set.\");\r",
+							"}\r",
+							"if (jsonData.sku) {\r",
+							"    pm.collectionVariables.set(\"skuData\", jsonData.sku);\r",
+							"    console.log(\"Product SKU: \" + jsonData.sku + \" has been set.\");\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomSku = \"SKU-\" + Math.random().toString(36).substring(7).toUpperCase();\r",
+							"pm.variables.set(\"randomSku\", randomSku);\r",
+							"\r",
+							"const min = 1;\r",
+							"const max = 40;\r",
+							"const randomPrice = (Math.random() * (max - min) + min).toFixed(2);\r",
+							"\r",
+							"pm.variables.set(\"randomPrice\", randomPrice);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\" : \"{{productId}}\",\r\n    \"sku\": \"{{randomSku}}\",\r\n    \"name\" : \"{{$randomBankAccountName}}\",\r\n    \"description\" : \"{{$randomCompanyName}} {{$randomPhrase}}\",\r\n    \"price\" : \"{{$randomPrice}}\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/v1/product",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Product By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.unset(\"productId\");\r",
+							"console.log(\"Product ID has been cleared.\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/product/{{productId}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"product",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:8000"
+		},
+		{
+			"key": "BASE_URL",
+			"value": ""
+		},
+		{
+			"key": "skuData",
+			"value": ""
+		}
+	]
+}

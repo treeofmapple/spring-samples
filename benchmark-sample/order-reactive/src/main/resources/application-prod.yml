@@ -13,6 +13,8 @@ spring:
       max-acquire-time: 5s
   flyway:
     enabled: true
+    default-schema: shop
+    schemas: shop
     locations: classpath:db/migration
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:benchmarkdb}
     user: ${DB_USER:postgres}

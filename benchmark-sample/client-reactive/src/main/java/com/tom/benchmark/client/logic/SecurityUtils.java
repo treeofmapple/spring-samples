@@ -3,18 +3,13 @@ package com.tom.benchmark.client.logic;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
-import lombok.RequiredArgsConstructor;
-
 @Component
-@RequiredArgsConstructor
 public class SecurityUtils {
 
-    private final ServerHttpRequest request;
-
-    public String getRequestingClientIp() {
-    	return this.request.getRemoteAddress().getHostString();
+	public String getRequestingClientIp(ServerHttpRequest request) {
+        return request.getRemoteAddress().getHostString();
     }
-
+	
     /*
 
     public User getAuthenticatedUserOrThrow() {

@@ -39,24 +39,24 @@ public class OrderItemService {
 	@Transactional
 	public Mono<OrderItemResponse> addItemToOrder(UUID orderId, OrderItemRequest request) {
 		return productService.findBySku(request.productSku())
-				.onErrorResume(e -> {
-					return Mono.error(new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()));
-				})
+				.onErrorMap(e -> new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()))
 				.switchIfEmpty(
 						Mono.error(() -> new NotFoundException("Product not found with SKU: " + request.productSku())))
-				.flatMap(product -> {
-					return orderRepository.findById(orderId)
+				.flatMap(product -> orderRepository.findById(orderId)
 							.switchIfEmpty(Mono.error(() -> new NotFoundException("Order not found: " + orderId)))
 							.flatMap(order -> {
-								OrderItem orderItem = new OrderItem();
-								orderItem.setOrderId(orderId);
-								orderItem.setProductId(product.id());
-								orderItem.setQuantity(request.quantity());
-								orderItem.setPriceAtPurchase(product.price());
+								OrderItem orderItem = OrderItem.builder()
+								.Id(UUID.randomUUID())
+								.orderId(orderId)
+								.productId(product.id())
+								.quantity(request.quantity())
+								.priceAtPurchase(product.price())
+								.build();
 
-								return entityTemplate.insert(orderItem).map(mapper::toResponse);
-							});
-				});
+								return entityTemplate.insert(orderItem)
+										.map(data -> mapper.toResponse(data, product.name()));
+							})
+				);
 	}
 
 	@Transactional
@@ -68,7 +68,7 @@ public class OrderItemService {
 				.switchIfEmpty(Mono.error(() -> new NotFoundException("Order item not found: " + orderId)))
 				.flatMap(item -> {
 					if (!item.getOrderId().equals(orderId)) {
-						Mono.error(new DataViolationException("Item does not belong to current order"));
+						return Mono.error(new DataViolationException("Item does not belong to current order"));
 					}
 					return itemRepository.delete(item);
 				});

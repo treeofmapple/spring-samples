@@ -1,13 +1,14 @@
 package com.tom.benchmark.order.model;
 
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.AllArgsConstructor;
@@ -34,9 +35,9 @@ public class Order {
 	@Column("client_id")
 	private UUID clientId;
 
-	@Column("items")
-	@MappedCollection(idColumn = "orders_id")
-	private Set<OrderItem> items;
+	@Builder.Default
+	@Transient
+    private Set<OrderItem> items = new HashSet<>();
 
 	@ReadOnlyProperty
 	@Column("created_at")

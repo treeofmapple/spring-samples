@@ -1,0 +1,236 @@
+{
+  "info": {
+    "_postman_id": "556a37fb-0548-42dd-95f0-928056ecbf98",
+    "name": "Client-Reactive",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38340143"
+  },
+  "item": [
+    {
+      "name": "Create a new Client",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "if (jsonData.id) {",
+              "    pm.collectionVariables.set(\"clientId\", jsonData.id);",
+              "    console.log(\"Client ID: \" + jsonData.id + \" has been set.\");",
+              "}",
+              "if (jsonData.cpf) {",
+              "    pm.collectionVariables.set(\"cpfData\", jsonData.cpf);",
+              "    console.log(\"Client CPF: \" + jsonData.cpf + \" has been set.\");",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"{{$randomCatchPhraseAdjective}}\",\n    \"cpf\": \"{{$randomStreetAddress}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/v1/client",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "client"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search Client By ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/client/{{clientId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "client",
+            "{{clientId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search Client By CPF",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/client?cpf={{cpfData}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "client"
+          ],
+          "query": [
+            {
+              "key": "cpf",
+              "value": "{{cpfData}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search Client By Page",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/client/search?page=0",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "client",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0",
+              "description": "Client Page"
+            },
+            {
+              "key": "name",
+              "value": null,
+              "description": "Client Name",
+              "disabled": true
+            },
+            {
+              "key": "email",
+              "value": null,
+              "description": "Client Email",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Client Data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "if (jsonData.id) {",
+              "    pm.collectionVariables.set(\"clientId\", jsonData.id);",
+              "    console.log(\"Client ID: \" + jsonData.id + \" has been set.\");",
+              "}",
+              "if (jsonData.cpf) {",
+              "    pm.collectionVariables.set(\"cpfData\", jsonData.cpf);",
+              "    console.log(\"Client CPF: \" + jsonData.cpf + \" has been set.\");",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"clientId\" : \"{{clientId}}\",\n    \"name\" : \"{{$randomBankAccount}}\",\n    \"cpf\" : \"{{$randomCatchPhraseDescriptor}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/v1/client",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "client"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Client By ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.collectionVariables.unset(\"productId\");",
+              "console.log(\"Product ID has been cleared.\");",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/client/{{clientId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "client",
+            "{{clientId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "clientId",
+      "value": ""
+    },
+    {
+      "key": "cpfData",
+      "value": ""
+    }
+  ]
+}

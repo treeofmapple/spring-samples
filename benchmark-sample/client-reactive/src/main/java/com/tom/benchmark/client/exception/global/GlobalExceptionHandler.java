@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.server.ServerWebInputException;
 import org.springframework.web.server.UnsupportedMediaTypeStatusException;
@@ -48,8 +48,14 @@ public class GlobalExceptionHandler {
 				.body(new ApiErrorResponse("Missing required parameter: " + ex.getReason()));
 	}
 
-	@ExceptionHandler({ MethodArgumentNotValidException.class })
-	public ResponseEntity<ErrorResponse> handle(MethodArgumentNotValidException exp) {
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<ApiErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(new ApiErrorResponse("Invalid input: " + ex.getMessage()));
+	}
+
+	@ExceptionHandler({ WebExchangeBindException.class })
+	public ResponseEntity<ErrorResponse> handle(WebExchangeBindException exp) {
 		Map<String, String> errors = exp.getBindingResult().getFieldErrors().stream()
 				.collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(errors));

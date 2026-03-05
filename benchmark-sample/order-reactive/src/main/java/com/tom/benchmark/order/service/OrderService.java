@@ -45,8 +45,8 @@ public class OrderService {
 		return repository.findById(orderId)
 				.switchIfEmpty(Mono.error(new NotFoundException("Order with ID: " + orderId + " was not found.")))
 				.flatMap(order -> clientService.findById(order.getClientId())
-						.map(client -> mapper.toResponse(order, client.name()))
-						.onErrorResume(e -> Mono.just(mapper.toResponse(order, null))));
+						.map(client -> mapper.toResponse(order, client.name(), client.cpf()))
+						.onErrorResume(e -> Mono.just(mapper.toResponse(order, null, null))));
 	}
 
 	@Transactional(readOnly = true)
@@ -59,9 +59,10 @@ public class OrderService {
 		return repository.findAll(Example.of(probe, matcher)).skip((long) page * PAGE_SIZE).take(PAGE_SIZE)
 				.collectList()
 				.flatMap(list -> Flux.fromIterable(list)
+						.filter(order -> order.getClientId() != null)
 						.flatMap(order -> clientService.findById(order.getClientId())
-								.map(client -> mapper.toResponse(order, client.name()))
-								.onErrorResume(e -> Mono.just(mapper.toResponse(order, null))))
+								.map(client -> mapper.toResponse(order, client.name(), client.cpf()))
+								.onErrorResume(e -> Mono.just(mapper.toResponse(order, null, null))))
 						.collectList()
 						.map(content -> new PageOrderResponse(content, page, PAGE_SIZE, 0, (long) list.size())));
 	}
@@ -69,9 +70,7 @@ public class OrderService {
 	@Transactional // only creates with clientId
 	public Mono<OrderResponse> createOrder(OrderRequest request) {
 		return clientService.findByCpf(request.clientCpf())
-				.onErrorResume(e -> {
-					return Mono.error(new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()));
-				})
+				.onErrorMap(e -> new ServiceUnavailableException("Service wasn't able to fetch data", e))
 				.switchIfEmpty(Mono.error(new NotFoundException("No client found with cpf provided")))
 				.flatMap(client -> repository.existsByClientId(client.id()).flatMap(exists -> {
 					if (exists) {
@@ -81,8 +80,8 @@ public class OrderService {
 
 					Order order = mapper.build(request);
 					order.setClientId(client.id());
-
-					return entityTemplate.insert(order).map(savedOrder -> mapper.toResponse(savedOrder, client.name()));
+					return entityTemplate.insert(order)
+							.map(savedOrder -> mapper.toResponse(savedOrder, client.name(), client.cpf()));
 				}));
 	}
 
@@ -95,13 +94,11 @@ public class OrderService {
 					mapper.update(existentOrder, request);
 					existentOrder.setId(request.orderId());
 					return entityTemplate.update(existentOrder);
-				})
-				.flatMap(order -> clientService.findById(order.getClientId())
-						.onErrorResume(e -> {
-							return Mono.error(new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()));
-						})
-						.map(client -> mapper.toResponse(order, client.name()))
-						.onErrorResume(e -> Mono.just(mapper.toResponse(order, null))));
+				}).flatMap(order -> clientService.findById(order.getClientId()).onErrorResume(e -> {
+					return Mono
+							.error(new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()));
+				}).map(client -> mapper.toResponse(order, client.name(), client.cpf()))
+						.onErrorResume(e -> Mono.just(mapper.toResponse(order, null, null))));
 	}
 
 	@Transactional // can delete without clientId

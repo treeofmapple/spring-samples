@@ -41,7 +41,7 @@ public class ClientService {
 		return repository.findById(clientId).map(mapper::toResponse)
 				.switchIfEmpty(Mono.error(new NotFoundException("Client with ID: " + clientId + " was not found.")));
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Mono<ClientResponse> searchClientByCpf(String cpf) {
 		return repository.findByCpf(cpf).map(mapper::toResponse)
@@ -61,9 +61,9 @@ public class ClientService {
 
 	@Transactional
 	public Mono<ClientResponse> createClient(ClientRequest request) {
-		return repository.findByName(request.name()).flatMap(existentUser -> {
+		return repository.findByCpf(request.cpf()).flatMap(existentUser -> {
 			return Mono.<Client>error(
-					new DataViolationException("Client with name: " + request.name() + " already exists."));
+					new DataViolationException("Client with cpf: " + request.cpf() + " already exists."));
 		}).switchIfEmpty(Mono.defer(() -> {
 			Client client = mapper.build(request);
 			return entityTemplate.insert(client);
@@ -72,12 +72,12 @@ public class ClientService {
 
 	@Transactional
 	public Mono<ClientResponse> updateClient(ClientUpdate request) {
-		return repository.findById(request.userId())
+		return repository.findById(request.clientId())
 				.switchIfEmpty(
-						Mono.error(new NotFoundException("Client with ID: " + request.userId() + " was not found.")))
+						Mono.error(new NotFoundException("Client with ID: " + request.clientId() + " was not found.")))
 				.flatMap(existentUser -> {
 					mapper.update(existentUser, request);
-					existentUser.setId(request.userId());
+					existentUser.setId(request.clientId());
 					return entityTemplate.update(existentUser);
 				}).map(mapper::toResponse);
 	}

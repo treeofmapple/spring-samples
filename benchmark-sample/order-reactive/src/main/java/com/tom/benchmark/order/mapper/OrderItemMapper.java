@@ -11,10 +11,12 @@ import com.tom.benchmark.order.dto.orderitem.OrderItemResponse;
 import com.tom.benchmark.order.dto.orderitem.OrderItemUpdate;
 import com.tom.benchmark.order.model.OrderItem;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, imports = {
+		java.math.BigDecimal.class })
 public interface OrderItemMapper {
 
-	OrderItemResponse toResponse(OrderItem orderItem);
+	@Mapping(target = "itemTotal", expression = "java(orderItem.getPriceAtPurchase().multiply(BigDecimal.valueOf(orderItem.getQuantity())))")
+	OrderItemResponse toResponse(OrderItem orderItem, String productName);
 
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "createdAt", ignore = true)

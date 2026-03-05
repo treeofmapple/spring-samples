@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public record ClientUpdate(
 		
-		UUID userId,
+		UUID clientId,
 		String name,
 		String cpf
 		

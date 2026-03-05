@@ -10,6 +10,7 @@ public record OrderResponse(
 		
 		UUID id,
 		String clientName,
+		String clientCpf,
 		Set<OrderItem> items,
 		ZonedDateTime createdAt
 		

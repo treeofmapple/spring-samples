@@ -36,7 +36,7 @@ public class OrderItemService {
 	private final ProductService productService;
 	private final R2dbcEntityTemplate entityTemplate;
 
-	@Transactional
+	@Transactional // if has the same product repeated add + 1 to quantity instead of throwing an error.
 	public Mono<OrderItemResponse> addItemToOrder(UUID orderId, OrderItemRequest request) {
 		return productService.findBySku(request.productSku())
 				.onErrorMap(e -> new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()))

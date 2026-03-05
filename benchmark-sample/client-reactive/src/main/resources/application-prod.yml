@@ -26,7 +26,7 @@ spring:
     clean-disabled: false 
     validate-on-migrate: true
     baseline-on-migrate: true
-    baseline-version: ${FLYWAY_VERSION:1}    
+    baseline-version: ${FLYWAY_VERSION:0}    
       
 application:
   size:

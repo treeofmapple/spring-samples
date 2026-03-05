@@ -7,3 +7,7 @@ spring:
 server:
   port: ${ORDER_PORT:8000}
   forward-headers-strategy: framework
+  
+eureka:
+  client:
+    enabled: false  

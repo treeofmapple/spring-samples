@@ -1,0 +1,14 @@
+#spring:
+#  config:
+#    activate:
+#      on-profile: prod
+
+eureka:
+  client:
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA-DEFAULT:http://discovery-server:8761/eureka/}
+  instance:
+    prefer-ip-address: true

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tom.benchmark.order.dto.orderitem.OrderItemRequest;
 import com.tom.benchmark.order.dto.orderitem.OrderItemResponse;
+import com.tom.benchmark.order.exception.server.ServiceUnavailableException;
 import com.tom.benchmark.order.exception.sql.DataViolationException;
 import com.tom.benchmark.order.exception.sql.NotFoundException;
 import com.tom.benchmark.order.logic.external.ProductService;
@@ -38,6 +39,9 @@ public class OrderItemService {
 	@Transactional
 	public Mono<OrderItemResponse> addItemToOrder(UUID orderId, OrderItemRequest request) {
 		return productService.findBySku(request.productSku())
+				.onErrorResume(e -> {
+					return Mono.error(new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()));
+				})
 				.switchIfEmpty(
 						Mono.error(() -> new NotFoundException("Product not found with SKU: " + request.productSku())))
 				.flatMap(product -> {
@@ -58,6 +62,9 @@ public class OrderItemService {
 	@Transactional
 	public Mono<Void> removeItemFromOrder(UUID orderId, UUID orderItemId) {
 		return itemRepository.findById(orderItemId)
+				.onErrorResume(e -> {
+					return Mono.error(new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()));
+				})
 				.switchIfEmpty(Mono.error(() -> new NotFoundException("Order item not found: " + orderId)))
 				.flatMap(item -> {
 					if (!item.getOrderId().equals(orderId)) {

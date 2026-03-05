@@ -14,6 +14,7 @@ import com.tom.benchmark.order.dto.order.OrderRequest;
 import com.tom.benchmark.order.dto.order.OrderResponse;
 import com.tom.benchmark.order.dto.order.OrderUpdate;
 import com.tom.benchmark.order.dto.order.PageOrderResponse;
+import com.tom.benchmark.order.exception.server.ServiceUnavailableException;
 import com.tom.benchmark.order.exception.sql.DataViolationException;
 import com.tom.benchmark.order.exception.sql.NotFoundException;
 import com.tom.benchmark.order.logic.external.ClientService;
@@ -68,6 +69,9 @@ public class OrderService {
 	@Transactional // only creates with clientId
 	public Mono<OrderResponse> createOrder(OrderRequest request) {
 		return clientService.findByCpf(request.clientCpf())
+				.onErrorResume(e -> {
+					return Mono.error(new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()));
+				})
 				.switchIfEmpty(Mono.error(new NotFoundException("No client found with cpf provided")))
 				.flatMap(client -> repository.existsByClientId(client.id()).flatMap(exists -> {
 					if (exists) {
@@ -93,6 +97,9 @@ public class OrderService {
 					return entityTemplate.update(existentOrder);
 				})
 				.flatMap(order -> clientService.findById(order.getClientId())
+						.onErrorResume(e -> {
+							return Mono.error(new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()));
+						})
 						.map(client -> mapper.toResponse(order, client.name()))
 						.onErrorResume(e -> Mono.just(mapper.toResponse(order, null))));
 	}

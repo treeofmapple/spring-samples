@@ -14,7 +14,7 @@ public interface ClientService {
 	@GetExchange(value = "/v1/client/{id}")
 	Mono<ClientResponse> findById(@PathVariable(value = "id") UUID clientId);
 
-	@GetExchange(value = "/v1/client/{cpf}")
-	Mono<ClientResponse> findByCpf(@PathVariable(value = "cpf") String cpfs);
+	@GetExchange(value = "/v1/client/cpf/{cpf}")
+	Mono<ClientResponse> findByCpf(@PathVariable(value = "cpf") String dataCpf);
 	
 }

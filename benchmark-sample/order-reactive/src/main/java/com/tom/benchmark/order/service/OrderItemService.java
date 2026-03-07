@@ -38,33 +38,37 @@ public class OrderItemService {
 
 	@Transactional // if has the same product repeated add + 1 to quantity instead of throwing an error.
 	public Mono<OrderItemResponse> addItemToOrder(UUID orderId, OrderItemRequest request) {
-		return productService.findBySku(request.productSku())
-				.onErrorMap(e -> new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()))
-				.switchIfEmpty(
-						Mono.error(() -> new NotFoundException("Product not found with SKU: " + request.productSku())))
-				.flatMap(product -> orderRepository.findById(orderId)
-							.switchIfEmpty(Mono.error(() -> new NotFoundException("Order not found: " + orderId)))
-							.flatMap(order -> {
-								OrderItem orderItem = OrderItem.builder()
-								.Id(UUID.randomUUID())
-								.orderId(orderId)
-								.productId(product.id())
-								.quantity(request.quantity())
-								.priceAtPurchase(product.price())
-								.build();
-
-								return entityTemplate.insert(orderItem)
-										.map(data -> mapper.toResponse(data, product.name()));
+		return orderRepository.findById(orderId)
+				.switchIfEmpty(Mono.error(() -> new NotFoundException("Order not found: " + orderId)))
+		.flatMap(order -> 
+			productService.findBySku(request.productSku())
+					.onErrorMap(e -> new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()))
+					.switchIfEmpty(
+							Mono.error(() -> new NotFoundException("Product not found with SKU: " + request.productSku())))
+					.flatMap(product -> itemRepository.findByOrderIdAndProductId(orderId, product.id())
+							.flatMap(existingItem -> {
+								existingItem.setQuantity(existingItem.getQuantity() + request.quantity());
+								return itemRepository.save(existingItem);
 							})
-				);
+					.switchIfEmpty(Mono.defer(() -> {
+						OrderItem orderItem = OrderItem.builder()
+						.id(UUID.randomUUID())
+						.orderId(orderId)
+						.productId(product.id())
+						.quantity(request.quantity())
+						.priceAtPurchase(product.price())
+						.build();
+						return entityTemplate.insert(orderItem);
+					}))
+					.map(item -> mapper.toResponse(item, product.name()))
+				)
+			);
 	}
-
+	
 	@Transactional
 	public Mono<Void> removeItemFromOrder(UUID orderId, UUID orderItemId) {
 		return itemRepository.findById(orderItemId)
-				.onErrorResume(e -> {
-					return Mono.error(new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()));
-				})
+				.onErrorMap(e -> new ServiceUnavailableException("Service wasn't able to fetch data", e.getCause()))
 				.switchIfEmpty(Mono.error(() -> new NotFoundException("Order item not found: " + orderId)))
 				.flatMap(item -> {
 					if (!item.getOrderId().equals(orderId)) {

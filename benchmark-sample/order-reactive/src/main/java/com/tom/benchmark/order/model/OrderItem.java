@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -27,7 +27,7 @@ public class OrderItem {
 
 	@Id
 	@ToString.Include
-	private UUID Id;
+	private UUID id;
 
 	@Column("orders_id")
 	@ToString.Include
@@ -45,7 +45,7 @@ public class OrderItem {
 	@Column("price_at_purchase")
 	private BigDecimal priceAtPurchase;
 
-	@ReadOnlyProperty
+	@CreatedDate
 	@Column("created_at")
 	private ZonedDateTime createdAt;
 

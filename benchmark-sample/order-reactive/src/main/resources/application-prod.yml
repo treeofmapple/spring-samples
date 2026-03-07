@@ -32,8 +32,8 @@ application:
   size:
     page: ${PAGE_SIZE:20}
 
-service:
-  client:
-    url: ${SERVICE_CLIENT}
-  product:
-    url: ${SERVICE_PRODUCT}
+#service:
+#  client:
+#    url: ${SERVICE_CLIENT}
+#  product:
+#    url: ${SERVICE_PRODUCT}

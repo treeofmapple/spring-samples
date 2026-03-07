@@ -54,7 +54,7 @@ public class OrderController {
 
 	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
-	public Mono<OrderResponse> updateClient(@RequestBody OrderUpdate request) {
+	public Mono<OrderResponse> updateOrder(@RequestBody OrderUpdate request) {
 		return service.updateOrder(request);
 	}
 

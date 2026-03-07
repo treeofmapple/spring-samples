@@ -1,13 +1,9 @@
 spring:
   profiles:
-    active: actuator, console, ${PROFILE:test}
+    active: actuator, console, eureka, ${PROFILE:test}
   application:
       name: client-benchmark
 
 server:
   port: ${CLIENT_PORT:8001}
   forward-headers-strategy: framework
-
-eureka:
-  client:
-    enabled: false

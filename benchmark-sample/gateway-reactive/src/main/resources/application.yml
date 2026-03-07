@@ -1,9 +1,9 @@
 spring:
   profiles:
-    active: console, ${PROFILE:test}
+    active: console, eureka, ${PROFILE:test}
   application:
       name: gateway-benchmark
 
 server:
-  port: ${GATEWAY_PORT:8000}
+  port: ${GATEWAY_PORT:8003}
   forward-headers-strategy: framework

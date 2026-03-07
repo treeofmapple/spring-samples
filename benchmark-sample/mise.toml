@@ -16,6 +16,14 @@ run = "mvn spring-boot:run"
 dir = "product-reactive"
 run = "mvn spring-boot:run"
 
+[tasks."run:discovery"]
+dir = "discovery-reactive"
+run = "mvn spring-boot:run"
+
+[tasks."run:gateway"]
+dir = "gateway-reactive"
+run = "mvn spring-boot:run"
+
 [tasks."run:client"]
 dir = "client-reactive"
 run = "mvn spring-boot:run"

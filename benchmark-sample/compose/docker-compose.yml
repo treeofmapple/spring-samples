@@ -1,7 +1,7 @@
 services:
   client-service:
     build:
-      context: ./client
+      context: ./client-reactive
       dockerfile: Dockerfile
     container_name: client-benchmark
     restart: unless-stopped
@@ -17,7 +17,7 @@ services:
 
   order-service:
     build:
-      context: ./order
+      context: ./order-reactive
       dockerfile: Dockerfile
     container_name: order-benchmark
     restart: unless-stopped
@@ -35,7 +35,7 @@ services:
 
   product-service:
     build:
-      context: ./product
+      context: ./product-reactive
       dockerfile: Dockerfile
     container_name: product-benchmark
     restart: unless-stopped
@@ -56,7 +56,7 @@ services:
     container_name: gateway-benchmark
     restart: unless-stopped
     ports:
-       - "${PRODUCT_PORT:-8002}:${PRODUCT_PORT:-8002}"
+       - "${GATEWAY_PORT:-8003}:${GATEWAY_PORT:-8003}"
     depends_on:
        - postgres
        - discovery-reactive
@@ -71,7 +71,7 @@ services:
     container_name: discovery-benchmark
     restart: unless-stopped
     ports:
-       - "${PRODUCT_PORT:-8002}:${PRODUCT_PORT:-8002}"
+       - "${DISCOVERY_PORT:-8004}:${DISCOVERY_PORT:-8004}"
     depends_on:
        - postgres
     mem_limit: 256mb

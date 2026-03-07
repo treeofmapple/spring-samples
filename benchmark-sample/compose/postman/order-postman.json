@@ -1,0 +1,275 @@
+{
+  "info": {
+    "_postman_id": "146f5f46-a5c7-46b9-87c4-49d065f5831b",
+    "name": "Order-Reactive",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38340143"
+  },
+  "item": [
+    {
+      "name": "Order Controller",
+      "item": [
+        {
+          "name": "Search Order By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v1/order/{{orderId}}",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v1",
+                "order",
+                "{{orderId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Order By Page",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v1/order/search?page=0",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v1",
+                "order",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set(\"orderId\", jsonData.id);",
+                  "    console.log(\"Order ID: \" + jsonData.id + \" has been set.\");",
+                  "}",
+                  "if (jsonData.clientCpf) {",
+                  "    pm.collectionVariables.set(\"cpfData\", jsonData.clientCpf);",
+                  "    console.log(\"Order CPF: \" + jsonData.clientCpf + \" has been set.\");",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"cpf\" : \"{{clientCPF}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v1/order",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v1",
+                "order"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set(\"orderId\", jsonData.id);",
+                  "    console.log(\"Order ID: \" + jsonData.id + \" has been set.\");",
+                  "}",
+                  "if (jsonData.clientCpf) {",
+                  "    pm.collectionVariables.set(\"cpfData\", jsonData.clientCpf);",
+                  "    console.log(\"Order CPF: \" + jsonData.clientCpf + \" has been set.\");",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"orderId\" :  \"{{orderId}}\",\n    \"cpf\" : \"{{clientCPF}}\"\n\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v1/order",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v1",
+                "order"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Order By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v1/order/{{orderId}}",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v1",
+                "order",
+                "{{orderId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Order Item Controller",
+      "item": [
+        {
+          "name": "Add item to Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set(\"orderId\", jsonData.id);",
+                  "    console.log(\"Order ID: \" + jsonData.id + \" has been set.\");",
+                  "}",
+                  "if (jsonData.clientCpf) {",
+                  "    pm.collectionVariables.set(\"cpfData\", jsonData.clientCpf);",
+                  "    console.log(\"Order CPF: \" + jsonData.clientCpf + \" has been set.\");",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"productSku\" : \"{{productSku}}\",\n    \"quantity\" : 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v1/order/{{orderId}}/item",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v1",
+                "order",
+                "{{orderId}}",
+                "item"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Item to Order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v1/order/{{orderId}}/item/{{orderItemId}}",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v1",
+                "order",
+                "{{orderId}}",
+                "item",
+                "{{orderItemId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "clientCPF",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "clientId",
+      "value": ""
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    },
+    {
+      "key": "cpfData",
+      "value": ""
+    }
+  ]
+}

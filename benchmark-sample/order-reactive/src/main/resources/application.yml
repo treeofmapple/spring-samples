@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: actuator, console, ${PROFILE:test}
+    active: actuator, console, eureka, ${PROFILE:test}
   application:
       name: order-benchmark
 
@@ -8,6 +8,3 @@ server:
   port: ${ORDER_PORT:8000}
   forward-headers-strategy: framework
   
-eureka:
-  client:
-    enabled: false  

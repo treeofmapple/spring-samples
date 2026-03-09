@@ -1,32 +1,30 @@
+## I could add resilience4j-reactor to make the system load less eminent
+
 [tools]
 maven = "3"
 
 [env]
 _.file = "compose/.env"
 
-[tasks."run:monolith"]
-dir = "monolith"
-run = "mvn spring-boot:run"
-
 [tasks."run:order"]
 dir = "order-reactive"
-run = "mvn spring-boot:run"
+run = "mvn spring-boot:run -Dspring-boot.run.arguments='--server.port={{arg(i=0, default=\"8002\")}}' "
 
 [tasks."run:product"]
 dir = "product-reactive"
-run = "mvn spring-boot:run"
+run = "mvn spring-boot:run -Dspring-boot.run.arguments='--server.port={{arg(i=0, default=\"8000\")}}' "
 
 [tasks."run:discovery"]
 dir = "discovery-reactive"
-run = "mvn spring-boot:run"
+run = "mvn spring-boot:run -Dspring-boot.run.arguments='--server.port={{arg(i=0, default=\"8004\")}}' "
 
 [tasks."run:gateway"]
 dir = "gateway-reactive"
-run = "mvn spring-boot:run"
+run = "mvn spring-boot:run -Dspring-boot.run.arguments='--server.port={{arg(i=0, default=\"8003\")}}' "
 
 [tasks."run:client"]
 dir = "client-reactive"
-run = "mvn spring-boot:run"
+run = "mvn spring-boot:run -Dspring-boot.run.arguments='--server.port={{arg(i=0, default=\"8001\")}}' "
 
 [tasks.run]
 description = "Run all Spring services in parallel"
@@ -51,3 +49,8 @@ run = "docker compose up postgres -d"
 description = "Stop Postgres Database"
 dir = "compose"
 run = "docker compose down postgres"
+
+[tasks.run_benchmark]
+description = "Run Benchmark"
+dir = "compose"
+run = "k6 run microsservice_new.js"

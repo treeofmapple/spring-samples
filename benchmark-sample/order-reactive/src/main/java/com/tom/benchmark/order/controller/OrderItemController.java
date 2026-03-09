@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
 
 @Validated
 @RestController
-@RequestMapping("/v1/order/{orderId}/item")
+@RequestMapping("/v1/item/{orderId}")
 @RequiredArgsConstructor
 public class OrderItemController {
 

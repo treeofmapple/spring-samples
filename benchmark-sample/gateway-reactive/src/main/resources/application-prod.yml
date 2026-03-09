@@ -3,6 +3,13 @@ spring:
     gateway:
       server:
         webflux:
+          httpclient:
+            pool:
+              type: fixed
+              max-connections: 500
+              acquire-timeout: 20000
+            connect-timeout: 10000
+            response-timeout: 20s
           discovery:
             locator:
               enabled: true
@@ -11,20 +18,15 @@ spring:
             - id: product-service-route
               uri: lb://product-benchmark
               predicates:
-                - Path=/product/**
-              filters:
-                - StripPrefix=1
+                - Path=/v1/product/**
                  
             - id: client-service-route
               uri: lb://client-benchmark
               predicates:
-                - Path=/client/**
-              filters:
-                - StripPrefix=1
+                - Path=/v1/client/**
                 
             - id: order-service-route
               uri: lb://order-benchmark
               predicates:
-                - Path=/order/**
-              filters:
-                - StripPrefix=1
+                - Path=/v1/order/**, /v1/item/**
+          

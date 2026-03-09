@@ -11,10 +11,12 @@ spring:
     password: ${DB_PASSWORD:postgres}
     pool:
       initial-size: 20
-      max-size: 100 
+      max-size: 200 
       max-idle-time: 30m
       max-create-connection-time: 5s
-      max-acquire-time: 5s
+      max-acquire-time: 30s
+      validation-query: "SELECT 1"
+      validation-depth: LOCAL
   flyway:
     enabled: true
     default-schema: shop

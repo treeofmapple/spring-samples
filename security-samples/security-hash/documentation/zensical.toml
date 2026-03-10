@@ -1,0 +1,77 @@
+[project]
+dev_addr = "localhost:8000"
+site_name = "Security Documentation"
+site_description = "Project Documentation"
+site_author = "treeofmapple"
+copyright = """
+Copyright &copy; 2026 The authors @treeofmapple
+"""
+
+nav = [
+    { "Get started" = "index.md" },
+    { "Models" = [
+        { "User Model" = "model/user.md" },
+        { "Token Model" = "model/token.md" },
+        { "Login History Model" = "model/loginhistory.md" },
+    ]},
+    { "Enums" = [
+        { "Permission" = "model/permission.md" },
+        { "Token Type" = "model/tokentype.md"},
+        { "Role" = "model/role.md"},
+    ]}
+    {"Controller" = [
+       {}
+    ]},
+    {"Service" = [
+       {}
+    ]},
+    {"Logic" = [
+       {}
+    ]},
+    {"Config" = [
+       {}
+    ]},
+    {".yml" = [
+       {}
+    ]},
+]
+
+[project.theme]
+
+# variant = "classic"
+favicon = "images/security.png"
+
+language = "en"
+
+features = [
+    "announce.dismiss",
+    "content.code.annotate",
+    "content.code.copy",
+    "content.code.select",
+    "content.footnote.tooltips",
+    "content.tabs.link",
+    "content.tooltips",
+    "navigation.footer",
+    "navigation.indexes",
+    "navigation.instant",
+    "navigation.instant.prefetch",
+    "navigation.path",
+    "navigation.sections",
+    "navigation.top",
+    "navigation.tracking",
+    "search.highlight",
+]
+
+[[project.theme.palette]]
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+[project.theme.font]
+text = "Inter"
+code = "Jetbrains Mono"

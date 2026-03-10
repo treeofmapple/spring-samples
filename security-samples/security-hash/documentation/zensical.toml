@@ -1,5 +1,6 @@
 [project]
-dev_addr = "localhost:8000"
+dev_addr = "127.0.0.1:9004" # on windows recomends to change to 8000
+
 site_name = "Security Documentation"
 site_description = "Project Documentation"
 site_author = "treeofmapple"
@@ -7,39 +8,59 @@ copyright = """
 Copyright &copy; 2026 The authors @treeofmapple
 """
 
+plugins = [
+    "awesome-pages"
+]
+
 nav = [
     { "Get started" = "index.md" },
     { "Models" = [
         { "User Model" = "model/user.md" },
+        { "Auditable Model" = "model/auditable.md" },
         { "Token Model" = "model/token.md" },
-        { "Login History Model" = "model/loginhistory.md" },
+        { "Login History Model" = "model/login_history.md" },
     ]},
     { "Enums" = [
         { "Permission" = "model/permission.md" },
-        { "Token Type" = "model/tokentype.md"},
-        { "Role" = "model/role.md"},
-    ]}
+        { "Token Type" = "model/token_type.md" },
+        { "Role" = "model/role.md" },
+    ]},
     {"Controller" = [
-       {}
+        { "Anonymous Controller" = "controller/anonymous_controller.md" },
+        { "User Controller" = "controller/user_controller.md" },
+        { "Config Controller" = "controller/config_controller.md" },
     ]},
     {"Service" = [
-       {}
+        { "Authentication Service" = "service/authentication_service.md" },
+        { "User Service" = "service/user_service.md" },
     ]},
     {"Logic" = [
-       {}
+        { "Security" = [
+            { "Jwt Filter" = "logic/security/jwtfilter.md" },
+            { "Jwt Service" = "logic/security/jwtservice.md" },
+            { "Key Utils" = "logic/security/keyutils.md" },
+        ]},
+        { "Auditing" = "logic/auditing.md" },
+        { "Caching" = "logic/caching.md" },
+        { "Scheduled" = "logic/scheduled.md" },
     ]},
     {"Config" = [
-       {}
+        { "Cors" = "config/cors.md" },
+        { "Hazel" = "config/hazel.md" },
+        { "Quartz" = "config/quartz.md" },
+        { "System Start" = "config/systemstart.md" },
+        { "Web Security Config" = "config/websecurity_config.md" },
     ]},
-    {".yml" = [
-       {}
+    {"Yml Application Configurations" = [
+        { "System Variables" = "variables/system_vars.md" },
     ]},
 ]
 
 [project.theme]
 
+name = "zensical"
 # variant = "classic"
-favicon = "images/security.png"
+favicon = "images/icons/security.png"
 
 language = "en"
 

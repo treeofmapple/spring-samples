@@ -19,3 +19,8 @@ run = "docker compose up --build"
 [tasks.docker_stop]
 description = "Stop Docker Compose Project"
 run = "docker compose down"
+
+[tasks.documentation]
+description = "Run Documentation File"
+dir = "documentation"
+run = "uv run zensical serve"

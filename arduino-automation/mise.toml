@@ -1,0 +1,35 @@
+[tools]
+maven = "3"
+
+[env]
+_.file = "compose/.env"
+
+[tasks.run]
+dir = "arduino-backend"
+run = "mvn spring-boot:run -Dspring-boot.run.arguments='--server.port={{arg(i=0, default=\"8000\")}}' "
+
+[tasks.arduino_build]
+dir = "arduino-code"
+run = "docker compose up --build"
+
+[tasks.arduino_remove]
+dir = "arduino-code"
+run = "docker compose down"
+
+[tasks.docker_run]
+description = "Run Docker Compose Project"
+dir = "compose"
+run = "docker compose up --build"
+
+[tasks.docker_stop]
+description = "Stop Docker Compose Project"
+dir = "compose"
+run = "docker compose down"
+
+[tasks.frontend]
+dir = "arduino-frontend"
+run = "bun run start"
+
+[tasks.frontend_install]
+dir = "arduino-frontend"
+run = "bun install"

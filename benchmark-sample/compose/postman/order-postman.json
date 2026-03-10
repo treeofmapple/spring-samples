@@ -210,15 +210,14 @@
               }
             },
             "url": {
-              "raw": "{{BASE_URL}}/v1/order/{{orderId}}/item",
+              "raw": "{{BASE_URL}}/v1/item/{{orderId}}",
               "host": [
                 "{{BASE_URL}}"
               ],
               "path": [
                 "v1",
-                "order",
-                "{{orderId}}",
-                "item"
+                "item",
+                "{{orderId}}"
               ]
             }
           },
@@ -230,15 +229,14 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{BASE_URL}}/v1/order/{{orderId}}/item/{{orderItemId}}",
+              "raw": "{{BASE_URL}}/v1/item/{{orderId}}/{{orderItemId}}",
               "host": [
                 "{{BASE_URL}}"
               ],
               "path": [
                 "v1",
-                "order",
-                "{{orderId}}",
                 "item",
+                "{{orderId}}",
                 "{{orderItemId}}"
               ]
             }

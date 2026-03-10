@@ -8,8 +8,7 @@ services:
       - API_KEY=none
       - SECRET=none
       - MQTT_BROKER=mqtt-broker
-    networks:
-      - default
+
 
   sensor-02:
     build:
@@ -20,8 +19,7 @@ services:
       - API_KEY=none
       - SECRET=none
       - MQTT_BROKER=mqtt-broker
-    networks:
-      - default
+
 
   sensor-03:
     build:
@@ -32,8 +30,7 @@ services:
       - API_KEY=none
       - SECRET=none
       - MQTT_BROKER=mqtt-broker
-    networks:
-      - default
+
 
   sensor-04:
     build:
@@ -44,10 +41,4 @@ services:
       - API_KEY=none
       - SECRET=none
       - MQTT_BROKER=mqtt-broker
-    networks:
-      - default
 
-networks:
-  default:
-    name: compose_default
-    external: true

@@ -34,7 +34,7 @@ public class MqttConfig {
 		options.setAutomaticReconnect(true);
 		options.setCleanSession(true);
 		options.setConnectionTimeout(10);
-
+		
 	    options.setUserName(brokerUsername);
 	    options.setPassword(brokerPassword.toCharArray());
 		

@@ -1,0 +1,26 @@
+[tools]
+maven = "3"
+
+[env]
+_.file = "compose/.env"
+
+[tasks.run]
+run = "mvn spring-boot:run -Dspring-boot.run.arguments='--server.port={{arg(i=0, default=\"8000\")}}' "
+
+[tasks.arduino_build]
+dir = "compose/arduino"
+run = "docker compose up --build"
+
+[tasks.arduino_remove]
+dir = "compose/arduino"
+run = "docker compose down"
+
+[tasks.docker_run]
+description = "Run Docker Compose Project"
+dir = "compose"
+run = "docker compose up --build"
+
+[tasks.docker_stop]
+description = "Stop Docker Compose Project"
+dir = "compose"
+run = "docker compose down"

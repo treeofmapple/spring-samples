@@ -34,3 +34,4 @@ mqtt:
   username: ${MQTT_USERNAME}
   password: ${MQTT_PASSWORD}
   url: ${MQTT_URL}
+

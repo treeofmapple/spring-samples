@@ -27,7 +27,7 @@
     
     
       
-        <title>Auditable - Security Documentation</title>
+        <title>🕵️ Auditing & Metadata - Security Documentation</title>
       
     
     
@@ -82,6 +82,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#auditing-metadata" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -114,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Auditable
+              🕵️ Auditing &amp; Metadata
             
           </span>
         </div>
@@ -336,6 +341,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auditable Model
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="././" class="md-nav__link md-nav__link--active">
         
@@ -353,6 +378,93 @@
   
 
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auditated-tables-on-the-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auditated tables on the system
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-create-a-new-entity-and-enable-auditation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to create a new entity and enable auditation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to create a new entity and enable auditation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Implementation Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important information
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1467,6 +1579,83 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auditated-tables-on-the-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auditated tables on the system
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-create-a-new-entity-and-enable-auditation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to create a new entity and enable auditation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to create a new entity and enable auditation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Implementation Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important information
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1529,9 +1718,90 @@
                 
                   
 
-  <h1>Auditable</h1>
-
-
+<h1 id="auditing-metadata">🕵️ Auditing &amp; Metadata<a class="headerlink" href="#auditing-metadata" title="Permanent link">&para;</a></h1>
+<p>The project implements automated auditing for all security entities via the Auditable base class. This ensures full traceability for compliance (GDPR/SOC2).
+Automatic Tracking</p>
+<p>Every entity that extends Auditable automatically captures the following metadata:</p>
+<hr />
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>When the system starts to do functions, for an example: creation of user. It will trigger an createdAt function controlled by on the auditated table.</p>
+<p><div class="language-Java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@EntityListeners</span><span class="p">(</span><span class="n">AuditingEntityListener</span><span class="p">.</span><span class="na">class</span><span class="p">)</span><span class="w"> </span>
+</span></code></pre></div>
+And on the system configurations. <br>
+<div class="language-Java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Configuration</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nd">@EnableJpaAuditing</span><span class="p">(</span><span class="n">auditorAwareRef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;auditorProvider&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dateTimeProviderRef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dateTimeProvider&quot;</span><span class="p">)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AuditConfig</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nd">@Bean</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">AuditorAware</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">auditorProvider</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ApplicationAuditAware</span><span class="p">();</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="cm">/* </span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="cm">    * Date time provider is not enforced </span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="cm">    * Only use it if you need extra configuration.</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="cm">    */</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="nd">@Bean</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="n">DateTimeProvider</span><span class="w"> </span><span class="nf">dateTimeProvider</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">ZonedDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">());</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<h4 id="auditated-tables-on-the-system">Auditated tables on the system<a class="headerlink" href="#auditated-tables-on-the-system" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Field</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>createdAt</code></td>
+<td style="text-align: left;">Timestamp when the record was first hashed/saved.</td>
+<td style="text-align: left;"><code>ZonedDateTime</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>updatedAt</code></td>
+<td style="text-align: left;">Timestamp of the last modification.</td>
+<td style="text-align: left;"><code>ZonedDateTime</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>createdBy</code></td>
+<td style="text-align: left;">The user/service that initiated the record.</td>
+<td style="text-align: left;"><code>String</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>lastModifiedBy</code></td>
+<td style="text-align: left;">The last user to update the record.</td>
+<td style="text-align: left;"><code>String</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>version</code></td>
+<td style="text-align: left;">Optimistic locking version to prevent data collisions.</td>
+<td style="text-align: left;"><code>Long</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="how-to-create-a-new-entity-and-enable-auditation">How to create a new entity and enable auditation<a class="headerlink" href="#how-to-create-a-new-entity-and-enable-auditation" title="Permanent link">&para;</a></h4>
+<h6 id="implementation-example">🛠️ Implementation Example<a class="headerlink" href="#implementation-example" title="Permanent link">&para;</a></h6>
+<p>If you are creating a new entity (like a Student), simply extend the Auditable class:</p>
+<div class="language-Java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@Entity</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Auditable</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nd">@Id</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="c1">// The audit fields are included automaticaly on the db you provide.</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="important-information">Important information<a class="headerlink" href="#important-information" title="Permanent link">&para;</a></h3>
+<p>The line: </p>
+<div class="language-Java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w">  </span><span class="nd">@Version</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nd">@Column</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;version&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nullable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="n">L</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Is to control the version of the provided table on the database.</p>
 
 
 

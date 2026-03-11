@@ -9,8 +9,10 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.time.ZonedDateTime;
 import java.util.Base64;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,9 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class KeyUtils {
 
+	@Value("${spring.application.name:default-app}")
+	private String applicationName;
+	
 	public RSAPublicKey readPublicKey(Resource resource) {
 		try {
 			String key = new String(resource.getInputStream().readAllBytes()).replace("-----BEGIN PUBLIC KEY-----", "")
@@ -66,6 +71,8 @@ public class KeyUtils {
 			File keyFile = new File(directory, fileName);
 			String encodedKey = Base64.getEncoder().encodeToString(key.getEncoded());
 			try (PrintWriter writer = new PrintWriter(keyFile)) {
+				writer.printf("System-ID: %s\n", applicationName); 
+			    writer.printf("Generated-At: %s\n", ZonedDateTime.now());
 				writer.printf("-----BEGIN %s-----\n", header);
 				writer.println(encodedKey.replaceAll("(.{64})", "$1\n"));
 				writer.printf("-----END %s-----\n", header);

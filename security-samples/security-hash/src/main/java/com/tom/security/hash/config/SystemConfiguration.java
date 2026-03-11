@@ -42,13 +42,13 @@ public class SystemConfiguration {
 	}
 
 	@Bean
-	AuditorAware<String> auditorProvider() {
-		return new ApplicationAuditAware();
-	}
-	
-	@Bean
 	AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 		return config.getAuthenticationManager();
+	}
+
+	@Bean
+	AuditorAware<String> auditorProvider() {
+		return new ApplicationAuditAware();
 	}
 	
 	@Bean

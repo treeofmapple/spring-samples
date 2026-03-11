@@ -10,7 +10,7 @@ run = "mvn clean package -DskipTests"
 
 [tasks.run]
 description = "Run Spring App"
-run = "mvn clean spring-boot:run"
+run = "mvn clean spring-boot:run -Dspring-boot.run.arguments='--server.port={{arg(i=0, default=\"8000\")}}'"
 
 [tasks.docker_run]
 description = "Run Docker Compose Project"

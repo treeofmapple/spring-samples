@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @Getter
 @Setter
 @Entity
@@ -30,7 +29,6 @@ import lombok.ToString;
 @ToString(exclude = {"user"})
 @Table(name = "login_history", indexes = {
 		@Index(name = "idx_history_login_time", columnList = "login_time"),
-		@Index(name = "idx_history_user_id", columnList = "user_id"),
 })
 public class LoginHistory {
 

@@ -29,7 +29,6 @@ import lombok.Setter;
 @Table(name = "tokens")
 public class Token extends Auditable {
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -43,10 +42,10 @@ public class Token extends Auditable {
 	private TokenType tokenType = TokenType.BEARER;
 
 	@Column(name = "revoked", updatable = true)
-	private boolean revoked;
+	private boolean revoked; // can't be class 'Boolean' cause i don't wanna store null values on db.
 
 	@Column(name = "expired", updatable = true)
-	private boolean expired;
+	private boolean expired; // can't be class 'Boolean' cause i don't wanna store null values on db.
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)

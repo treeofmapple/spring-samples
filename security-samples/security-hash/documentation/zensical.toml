@@ -25,16 +25,22 @@ nav = [
         { "Token Type" = "model/token_type.md" },
         { "Role" = "model/role.md" },
     ]},
+    {"Service" = [
+        { "Authentication Service" = "service/authentication_service.md" },
+        { "User Service" = "service/user_service.md" },
+    ]},
     {"Controller" = [
         { "Anonymous Controller" = "controller/anonymous_controller.md" },
         { "User Controller" = "controller/user_controller.md" },
         { "Config Controller" = "controller/config_controller.md" },
     ]},
-    {"Service" = [
-        { "Authentication Service" = "service/authentication_service.md" },
-        { "User Service" = "service/user_service.md" },
-    ]},
     {"Logic" = [
+        { "Component" = [
+            { "Cookies Component" = "cookies_component.md" },
+            { "Login History Component" = "login_history_component.md" },
+            { "Token Component" = "token_component.md" },
+            { "User Component" = "user_component.md" },
+        ] },
         { "Security" = [
             { "Jwt Filter" = "logic/security/jwtfilter.md" },
             { "Jwt Service" = "logic/security/jwtservice.md" },

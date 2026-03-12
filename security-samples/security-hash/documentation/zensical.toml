@@ -21,9 +21,9 @@ nav = [
         { "Login History Model" = "model/login_history.md" },
     ]},
     { "Enums" = [
-        { "Permission" = "model/permission.md" },
-        { "Token Type" = "model/token_type.md" },
-        { "Role" = "model/role.md" },
+        { "Permission" = "enums/permission.md" },
+        { "Token Type" = "enums/token_type.md" },
+        { "Role" = "enums/role.md" },
     ]},
     {"Service" = [
         { "Authentication Service" = "service/authentication_service.md" },

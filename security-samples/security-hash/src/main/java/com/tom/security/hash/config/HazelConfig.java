@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
@@ -19,13 +20,14 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Configuration
 @EnableCaching
+@Profile("cluster")
 public class HazelConfig {
 
 	@Value("${cache.cluster-name}")
-	private String hazelCastName;
+	private String hazelcastName;
 	
-	@Value("${cache.address}")
-	private String hazelAddresss;
+	@Value("${cache.address:}")
+	private String hazelAddress;
 	
 	@Value("${cache.name.login-attempt}")
 	private String loginCacheName;
@@ -35,24 +37,36 @@ public class HazelConfig {
 
 	@Bean
 	HazelcastInstance hazelcastInstance() {
-		Config embeddedConfig = new Config();
-		embeddedConfig.setClusterName(hazelCastName);
+		if (hazelAddress == null || hazelAddress.isBlank()) {
+            log.warn("No cache address provided. Starting in Embedded mode directly.");
+            return createEmbeddedInstance();
+        }
 		
-		MapConfig mapConfig = new MapConfig(loginCacheName).setTimeToLiveSeconds((int) loginCacheTime.toSeconds());
-		embeddedConfig.addMapConfig(mapConfig);
-
-		embeddedConfig.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
-
 		try {
 			ClientConfig clientConfig = new ClientConfig();
-			clientConfig.setClusterName(hazelCastName);
-			clientConfig.getNetworkConfig().addAddress(hazelAddresss);
+			clientConfig.setClusterName(hazelcastName);
+			clientConfig.getNetworkConfig().addAddress(hazelAddress);
 			clientConfig.getConnectionStrategyConfig().getConnectionRetryConfig().setClusterConnectTimeoutMillis(2000);
+			
+			log.info("Attempt to connect on external Hazelcast at: {}", hazelAddress);
 			return HazelcastClient.newHazelcastClient(clientConfig);
 		} catch (Exception e) {
-			log.warn("Could not connect to external Hazelcast cluster. Falling back to Embedded mode.");
-			return Hazelcast.newHazelcastInstance(embeddedConfig);
+			log.warn("Could not connect to external Hazelcast cluster. Using Embedded mode.");
+			return createEmbeddedInstance();
 		}
 	}
-
+	
+	private HazelcastInstance createEmbeddedInstance() {
+        Config internalConfig = new Config();
+        internalConfig.setClusterName(hazelcastName);
+        internalConfig.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
+        
+        MapConfig loginConfig = new MapConfig();
+        loginConfig.setName(loginCacheName);
+        loginConfig.setTimeToLiveSeconds((int) loginCacheTime.toSeconds());
+        internalConfig.addMapConfig(loginConfig);
+        
+        return Hazelcast.newHazelcastInstance(internalConfig);
+    }
+	
 }

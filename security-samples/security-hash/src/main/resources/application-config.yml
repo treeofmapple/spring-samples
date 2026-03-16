@@ -5,6 +5,5 @@ cookies:
     secure: true
     
 cache:
-  cluster-name: "cache-cluster"
   name:
     login-attempt: "login-attempt-cache"

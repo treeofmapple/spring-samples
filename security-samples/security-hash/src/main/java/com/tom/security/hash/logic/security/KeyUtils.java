@@ -1,7 +1,9 @@
 package com.tom.security.hash.logic.security;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.security.Key;
 import java.security.KeyFactory;
@@ -28,8 +30,9 @@ public class KeyUtils {
 	
 	public RSAPublicKey readPublicKey(Resource resource) {
 		try {
-			String key = new String(resource.getInputStream().readAllBytes()).replace("-----BEGIN PUBLIC KEY-----", "")
-					.replace("-----END PUBLIC KEY-----", "").replaceAll("\\s", "");
+			String content = new String(resource.getInputStream().readAllBytes());
+	        String key = content.replaceAll("(?s).*-----BEGIN PUBLIC KEY-----(.*)-----END PUBLIC KEY-----.*", "$1")
+	                            .replaceAll("\\s", "");
 			byte[] decode = Decoders.BASE64.decode(key);
 			X509EncodedKeySpec spec = new X509EncodedKeySpec(decode);
 			return (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(spec);
@@ -40,14 +43,24 @@ public class KeyUtils {
 
 	public RSAPrivateKey readPrivateKey(Resource resource) {
 		try {
-			String key = new String(resource.getInputStream().readAllBytes()).replace("-----BEGIN PRIVATE KEY-----", "")
-					.replace("-----END PRIVATE KEY-----", "").replaceAll("\\s", "");
+			String content = new String(resource.getInputStream().readAllBytes());
+	        String key = content.replaceAll("(?s).*-----BEGIN PRIVATE KEY-----(.*)-----END PRIVATE KEY-----.*", "$1")
+	                            .replaceAll("\\s", "");
 			byte[] decode = Decoders.BASE64.decode(key);
 			PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decode);
 			return (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(spec);
 		} catch (Exception e) {
 			throw new RuntimeException("Could not load private key", e);
 		}
+	}
+	
+	public boolean isKeySystemGenerated(Resource resource) {
+	    try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
+	        String firstLine = reader.readLine();
+	        return firstLine != null && firstLine.startsWith("System-ID:");
+	    } catch (Exception e) {
+	        return false;
+	    }
 	}
 
 	public void saveKeyToFile(Key key, String fileName, String header, String folderPath) {

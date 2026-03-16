@@ -2,7 +2,7 @@
 maven = "3"
 
 [env]
-file = ".env"
+_.file = ".env"
 
 [tasks.build]
 description = "Build the Project Image"

@@ -1,11 +1,11 @@
 spring:
   profiles:
     active: actuator, console, config, ${PROFILE:test}
-    #group: 
-      #prod: 
-      #test: 
+    group: 
+      prod: ${CACHE_MODE:none} # cluster
+      # test: 
   application:
-      name: Security-HASH
+      name: security-HASH
 
 server:
   port: ${SECURITY_HASH:8000}

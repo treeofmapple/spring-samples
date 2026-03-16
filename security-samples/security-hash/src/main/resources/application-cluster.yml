@@ -1,0 +1,7 @@
+cache:
+  cluster-name: ${CLUSTER_NAME:security-cluster}
+  address: ${CACHE_ADDRESS:}
+  chances:
+    max-attempts: ${LOGIN_ATTEMPTS:5}
+  time:
+    login-attempt: ${LOGIN_CACHE_TIME:15m}

@@ -2,14 +2,15 @@ spring:
   main:
     lazy-initialization: true
   datasource:
+    driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
     username: sa
     password: 
-    driver-class-name: org.h2.Driver
     hikari:
       connection-timeout: 30000
-      maximum-pool-size: 5
+      maximum-pool-size: 100
       pool-name: "H2TestPool"
+      initialization-fail-timeout: -1
   h2:
     console:
       enabled: true
@@ -18,23 +19,15 @@ spring:
     open-in-view: false
     show-sql: false
     hibernate:
-      ddl-auto: update 
-
+      ddl-auto: create-drop
 
 scheduled:
   token-cleanup: ${TOKEN_CLEANUP:24h}      
 
-cache:
-  address: ${CACHE_ADDRESS}
-  chances:
-    max-attempts: ${LOGIN_ATTEMPTS:5}
-  time:
-    login-attempt: ${LOGIN_CACHE_TIME:15m}
-
 security:
-  https-only: ${HTTPS_ONLY:true} # Set on false when developing
+  https-only: ${HTTPS_ONLY:false} # Set on false when developing
   front:
-    csrf: ${CSRF_ENABLED:true}
+    csrf: ${CSRF_ENABLED:false}
   tokens:
     base-path: ${KEYS_PATH}
     expiration: ${EXPIRATION_KEY:15m}

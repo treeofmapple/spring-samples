@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: console, ${PROFILE:test}
+  application:
+      name: AI-Controller
+
+server:
+  port: ${AICONTROL_PORT:8000}
+  forward-headers-strategy: framework

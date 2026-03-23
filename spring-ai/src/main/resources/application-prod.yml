@@ -1,0 +1,36 @@
+spring:
+  main:
+    lazy-initialization: true
+  ai:
+    ollama:
+      base-url: http://${MONGODB_AI_URI:localhost}:${OLLAMA_PORT:11434}
+      chat:
+        options:
+          model: ${AI_MODEL:llama3.2}
+      embedding:
+        options:
+          model: ${AI_MODEL:llama3.2}
+    vectorstore:
+      mongodb:
+        collection-name: prompt
+        path-name: embedding
+        initialize-schema: true
+    chat:
+      memory:
+        repository:
+          mongo:
+            ttl: 0
+            create-indices: true
+  mongodb:
+    uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_URI:localhost}:${MONGODB_PORT:27017}/${MONGODB_DATABASE:ai_sample}?authSource=admin&directConnection=true
+    representation:
+      uuid: standard  
+
+application:
+  size:
+    page: ${PAGE_SIZE:20}
+
+settings:
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS}
+    max-age: ${CORS_TIME:3600}

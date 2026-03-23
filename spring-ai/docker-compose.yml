@@ -1,0 +1,35 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-local
+    ports:
+      - "${MONGODB_PORT:-27017}:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+    env_file:
+      - .env
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama_3.2
+    restart: unless-stopped
+    ports:
+      - "${OLLAMA_PORT:-11431}:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    env_file:
+      - .env
+
+  ollama-model-puller:
+    image: curlimages/curl:latest
+    container_name: ollama_puller
+    depends_on:
+      - ollama
+    entrypoint: [ "sh", "-c", "sleep 5 && curl -X POST http://ollama:11434/api/pull -d '{\"name\": \"llama3.2\"}'" ]
+
+volumes:
+  ollama_data:
+  mongo_data:

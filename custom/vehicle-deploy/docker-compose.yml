@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgresql-vehicle
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_EXTERNAL_PORT:-5432}:5432"
+    env_file:
+      - .env
+
+  backend-vehicle:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vehicle-old-a
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "${BACKEND_VEHICLE_PORT}:${BACKEND_VEHICLE_PORT}"
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:

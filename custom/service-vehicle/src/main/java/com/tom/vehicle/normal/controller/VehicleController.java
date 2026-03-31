@@ -40,7 +40,7 @@ public class VehicleController {
 	public ResponseEntity<VehicleResponse> findVehicleById(@PathVariable(value = "id") long query) {
 		var response = service.findById(query);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
-	}
+	} 
 
 	@GetMapping(params = "plate")
 	public ResponseEntity<VehicleResponse> findVehicleByPlate(@RequestParam("plate") String query) {

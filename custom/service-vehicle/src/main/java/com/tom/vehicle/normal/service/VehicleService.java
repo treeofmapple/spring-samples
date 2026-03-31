@@ -73,7 +73,7 @@ public class VehicleService {
 		repository.save(vehicle);
 		return mapper.toResponse(vehicle);
 	}
-	
+
 	@Transactional
 	public void deleteVehicleByPlate(String plate) {
 		var vehicle = repository.findByPlate(plate).orElseThrow(

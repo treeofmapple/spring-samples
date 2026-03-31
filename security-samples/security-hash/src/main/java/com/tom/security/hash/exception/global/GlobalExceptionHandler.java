@@ -6,13 +6,11 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.multipart.MultipartException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -29,12 +27,6 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler({ GlobalDateTimeException.class })
 	public ResponseEntity<ApiErrorResponse> handleGlobalDateTime(GlobalDateTimeException ex) {
 		return ResponseEntity.status(ex.getStatus()).body(new ApiErrorResponse(ex.getMessage()));
-	}
-
-	@ExceptionHandler({ MultipartException.class, HttpMediaTypeNotSupportedException.class })
-	public ResponseEntity<ApiErrorResponse> handleMultipartException(Exception ex) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiErrorResponse(
-				"Current request is not a multipart request. Please ensure you are sending 'form-data'."));
 	}
 
 	@ExceptionHandler(MissingServletRequestParameterException.class)

@@ -1,14 +1,4 @@
 services:
-  backend-vehicle:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: vehicle-backend
-    restart: unless-stopped
-    ports:
-      - "${VEHICLE_PORT}:${VEHICLE_PORT}"
-    env_file:
-      - .env
   postgres:
     image: postgres:16
     container_name: vehicle-postgresql

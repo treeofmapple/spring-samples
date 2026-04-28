@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: LibrarySystem
+
+server:
+  port: 8000
+  servlet:
+    context-path: /api 

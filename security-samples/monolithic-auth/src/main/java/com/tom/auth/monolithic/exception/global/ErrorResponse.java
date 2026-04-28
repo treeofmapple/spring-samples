@@ -1,7 +1,0 @@
-package com.tom.auth.monolithic.exception.global;
-
-import java.util.Map;
-
-public record ErrorResponse(Map<String, String> errorResponse) {
-
-}

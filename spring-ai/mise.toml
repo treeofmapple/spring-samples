@@ -14,8 +14,12 @@ run = "mvn clean spring-boot:run -Dspring-boot.run.arguments='--server.port={{ar
 
 [tasks.docker_run]
 description = "Run Docker Compose Project"
-run = "docker compose up --build"
+run = "docker compose up --build -d"
 
 [tasks.docker_stop]
 description = "Stop Docker Compose Project"
 run = "docker compose down"
+
+[tasks.inside_ollama]
+description = "Get inside Ollama Docker"
+run = "docker exec -it ollama_3.2 bash"
